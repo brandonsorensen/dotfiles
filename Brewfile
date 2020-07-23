@@ -1,0 +1,83 @@
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
+tap "homebrew/services"
+tap "zegervdv/zathura"
+cask "adoptopenjdk8"
+brew "xz"
+brew "python@3.8"
+brew "icu4c"
+brew "apache-spark", link: false
+brew "bat"
+brew "bib-tool"
+brew "cmake"
+brew "coreutils"
+brew "exiftool"
+brew "ffmpeg"
+brew "gnu-sed"
+brew "grep"
+brew "handbrake"
+brew "jq"
+brew "node"
+brew "jsonlint"
+brew "libdvdcss"
+brew "libmagic"
+brew "macvim"
+brew "mas"
+brew "ninja"
+brew "meson"
+brew "mp4v2"
+brew "mysql"
+brew "nginx"
+brew "pbzip2"
+brew "pdfgrep"
+brew "pkg-config"
+brew "pyenv"
+brew "r"
+brew "rename"
+brew "scala"
+brew "tag"
+brew "tmux"
+brew "wget"
+brew "xapian"
+brew "yadm"
+brew "youtube-dl"
+brew "zlib"
+brew "zstd"
+brew "zegervdv/zathura/zathura"
+brew "zegervdv/zathura/zathura-pdf-poppler"
+cask "1password-cli"
+cask "bibdesk"
+cask "caffeine"
+cask "kiwix"
+cask "mactex"
+cask "nteract"
+cask "plex-media-server"
+cask "visual-studio-code"
+mas "1Password 7", id: 1333542190
+mas "Boop", id: 1518425043
+mas "CARROT Weather", id: 993487541
+mas "Compressor", id: 424390742
+mas "Dark Mode for Safari", id: 1397180934
+mas "DuckDuckGo Privacy Essentials", id: 1482920575
+mas "Final Cut Pro", id: 424389933
+mas "Front and Center", id: 1493996622
+mas "GarageBand", id: 682658836
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Microsoft Remote Desktop", id: 1295203466
+mas "Motion", id: 434290957
+mas "Notability", id: 736189492
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Parcel", id: 639968404
+mas "Pastebot", id: 1179623856
+mas "Patterns", id: 429449079
+mas "Server", id: 883878097
+mas "SnippetsLab", id: 1006087419
+mas "Telegram", id: 747648890
+mas "The Unarchiver", id: 425424353
+mas "Trello", id: 1278508951
+mas "Twitterrific", id: 1289378661
+mas "Vimari", id: 1480933944
