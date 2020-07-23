@@ -2,8 +2,10 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/Brandon/.oh-my-zsh
-export PATH=$(brew --prefix openvpn)/sbin:$PATH
+export ZSH=$HOME/.oh-my-zsh
+if [[ `uname` == "Darwin" ]]; then
+	export PATH=$(brew --prefix openvpn)/sbin:$PATH
+fi
 export PATH=$PATH:$HOME/.bin
 
 # Set name of the theme to load. Optionally, if you set this to "random"
