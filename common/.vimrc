@@ -11,6 +11,21 @@ set ignorecase
 set smartcase
 imap <F5> <Esc>:w<CR>:!clear;python %<CR>
 
+" Gets the OS and works around the wonkiness of OS checks
+" in the various versions of Vim avalable for macOS.
+" https://vi.stackexchange.com/questions/2572/detect-os-in-vimscript/2577#2577
+if !exists("g:os")
+	if has("win64") || has("win32") || has("win16")
+		let g:os = "Windows"
+	else
+		let g:os = substitute(system('uname'), '\n', '', '')
+	endif
+endif
+
+let g:is_mac = g:os == "Darwin"
+let g:is_linux = g:os == "Linux"
+let g:is_windows = g:os == "Windows"
+
 " For vimtex completion
 set completeopt=longest,menuone 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -37,7 +52,7 @@ filetype plugin indent on
 
 set clipboard=unnamed
 
-set termguicolors
+" set termguicolors
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 
@@ -47,7 +62,9 @@ if has("gui_running")
 	set background=dark
 endif
 
-set guifont=Roboto\ Mono\ Light\ for\ Powerline:h16
+if g:is_mac
+	set guifont=Roboto\ Mono\ Light\ for\ Powerline:h16
+endif
 
 hi Normal guibg=#211f1f ctermbg=NONE
 hi nonText guibg=#211f1f ctermbg=NONE
@@ -64,7 +81,9 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 	Plug 'scrooloose/syntastic'
-	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 if has("autocmd")
