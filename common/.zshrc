@@ -4,9 +4,11 @@
 case "$OSTYPE" in 
 	darwin*)
 		is_mac=true
+		ZSH_THEME="norm"
 		;;
 	linux*)
 		is_linux=true
+		ZSH_THEME="agnoster"
 		;;
 esac
 
@@ -16,12 +18,8 @@ export ZSH=$HOME/.oh-my-zsh
 if [ "$is_mac" = true ]; then
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
 fi
-export PATH=$PATH:$HOME/.bin
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="norm"
+export PATH=$PATH:$HOME/.bin
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -94,3 +92,6 @@ bindkey "^[[A" history-beginning-search-backward
 
 export GIT_EDITOR=vim
 
+if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+  export TERM=screen-256color
+fi

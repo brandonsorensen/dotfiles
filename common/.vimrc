@@ -29,8 +29,13 @@ let g:is_windows = g:os == "Windows"
 " For vimtex completion
 set completeopt=longest,menuone 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-let g:vimtex_view_general_options = '-r @line @pdf @tex'
+if g:is_mac
+	let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+	let g:vimtex_view_general_options = '-r @line @pdf @tex'
+	set termguicolors
+elseif g:is_linux
+	let g:vimtex_view_general_view = '/usr/bin/zathura'
+endif
 
 autocmd BufEnter *.tex set spell spelllang=en_us
 autocmd BufEnter *.tex set tw=85
@@ -45,14 +50,13 @@ set laststatus=2
 set rtp+=/usr/local/lib/python3.7/site-packages/powerline/bindings/vim
 
 " Use 256 colours (Use this setting only if your terminal supports 256 colours)
-" set t_Co=256
+set t_Co=256
 
 " Required:
 filetype plugin indent on
 
 set clipboard=unnamed
 
-" set termguicolors
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 
@@ -81,7 +85,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 	Plug 'scrooloose/syntastic'
-	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 call plug#end()
@@ -91,3 +95,16 @@ if has("autocmd")
 endif
 
 nmap <F5> <Esc>:w<CR>:!clear;python3 %<CR>
+
+" ---- vim-airline ----
+"  " require powerline-symbol patched font installed
+"  " install Roboto Mono given in .vim/fonts/
+let g:airline_powerline_fonts = 1
+"  " remove empty angle at the end
+let g:airline_skip_empty_sections = 1
+"  " set airline theme
+let g:airline_theme='understated'
+"  " extension for tab line
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#formatter = 'unique_tail'
