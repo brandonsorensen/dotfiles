@@ -88,7 +88,8 @@ export PATH="/usr/local/sbin:$PATH"
 
 bindkey -v  # vim bindings
 bindkey "^?" backward-delete-char
-bindkey "^[[A" history-beginning-search-backward
+bindkey "^a" history-beginning-search-backward
+bindkey '^r' history-incremental-search-backward
 
 export GIT_EDITOR=vim
 
