@@ -5,6 +5,7 @@ case "$OSTYPE" in
 	darwin*)
 		is_mac=true
 		ZSH_THEME="norm"
+		alias mvim='mvim -v'
 		;;
 	linux*)
 		is_linux=true
@@ -75,7 +76,6 @@ source $ZSH/oh-my-zsh.sh
 export LANG=en_US.UTF-8
 
 alias mserver='208.98.171.214'
-alias mvim='mvim -v'
 alias clock='while true; echo "`date +%I:%M`"; sleep 60; clear; done'
 alias jport=127.0.0.1:8888:127.0.0.1:8888
 
