@@ -85,6 +85,7 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 	Plug 'scrooloose/syntastic'
+	" Remember to install CMake
 	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
