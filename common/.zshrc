@@ -5,7 +5,6 @@ case "$OSTYPE" in
 	darwin*)
 		is_mac=true
 		ZSH_THEME="norm"
-		alias mvim='mvim -v'
 		;;
 	linux*)
 		is_linux=true
@@ -67,6 +66,7 @@ export PATH=$PATH:$HOME/.bin
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.aliases.zsh
 
 # User configuration
 
@@ -74,16 +74,7 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
-
-alias mserver='208.98.171.214'
-alias clock='while true; echo "`date +%I:%M`"; sleep 60; clear; done'
-alias jport=127.0.0.1:8888:127.0.0.1:8888
-
 export PATH=$HOME/dotfiles/scripts:$PATH
-
-alias dtypes="column -xt $HOME/.dtypes.tsv"
-alias bztar="tar -jcvf"
-alias bzuntar="tar -xjf"
 export PATH="/usr/local/sbin:$PATH"
 
 bindkey -v  # vim bindings
