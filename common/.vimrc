@@ -62,17 +62,23 @@ let g:edge_disable_italic_comment = 1
 
 colorscheme edge
 
+" macOS uses the GUI background even in the terminal.
+" This works for my use case. Don't know why. Don't care.
 if has("gui_running")
 	set background=dark
+	hi Normal guibg=#211f1f ctermbg=NONE
+	hi nonText guibg=#211f1f ctermbg=NONE
+	hi EndofBuffer guibg=#211f1f ctermbg=NONE
+else 
+	hi Normal guibg=NONE ctermbg=NONE
+	hi nonText guibg=NONE ctermbg=NONE
+	hi EndofBuffer guibg=NONE ctermbg=NONE
 endif
 
 if g:is_mac
 	set guifont=Roboto\ Mono\ Light\ for\ Powerline:h16
 endif
 
-hi Normal guibg=#211f1f ctermbg=NONE
-hi nonText guibg=#211f1f ctermbg=NONE
-hi EndofBuffer guibg=#211f1f ctermbg=NONE
 
 highlight Comment cterm=italic gui=italic
 
