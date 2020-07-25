@@ -81,7 +81,7 @@ alias jport=127.0.0.1:8888:127.0.0.1:8888
 
 export PATH=$HOME/dotfiles/scripts:$PATH
 
-alias dtypes="column -xt $HOME/dotfiles/.dtypes.tsv"
+alias dtypes="column -xt $HOME/.dtypes.tsv"
 alias bztar="tar -jcvf"
 alias bzuntar="tar -xjf"
 export PATH="/usr/local/sbin:$PATH"
