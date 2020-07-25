@@ -63,7 +63,7 @@ export PATH=$PATH:$HOME/.bin
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git,brew,pip)
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.aliases.zsh
@@ -87,3 +87,7 @@ export GIT_EDITOR=vim
 if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
   export TERM=screen-256color
 fi
+
+function dusort() {
+	du -sh $1/* | sort -rh
+}
