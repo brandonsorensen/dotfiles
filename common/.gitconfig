@@ -1,0 +1,9 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = Brandon Sorensen
+	email = brandonsorensen@protonmail.com
+[core]
+	askpass = git-gui--askpass
+	autocrlf = input
+	editor = vim
