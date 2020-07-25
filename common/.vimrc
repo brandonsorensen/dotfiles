@@ -32,7 +32,6 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 if g:is_mac
 	let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
 	let g:vimtex_view_general_options = '-r @line @pdf @tex'
-	set termguicolors
 elseif g:is_linux
 	let g:vimtex_view_general_view = '/usr/bin/zathura'
 endif
@@ -69,6 +68,9 @@ if has("gui_running")
 	hi Normal guibg=#211f1f ctermbg=NONE
 	hi nonText guibg=#211f1f ctermbg=NONE
 	hi EndofBuffer guibg=#211f1f ctermbg=NONE
+	if g:is_mac 
+		set termguicolors
+	endif
 else 
 	hi Normal guibg=NONE ctermbg=NONE
 	hi nonText guibg=NONE ctermbg=NONE
