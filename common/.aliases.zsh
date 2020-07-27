@@ -1,7 +1,6 @@
 alias la='ls -a'
 alias mserver='208.98.171.214'
 alias clock='date +%H:%M:%S'
-alias jport=127.0.0.1:8888:127.0.0.1:8888
 
 alias dtypes="column -xt $HOME/.dtypes.tsv"
 alias bztar="tar -jcvf"
