@@ -59,8 +59,11 @@ function! UpdateSkim(status)
     endif
 endfunction
 
-autocmd BufEnter *.tex set spell spelllang=en_us
-autocmd BufEnter *.tex set tw=85
+let g:vimtex_fold_enabled = 1
+let g:vimtex_fold_comments = 1
+autocmd FileType *.tex set spell spelllang=en_us
+autocmd FileType *.tex set tw=85
+autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 
 if &compatible
   set nocompatible               " Be iMproved
@@ -68,8 +71,6 @@ endif
 
 " Always show statusline
 set laststatus=2
-
-set rtp+=/usr/local/lib/python3.7/site-packages/powerline/bindings/vim
 
 " Use 256 colours (Use this setting only if your terminal supports 256 colours)
 set t_Co=256
