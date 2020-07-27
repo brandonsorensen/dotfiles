@@ -7,3 +7,4 @@
 	askpass = git-gui--askpass
 	autocrlf = input
 	editor = vim
+	excludesfile = /Users/brandon/.gitignore_global
