@@ -85,6 +85,7 @@ bindkey "^a" history-beginning-search-backward
 bindkey '^r' history-incremental-search-backward
 
 export GIT_EDITOR=vim
+export EDITOR=vim
 
 if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
   export TERM=screen-256color
