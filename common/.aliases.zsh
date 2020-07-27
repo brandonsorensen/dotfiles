@@ -7,9 +7,10 @@ alias bztar="tar -jcvf"
 alias bzuntar="tar -xjf"
 
 
-lf_args='-I "*.log" -I "*.aux" -I "*.toc" -I "*.blg" '\
-'-I "*.fdb_latexmk" -I "*.out" -I "*.fls" -I "*.synctex.gz" -I "*.bbl"'
+latex_aux_ext="*.log *.aux *.toc *.blg *.fdb_latexmk *.out *.fls *.synctex.gz *.bbl *.dvi"
+lf_args=$(echo $latex_aux_ext | sed -E 's/(\\)?(\*\.[a-z]+)/-I "\2"/g')
 
+alias cleantex='latexmk -C &> /dev/null'
 if [[ "$OSTYPE" = darwin* ]]; then
 	alias mvim='mvim -v'
 	alias python='/usr/local/bin/python3'
