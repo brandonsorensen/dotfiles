@@ -76,6 +76,8 @@ source $HOME/.aliases.zsh
 export LANG=en_US.UTF-8
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="/usr/local/sbin:$PATH"
+export jport=127.0.0.1:8888:127.0.0.1:8888
+
 
 bindkey -v  # vim bindings
 bindkey "^?" backward-delete-char
@@ -91,3 +93,11 @@ fi
 function dusort() {
 	du -sh $1/* | sort -rh
 }
+
+local_zsh_path="$HOME/.zsh_local"
+if [ -f local_zsh_path ]; then
+	# .zsh_local is for environment variables specific to a given
+	# device and will not be tracked in the dotfiles repo.
+	# Remember it is sourced at the END of this file!
+	source local_zsh_path
+fi
