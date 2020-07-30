@@ -121,6 +121,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
+	Plug 'vim-python/python-syntax'
 call plug#end()
 
 if has("autocmd")
@@ -142,3 +143,9 @@ let g:airline_theme='deus'
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" Make Python colorful!
+let g:python_highlight_all = 1
+
+" Python 3 syntax checking, please
+let g:syntastic_python_checkers = ['flake8']
