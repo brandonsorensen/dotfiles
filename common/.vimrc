@@ -122,6 +122,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'vim-python/python-syntax'
+	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
 call plug#end()
 
 if has("autocmd")
@@ -149,3 +150,6 @@ let g:python_highlight_all = 1
 
 " Python 3 syntax checking, please
 let g:syntastic_python_checkers = ['flake8']
+
+" Activates PyDocString template
+nmap <silent> <C-_> <Plug>(pydocstring)
