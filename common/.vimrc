@@ -61,8 +61,8 @@ endfunction
 
 let g:vimtex_fold_enabled = 1
 let g:vimtex_fold_comments = 1
-autocmd FileType *.tex set spell spelllang=en_us
-autocmd FileType *.tex set tw=85
+autocmd FileType tex set spell spelllang=en_us
+autocmd FileType tex set tw=85
 autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 
 if &compatible
