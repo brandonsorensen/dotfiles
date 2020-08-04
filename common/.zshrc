@@ -63,14 +63,30 @@ export PATH=$PATH:$HOME/.bin
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 
-source $ZSH/oh-my-zsh.sh
-source $HOME/.aliases.zsh
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
+if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+  export TERM=screen-256color
+fi
+
+function dusort() {
+	du -sh $1/* | sort -rh
+}
+
+local_zsh_path="$HOME/.zsh_local"
+if [ -f $local_zsh_path ]; then
+	# .zsh_local is for environment variables specific to a given
+	# device and will not be tracked in the dotfiles repo.
+	source $local_zsh_path
+	echo $ZSH_THEME
+fi
+
+source $ZSH/oh-my-zsh.sh
+source $HOME/.aliases.zsh
+
 export LANG=en_US.UTF-8
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="/usr/local/sbin:$PATH"
@@ -85,18 +101,3 @@ bindkey '^r' history-incremental-search-backward
 export GIT_EDITOR=vim
 export EDITOR=vim
 
-if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
-  export TERM=screen-256color
-fi
-
-function dusort() {
-	du -sh $1/* | sort -rh
-}
-
-local_zsh_path="$HOME/.zsh_local"
-if [ -f local_zsh_path ]; then
-	# .zsh_local is for environment variables specific to a given
-	# device and will not be tracked in the dotfiles repo.
-	# Remember it is sourced at the END of this file!
-	source local_zsh_path
-fi
