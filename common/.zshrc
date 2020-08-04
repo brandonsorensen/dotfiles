@@ -12,11 +12,14 @@ case "$OSTYPE" in
 		;;
 esac
 
-
+ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 if [ "$is_mac" = true ]; then
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
+	plugins=(git brew pip osx)
+else
+	plugins=(git pip)
 fi
 
 export PATH=$PATH:$HOME/.bin
@@ -59,11 +62,6 @@ export PATH=$PATH:$HOME/.bin
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git,brew,pip)
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.aliases.zsh
