@@ -17,9 +17,9 @@ ZSH_DISABLE_COMPFIX=true
 export ZSH=$HOME/.oh-my-zsh
 if [ "$is_mac" = true ]; then
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
-	plugins=(git brew pip osx)
+	plugins=(git brew tmux pip osx)
 else
-	plugins=(git pip)
+	plugins=(git pip tmux)
 fi
 
 export PATH=$PATH:$HOME/.bin
