@@ -15,14 +15,18 @@ esac
 ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+PY_VERSION='python3.8'
 if [ "$is_mac" = true ]; then
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
+	PY_PACKAGE_DIR="/usr/local/lib/$PY_VERSION/site-packages/"
 	plugins=(git brew pip osx)
 else
+	PY_PACKAGE_DIR="/usr/lib/$PY_VERSION/site-packages/"
 	plugins=(git pip)
 fi
 
 export PATH=$PATH:$HOME/.bin
+export POWERLINE_BASE="$PY_PACKAGE_DIR/powerline/"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
