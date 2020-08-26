@@ -85,7 +85,6 @@ if [ -f $local_zsh_path ]; then
 	# .zsh_local is for environment variables specific to a given
 	# device and will not be tracked in the dotfiles repo.
 	source $local_zsh_path
-	echo $ZSH_THEME
 fi
 
 source $ZSH/oh-my-zsh.sh
