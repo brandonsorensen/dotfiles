@@ -83,7 +83,13 @@ set clipboard=unnamed
 let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 
-colorscheme edge
+if !empty($VIM_THEME)
+	colorscheme $VIM_THEME
+	let g:airline_theme = $VIM_THEME
+else
+	colorscheme edge
+	let g:airline_theme = 'edge'
+endif
 set background=dark
 
 " macOS uses the GUI background even in the terminal.
@@ -130,6 +136,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'sainnhe/edge'
 	Plug 'flrnprz/plastic.vim'
 	Plug 'edkolev/tmuxline.vim'
+	Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 if has("autocmd")
@@ -144,8 +151,6 @@ nmap <F5> <Esc>:w<CR>:!clear;python3 %<CR>
 let g:airline_powerline_fonts = 1
 "  " remove empty angle at the end
 let g:airline_skip_empty_sections = 1
-"  " set airline theme
-let g:airline_theme='edge'
 
 "  " extension for tab line
 let g:airline#extensions#tabline#enabled = 0
