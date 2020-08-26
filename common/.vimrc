@@ -84,20 +84,24 @@ let g:edge_style = 'neon'
 let g:edge_disable_italic_comment = 1
 
 colorscheme edge
+set background=dark
 
 " macOS uses the GUI background even in the terminal.
 " This works for my use case. Don't know why. Don't care.
-if has("gui_running")
-	set background=dark
+if has("gui_running") 
 	hi Normal guibg=#211f1f ctermbg=NONE
 	hi nonText guibg=#211f1f ctermbg=NONE
 	hi EndofBuffer guibg=#211f1f ctermbg=NONE
 	if g:is_mac 
-		set termguicolors
+		if exists('+termguicolors')
+			let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+			let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+			set termguicolors
+		endif
 	endif
 else 
 	hi Normal guibg=NONE ctermbg=NONE
-	hi nonText guibg=NONE ctermbg=NONE
+	hi nonText guibg=NONE ctermbg=NONE 
 	hi EndofBuffer guibg=NONE ctermbg=NONE
 endif
 
@@ -123,6 +127,9 @@ call plug#begin('~/.vim/plugged')
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'vim-python/python-syntax'
 	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
+	Plug 'sainnhe/edge'
+	Plug 'flrnprz/plastic.vim'
+	Plug 'edkolev/tmuxline.vim'
 call plug#end()
 
 if has("autocmd")
@@ -138,7 +145,7 @@ let g:airline_powerline_fonts = 1
 "  " remove empty angle at the end
 let g:airline_skip_empty_sections = 1
 "  " set airline theme
-let g:airline_theme='deus'
+let g:airline_theme='edge'
 
 "  " extension for tab line
 let g:airline#extensions#tabline#enabled = 0
