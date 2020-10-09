@@ -157,6 +157,9 @@ let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
+" Nord settings
+let g:nord_italic_comments = 1
+
 " Make Python colorful!
 let g:python_highlight_all = 1
 
