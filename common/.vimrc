@@ -26,6 +26,15 @@ let g:is_mac = g:os == "Darwin"
 let g:is_linux = g:os == "Linux"
 let g:is_windows = g:os == "Windows"
 
+if g:is_mac
+	let s:theme = system("defaults read -g AppleInterfaceStyle 2&>/dev/null")
+	if s:theme ==? 'dark'
+		let g:dark_mode = 1
+	else
+		let g:dark_mode = 0
+	endif
+endif
+
 " For vimtex completion
 set completeopt=longest,menuone 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -85,12 +94,36 @@ let g:edge_disable_italic_comment = 1
 
 if !empty($VIM_THEME)
 	colorscheme $VIM_THEME
-	let g:airline_theme = $VIM_THEME
+	if empty($VIM_AIRLINE_THEME)
+		let g:airline_theme = $VIM_THEME
+	endif
 else
 	colorscheme edge
+endif
+
+if !empty($VIM_AIRLINE_THEME)
+	let g:airline_theme = $VIM_AIRLINE_THEME
+else
 	let g:airline_theme = 'edge'
 endif
-set background=dark
+
+if !empty($AYU_LIGHT)
+	if $AYU_LIGHT == 1
+		let g:ayucolor = 'light'
+	else
+		let g:ayucolor = 'dark'
+	endif
+else
+	let g:ayucolor = 'dark'
+endif
+
+if g:is_mac && !g:dark_mode && g:ayucolor == 'light'
+	set background=light
+	highlight CursorLine guibg=lightgray ctermbg=lightgray
+else
+	set background=dark
+	highlight CursorLine guibg=#3D404A ctermbg=darkgray
+endif
 
 " macOS uses the GUI background even in the terminal.
 " This works for my use case. Don't know why. Don't care.
@@ -128,9 +161,10 @@ call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 	Plug 'scrooloose/syntastic'
 	" Remember to install CMake
-	Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
+	Plug 'ayu-theme/ayu-vim'
 	Plug 'vim-python/python-syntax'
 	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
 	Plug 'sainnhe/edge'
@@ -165,6 +199,7 @@ let g:python_highlight_all = 1
 
 " Python 3 syntax checking, please
 let g:syntastic_python_checkers = ['flake8']
+
 
 " Activates PyDocString template
 nmap <silent> <C-_> <Plug>(pydocstring)
