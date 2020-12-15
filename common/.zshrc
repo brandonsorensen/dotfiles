@@ -4,7 +4,11 @@
 case "$OSTYPE" in 
 	darwin*)
 		is_mac=true
-		ZSH_THEME="norm"
+		if [ "$ITERM_PROFILE" = "Xcode" ]; then
+			ZSH_THEME="sorin"
+		else
+			ZSH_THEME="norm"
+		fi
 		;;
 	linux*)
 		is_linux=true
@@ -78,6 +82,11 @@ fi
 
 function dusort() {
 	du -sh $1/* | sort -rh
+}
+
+# Shows a .csv file in tab-separated tabular form
+function tabler() {
+	column -s, -t < $1 | less -#2 -N -S
 }
 
 local_zsh_path="$HOME/.zsh_local"

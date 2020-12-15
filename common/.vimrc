@@ -151,6 +151,13 @@ if has("gui_running")
 		endif
 	endif
 else 
+	if g:is_mac
+		if $ITERM_PROFILE == 'Xcode'
+			colorscheme xcodewwdc
+			let g:airline_theme = 'xcodewwdc'
+			hi CursorLine guibg=#292c35 ctermbg=NONE
+		endif
+	endif
 	hi Normal guibg=NONE ctermbg=NONE
 	hi nonText guibg=NONE ctermbg=NONE 
 	hi EndofBuffer guibg=NONE ctermbg=NONE
