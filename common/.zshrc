@@ -104,3 +104,6 @@ bindkey '^r' history-incremental-search-backward
 export GIT_EDITOR=vim
 export EDITOR=vim
 
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+

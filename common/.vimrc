@@ -122,20 +122,32 @@ if g:is_mac && !g:dark_mode && g:ayucolor == 'light'
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 else
 	set background=dark
-	highlight CursorLine guibg=#3D404A ctermbg=darkgray
+	highlight CursorLine guibg=#211f1f ctermbg=darkgray
 endif
 
 " macOS uses the GUI background even in the terminal.
 " This works for my use case. Don't know why. Don't care.
 if has("gui_running") 
-	hi Normal guibg=#211f1f ctermbg=NONE
-	hi nonText guibg=#211f1f ctermbg=NONE
-	hi EndofBuffer guibg=#211f1f ctermbg=NONE
-	if g:is_mac 
+	if !g:is_mac 
+		hi Normal guibg=#211f1f ctermbg=NONE
+		hi nonText guibg=#211f1f ctermbg=NONE
+		hi EndofBuffer guibg=#211f1f ctermbg=NONE
+	else 
 		if exists('+termguicolors')
 			let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 			let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 			set termguicolors
+		endif
+
+		if g:dark_mode == 1
+			hi Normal guibg=#211f1f ctermbg=NONE
+			hi nonText guibg=#211f1f ctermbg=NONE
+			hi EndofBuffer guibg=#211f1f ctermbg=NONE
+		else
+			hi Normal guibg=NONE ctermbg=NONE guifg=black ctermfg=black
+			hi nonText guibg=NONE ctermbg=NONE
+			hi EndofBuffer guibg=NONE ctermbg=NONE
+			hi CursorLine guibg=darkgray ctermbg=darkgray
 		endif
 	endif
 else 
