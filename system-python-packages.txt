@@ -1,0 +1,10 @@
+numpy
+pandas
+xlrd
+scipy
+sklearn
+bs4
+requests
+jupyterlab
+tqdm
+ttrv

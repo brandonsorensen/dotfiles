@@ -5,6 +5,7 @@ alias clock='date +%H:%M:%S'
 alias dtypes="column -xt $HOME/.dtypes.tsv"
 alias bztar="tar -jcvf"
 alias bzuntar="tar -xjf"
+alias reddit='ttrv'
 
 
 latex_aux_ext="*.log *.aux *.toc *.blg *.fdb_latexmk *.out *.fls *.synctex.gz *.bbl *.dvi"
