@@ -35,6 +35,10 @@ if g:is_mac
 	endif
 endif
 
+" For NERDTree toggle
+nnoremap <C-t> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+
 " For vimtex completion
 set completeopt=longest,menuone 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -190,6 +194,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'flrnprz/plastic.vim'
 	Plug 'edkolev/tmuxline.vim'
 	Plug 'arcticicestudio/nord-vim'
+	Plug 'preservim/nerdtree'
 call plug#end()
 
 if has("autocmd")
