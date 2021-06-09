@@ -1,2 +1,8 @@
 set editing-mode vi
 set keymap vi-command
+
+$if mode=vi
+set keymap vi-insert
+# these are for vi-insert mode
+Control-l: clear-screen
+$endif
