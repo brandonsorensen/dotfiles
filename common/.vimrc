@@ -35,7 +35,25 @@ if g:is_mac
 	endif
 endif
 
+" For NERDTree toggle
+nnoremap <C-t> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+
 " For vimtex completion
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 set completeopt=longest,menuone 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 if g:is_mac
@@ -50,6 +68,8 @@ let g:vimtex_fold_enabled = 1
 autocmd FileType tex set spell spelllang=en_us
 autocmd FileType tex set tw=85
 autocmd FileType tex setlocal foldmethod=expr foldexpr=3
+
+autocmd FileType text set spell spelllang=en_us
 
 if &compatible
   set nocompatible               " Be iMproved
@@ -128,6 +148,13 @@ if has("gui_running")
 		endif
 	endif
 else 
+	if g:is_mac
+		if $ITERM_PROFILE == 'Xcode'
+			colorscheme xcodewwdc
+			let g:airline_theme = 'xcodewwdc'
+			hi CursorLine guibg=#292c35 ctermbg=NONE
+		endif
+	endif
 	hi Normal guibg=NONE ctermbg=NONE
 	hi nonText guibg=NONE ctermbg=NONE 
 	hi EndofBuffer guibg=NONE ctermbg=NONE
@@ -159,8 +186,9 @@ call plug#begin('~/.vim/plugged')
 	Plug 'flrnprz/plastic.vim'
 	Plug 'edkolev/tmuxline.vim'
 	Plug 'arcticicestudio/nord-vim'
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'arzg/vim-colors-xcode'
+	Plug 'preservim/nerdtree'
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 if has("autocmd")
