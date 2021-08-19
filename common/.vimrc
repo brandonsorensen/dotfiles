@@ -39,37 +39,14 @@ endif
 set completeopt=longest,menuone 
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 if g:is_mac
-	let g:vimtex_view_general_viewer = '/Applications/Skim.app/Contents/SharedSupport/displayline'
 	let g:vimtex_view_general_options = '-r @line @pdf @tex'
-	let g:vimtex_compiler_callback_hooks = ['UpdateSkim']
+	let g:vimtex_view_method = 'skim'
 elseif g:is_linux
-	let g:vimtex_view_general_view = '/usr/bin/zathura'
+	let g:vimtex_view_method = '/usr/bin/zathura'
 endif
 
-function! UpdateSkim(status)
-	" This function updates Skim based based on the
-	" status returned when a VimTeX compiles
-    if !a:status | return | endif
-
-    let l:out = b:vimtex.out()
-    let l:tex = expand('%:p')
-    let l:cmd = [g:vimtex_view_general_viewer, '-r']
-
-    if !empty(system('pgrep Skim'))
-        call extend(l:cmd, ['-g'])
-    endif
-
-    if has('nvim')
-        call jobstart(l:cmd + [line('.'), l:out, l:tex])
-    elseif has('job')
-        call job_start(l:cmd + [line('.'), l:out, l:tex])
-    else
-        call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
-    endif
-endfunction
-
 let g:vimtex_fold_enabled = 1
-let g:vimtex_fold_comments = 1
+
 autocmd FileType tex set spell spelllang=en_us
 autocmd FileType tex set tw=85
 autocmd FileType tex setlocal foldmethod=expr foldexpr=3
@@ -172,17 +149,18 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
 	Plug 'scrooloose/syntastic'
-	" Remember to install CMake
-	" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'ayu-theme/ayu-vim'
+	Plug 'sonph/onehalf', {'rtp': 'vim/'}
 	Plug 'vim-python/python-syntax'
 	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
 	Plug 'sainnhe/edge'
 	Plug 'flrnprz/plastic.vim'
 	Plug 'edkolev/tmuxline.vim'
 	Plug 'arcticicestudio/nord-vim'
+	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'arzg/vim-colors-xcode'
 call plug#end()
 
 if has("autocmd")
@@ -190,6 +168,28 @@ if has("autocmd")
 endif
 
 nmap <F5> <Esc>:w<CR>:!clear;python3 %<CR>
+
+" CocCompletion
+" Tab completion
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+set updatetime=300
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
 " ---- vim-airline ----
 "  " require powerline-symbol patched font installed
@@ -205,6 +205,7 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " Nord settings
 let g:nord_italic_comments = 1
+let g:one_allow_italics = 1
 
 " Make Python colorful!
 let g:python_highlight_all = 1
