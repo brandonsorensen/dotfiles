@@ -2,7 +2,7 @@
 [user]
 # Please adapt and uncomment the following lines:
 	name = Brandon Sorensen
-	email = brandonsorensen@protonmail.com
+	email = sorensen.12@gmail.com
 [core]
 	askpass = git-gui--askpass
 	autocrlf = input
