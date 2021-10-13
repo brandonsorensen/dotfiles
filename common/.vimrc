@@ -22,6 +22,9 @@ if !exists("g:os")
 	endif
 endif
 
+" Scroll through the document instead of terminal with mouse wheel, GUI-style
+set mouse=a
+
 let g:is_mac = g:os == "Darwin"
 let g:is_linux = g:os == "Linux"
 let g:is_windows = g:os == "Windows"
