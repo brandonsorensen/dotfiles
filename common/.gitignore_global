@@ -3,4 +3,5 @@
 *.fls
 *.synctex.gz
 *.fdb_latexmk
-*.idea/
+.idea/
+.ipynb_checkpoints/

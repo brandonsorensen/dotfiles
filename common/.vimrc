@@ -22,6 +22,9 @@ if !exists("g:os")
 	endif
 endif
 
+" Scroll through the document instead of terminal with mouse wheel, GUI-style
+set mouse=a
+
 let g:is_mac = g:os == "Darwin"
 let g:is_linux = g:os == "Linux"
 let g:is_windows = g:os == "Windows"
@@ -64,6 +67,10 @@ elseif g:is_linux
 endif
 
 let g:vimtex_fold_enabled = 1
+let g:vimtex_syntax_packages = {
+      \ 'tabularx': {'load': 2},
+      \}
+let g:vimtex_quickfix_autoclose_after_keystroke = 1
 
 autocmd FileType tex set spell spelllang=en_us
 autocmd FileType tex set tw=85
@@ -240,6 +247,9 @@ let g:python_highlight_all = 1
 
 " Python 3 syntax checking, please
 let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_tex_checkers = ['chktex']
+
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-vimtex', 'coc-jedi']
 
 
 " Activates PyDocString template

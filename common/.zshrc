@@ -19,7 +19,7 @@ esac
 ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-PY_VERSION='python3.8'
+PY_VERSION='python3.9'
 if [ "$is_mac" = true ]; then
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
 	PY_PACKAGE_DIR="/usr/local/lib/$PY_VERSION/site-packages"
