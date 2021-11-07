@@ -23,7 +23,7 @@ PY_VERSION='python3.9'
 if [ "$is_mac" = true ]; then
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
 	PY_PACKAGE_DIR="/usr/local/lib/$PY_VERSION/site-packages"
-	plugins=(git brew tmux pip osx)
+	plugins=(git brew tmux pip macos)
 else
 	PY_PACKAGE_DIR="$HOME/.local/lib/$PY_VERSION/site-packages"
 	plugins=(git tmux pip)
