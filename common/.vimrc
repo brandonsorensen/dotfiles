@@ -249,7 +249,10 @@ let g:python_highlight_all = 1
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_tex_checkers = ['chktex']
 
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-vimtex', 'coc-jedi']
+let g:coc_global_extensions = [
+			\'coc-json', 'coc-git', 'coc-vimtex',
+			\'coc-jedi', 'coc-yaml'
+			\]
 
 
 " Activates PyDocString template
