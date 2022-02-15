@@ -14,8 +14,6 @@ lf_args=$(echo $latex_aux_ext | sed -E 's/(\\)?(\*\.[a-z]+)/-I "\2"/g')
 alias cleantex='latexmk -C &> /dev/null'
 if [[ "$OSTYPE" = darwin* ]]; then
 	alias mvim='mvim -v'
-	alias python='/usr/local/bin/python3'
-	alias pip='/usr/local/bin/pip3'
 	# Always want color when using GNU ls
 	alias gls='gls --color=auto'
 	# Filters out the auxilary files that are output
