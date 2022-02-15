@@ -196,6 +196,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'arzg/vim-colors-xcode'
 	Plug 'preservim/nerdtree'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'alvan/vim-closetag'
 call plug#end()
 
 if has("autocmd")
@@ -245,13 +246,16 @@ let g:one_allow_italics = 1
 " Make Python colorful!
 let g:python_highlight_all = 1
 
+" close-tag settings
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.plist'
+
 " Python 3 syntax checking, please
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_tex_checkers = ['chktex']
 
 let g:coc_global_extensions = [
 			\'coc-json', 'coc-git', 'coc-vimtex',
-			\'coc-jedi', 'coc-yaml'
+			\'coc-jedi', 'coc-yaml', 'coc-xml'
 			\]
 
 
