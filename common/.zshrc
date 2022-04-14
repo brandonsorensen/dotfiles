@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -22,7 +29,7 @@ export ZSH=$HOME/.oh-my-zsh
 PY_VERSION='python3.9'
 if [ "$is_mac" = true ]; then
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
-	PY_PACKAGE_DIR="/usr/local/lib/$PY_VERSION/site-packages"
+	PY_PACKAGE_DIR="$(brew --prefix)/lib/$PY_VERSION/site-packages"
 	plugins=(git brew tmux pip macos)
 else
 	PY_PACKAGE_DIR="$HOME/.local/lib/$PY_VERSION/site-packages"
@@ -89,6 +96,11 @@ function tabler() {
 	column -s, -t < $1 | less -#2 -N -S
 }
 
+# For pure prompt on M1 Macs with Homebrew
+autoload -U promptinit; promptinit
+fpath+=$HOME/.zsh/pure
+fpath+=$HOME/.zsh/purer
+
 local_zsh_path="$HOME/.zsh_local"
 if [ -f $local_zsh_path ]; then
 	# .zsh_local is for environment variables specific to a given
@@ -102,13 +114,14 @@ source $HOME/.aliases.zsh
 export LANG=en_US.UTF-8
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="/usr/local/sbin:$PATH"
-export jport=127.0.0.1:8888:127.0.0.1:8888
 
 
 bindkey -v  # vim bindings
 bindkey "^?" backward-delete-char
 bindkey "^a" history-beginning-search-backward
 bindkey '^r' history-incremental-search-backward
+# Insert newline symbol with Alt-Return
+bindkey '^[^M' self-insert-unmeta  
 
 export GIT_EDITOR=vim
 export EDITOR=vim
@@ -116,3 +129,23 @@ export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+eval "$(pyenv init -)"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Volumes/nvme-ext/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Volumes/nvme-ext/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/Volumes/nvme-ext/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Volumes/nvme-ext/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+# <<< conda initialize <<<
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
