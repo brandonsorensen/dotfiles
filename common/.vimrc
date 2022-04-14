@@ -121,7 +121,7 @@ else
 	let g:ayucolor = 'dark'
 endif
 
-if g:is_mac && !g:dark_mode && g:ayucolor == 'light'
+if g:is_mac && !g:dark_mode 
 	set background=light
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 else
