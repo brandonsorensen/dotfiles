@@ -31,7 +31,7 @@ let g:is_windows = g:os == "Windows"
 
 if g:is_mac
 	let s:theme = system("defaults read -g AppleInterfaceStyle 2&>/dev/null")
-	if s:theme ==? 'dark'
+	if s:theme =~ '^Dark' 
 		let g:dark_mode = 1
 	else
 		let g:dark_mode = 0
