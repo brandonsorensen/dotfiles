@@ -101,6 +101,9 @@ autoload -U promptinit; promptinit
 fpath+=$HOME/.zsh/pure
 fpath+=$HOME/.zsh/purer
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 local_zsh_path="$HOME/.zsh_local"
 if [ -f $local_zsh_path ]; then
 	# .zsh_local is for environment variables specific to a given
@@ -129,6 +132,7 @@ export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+export PATH="$PYENV_ROOT/shims:${PATH}"
 eval "$(pyenv init -)"
 
 # >>> conda initialize >>>
@@ -147,5 +151,3 @@ unset __conda_setup
 
 # <<< conda initialize <<<
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
