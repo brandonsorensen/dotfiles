@@ -1,0 +1,45 @@
+@import url(chrome/window_control_placeholder_support.css);
+@import url(chrome/autohide_sidebar.css);
+@import url(chrome/hide_tabs_toolbar_osx.css);
+
+#sidebar-box{
+	--uc-sidebar-width: 50px;
+	--uc-sidebar-hover-width: 280px;
+	--uc-autohide-sidebar-delay: 300ms;
+	--uc-show-sidebar-delay: 150ms;
+	--transition-speed: 115ms;
+}
+
+#sidebar-header,
+#sidebar{
+	transition: var(--transition-speed) linear
+				var(--uc-autohide-sidebar-delay) !important;
+}
+
+@media (prefers-color-scheme:light) {
+	#sidebar-box:hover > #sidebar-header,
+	#sidebar-box:hover > #sidebar{
+		box-shadow: -1px 15px 10px 0px #888888;
+		transition: var(--transition-speed) linear
+					var(--uc-show-sidebar-delay) !important;
+	}
+}
+
+#sidebar-box:hover > #sidebar-header,
+#sidebar-box:hover > #sidebar{
+	transition: var(--transition-speed) linear
+				var(--uc-show-sidebar-delay) !important;
+}
+
+#urlbar-container, #search-container {
+	padding-block: 10px !important;
+}
+
+.titlebar-buttonbox-container {
+	padding-top: 20px;
+	padding-left: 7px
+}
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] #sidebar-header {
+  visibility: collapse;
+}
