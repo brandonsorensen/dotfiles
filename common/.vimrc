@@ -24,6 +24,7 @@ endif
 
 " Scroll through the document instead of terminal with mouse wheel, GUI-style
 set mouse=a
+set guifont=MesloLGS\ NF:h14
 
 let g:is_mac = g:os == "Darwin"
 let g:is_linux = g:os == "Linux"
@@ -147,6 +148,7 @@ if has("gui_running")
 			hi Normal guibg=#211f1f ctermbg=NONE
 			hi nonText guibg=#211f1f ctermbg=NONE
 			hi EndofBuffer guibg=#211f1f ctermbg=NONE
+			colorscheme nord
 		else
 			hi Normal guibg=NONE ctermbg=NONE guifg=black ctermfg=black
 			hi nonText guibg=NONE ctermbg=NONE
@@ -197,6 +199,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/nerdtree'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'alvan/vim-closetag'
+	Plug 'Raimondi/delimitMate'
 call plug#end()
 
 if has("autocmd")
