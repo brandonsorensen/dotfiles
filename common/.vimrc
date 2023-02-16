@@ -168,7 +168,7 @@ else
 endif
 
 if g:is_mac
-	set guifont=Roboto\ Mono\ Light\ for\ Powerline:h16
+	set guifont=MesloLGS\ NF:h16
 endif
 
 
@@ -197,6 +197,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/nerdtree'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'alvan/vim-closetag'
+	Plug 'Raimondi/delimitMate'
+
 call plug#end()
 
 if has("autocmd")
@@ -261,3 +263,7 @@ let g:coc_global_extensions = [
 
 " Activates PyDocString template
 nmap <silent> <C-_> <Plug>(pydocstring)
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
