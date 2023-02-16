@@ -3,6 +3,7 @@
 *.fls
 *.synctex.gz
 *.fdb_latexmk
+*.swp
 .idea/
 .ipynb_checkpoints/
 *.swp
