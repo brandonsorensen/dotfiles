@@ -9,6 +9,7 @@ set clipboard=unnamed
 set backspace=indent,eol,start
 set ignorecase
 set smartcase
+filetype plugin on
 imap <F5> <Esc>:w<CR>:!clear;python %<CR>
 
 " Gets the OS and works around the wonkiness of OS checks
@@ -78,6 +79,8 @@ autocmd FileType tex set tw=85
 autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 
 autocmd FileType text set spell spelllang=en_us
+autocmd FileType rust setlocal shiftwidth=2 tabstop=2
+
 
 if &compatible
   set nocompatible               " Be iMproved
@@ -103,23 +106,21 @@ if !empty($VIM_THEME)
 		let g:airline_theme = $VIM_THEME
 	endif
 else
-	colorscheme edge
+	if g:dark_mode
+		colorscheme nord
+	else
+		colorscheme edge
+	endif
 endif
 
 if !empty($VIM_AIRLINE_THEME)
 	let g:airline_theme = $VIM_AIRLINE_THEME
 else
-	let g:airline_theme = 'edge'
-endif
-
-if !empty($AYU_LIGHT)
-	if $AYU_LIGHT == 1
-		let g:ayucolor = 'light'
+	if g:dark_mode
+		let g:airline_theme = 'nord'
 	else
-		let g:ayucolor = 'dark'
+		let g:airline_theme = 'edge'
 	endif
-else
-	let g:ayucolor = 'dark'
 endif
 
 if g:is_mac && !g:dark_mode 
@@ -127,7 +128,7 @@ if g:is_mac && !g:dark_mode
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 else
 	set background=dark
-	highlight CursorLine guibg=#211f1f ctermbg=darkgray
+	highlight CursorLine guibg=#211f1f ctermbg=0
 endif
 
 " macOS uses the GUI background even in the terminal.
@@ -170,7 +171,7 @@ else
 endif
 
 if g:is_mac
-	set guifont=Roboto\ Mono\ Light\ for\ Powerline:h16
+	set guifont=MesloLGS\ NF:h16
 endif
 
 
@@ -199,7 +200,9 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/nerdtree'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'alvan/vim-closetag'
-	Plug 'Raimondi/delimitMate'
+	Plug 'cohama/lexima.vim'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
 call plug#end()
 
 if has("autocmd")
@@ -209,12 +212,21 @@ endif
 nmap <F5> <Esc>:w<CR>:!clear;python3 %<CR>
 
 " CocCompletion
-" Tab completion
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -261,6 +273,20 @@ let g:coc_global_extensions = [
 			\'coc-jedi', 'coc-yaml', 'coc-xml'
 			\]
 
+if g:dark_mode
+	" Rust  type hints
+	hi CocInlayHint ctermbg=0 ctermfg=4
+endif
 
 " Activates PyDocString template
 nmap <silent> <C-_> <Plug>(pydocstring)
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
+
+nmap <silent> <c-f> :Files<CR>
