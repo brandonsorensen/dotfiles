@@ -9,7 +9,30 @@ set clipboard=unnamed
 set backspace=indent,eol,start
 set ignorecase
 set smartcase
+filetype plugin on
+let mapleader = " "
 imap <F5> <Esc>:w<CR>:!clear;python %<CR>
+
+" For local replace
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+" For global replace
+nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+
+" fzf buffer list
+nnoremap <silent><leader>l :Buffers<CR>
+" fzf dir list
+nnoremap <silent><leader>f :Files<CR>
+" Explore
+nnoremap <silent><leader>e :Lexplore<CR>
+" Remap ctl-w to leader for window management
+nnoremap <Leader>w <C-w>
+" Close buffer without losing split
+nnoremap <silent><leader>c :bp\|bd #<CR>
+" Quickly switch to previous buffer
+nnoremap <silent><leader>s <C-^>
+" Clear highlight
+nnoremap <silent><leader>h :noh<CR>
+
 
 " Gets the OS and works around the wonkiness of OS checks
 " in the various versions of Vim avalable for macOS.
@@ -38,10 +61,6 @@ if g:is_mac
 		let g:dark_mode = 0
 	endif
 endif
-
-" For NERDTree toggle
-nnoremap <C-t> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
 
 " For vimtex completion
 " Use tab for trigger completion with characters ahead and navigate.
@@ -78,6 +97,8 @@ autocmd FileType tex set tw=85
 autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 
 autocmd FileType text set spell spelllang=en_us
+autocmd FileType rust set shiftwidth=2 tabstop=2
+
 
 if &compatible
   set nocompatible               " Be iMproved
@@ -88,9 +109,6 @@ set laststatus=2
 
 " Use 256 colours (Use this setting only if your terminal supports 256 colours)
 set t_Co=256
-
-" Required:
-filetype plugin indent on
 
 set clipboard=unnamed
 
@@ -103,31 +121,31 @@ if !empty($VIM_THEME)
 		let g:airline_theme = $VIM_THEME
 	endif
 else
-	colorscheme edge
+	if g:dark_mode
+		colorscheme nord
+	else
+		colorscheme snow
+	endif
 endif
 
 if !empty($VIM_AIRLINE_THEME)
 	let g:airline_theme = $VIM_AIRLINE_THEME
 else
-	let g:airline_theme = 'edge'
-endif
-
-if !empty($AYU_LIGHT)
-	if $AYU_LIGHT == 1
-		let g:ayucolor = 'light'
+	if g:dark_mode
+		let g:airline_theme = 'nord'
 	else
-		let g:ayucolor = 'dark'
+		let g:airline_theme = 'papercolor'
 	endif
-else
-	let g:ayucolor = 'dark'
 endif
 
 if g:is_mac && !g:dark_mode 
 	set background=light
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
+	highlight Search guibg=lightgray ctermfg=3
+	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=None
 else
 	set background=dark
-	highlight CursorLine guibg=#211f1f ctermbg=darkgray
+	highlight CursorLine guibg=#211f1f ctermbg=0
 endif
 
 " macOS uses the GUI background even in the terminal.
@@ -175,6 +193,8 @@ endif
 
 
 highlight Comment cterm=italic gui=italic
+highlight VertSplit cterm=None ctermfg=None ctermbg=None
+set fillchars+=vert:\▏
 
 let g:ycm_filetype_blacklist = {
       \ 'tex': 1,
@@ -194,32 +214,68 @@ call plug#begin('~/.vim/plugged')
 	Plug 'sainnhe/edge'
 	Plug 'flrnprz/plastic.vim'
 	Plug 'edkolev/tmuxline.vim'
-	Plug 'arcticicestudio/nord-vim'
+	Plug 'nordtheme/vim'
 	Plug 'arzg/vim-colors-xcode'
-	Plug 'preservim/nerdtree'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
-	Plug 'alvan/vim-closetag'
-	Plug 'Raimondi/delimitMate'
 	Plug 'hashivim/vim-terraform'
+	Plug 'cohama/lexima.vim'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
+	Plug 'tpope/vim-commentary'
 call plug#end()
 
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-nmap <F5> <Esc>:w<CR>:!clear;python3 %<CR>
+" Resolves conflicts between lexima and coc completion
+let g:lexima_no_default_rules = 1
+call lexima#set_default_rules()
+call lexima#insmode#map_hook('before', '<CR>', '')
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<CR>" : "\<CR>")
 
 " CocCompletion
-" Tab completion
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Coc: Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
 set updatetime=300
@@ -262,6 +318,10 @@ let g:coc_global_extensions = [
 			\'coc-jedi', 'coc-yaml', 'coc-xml'
 			\]
 
+if g:dark_mode
+	" Rust  type hints
+	hi CocInlayHint ctermbg=0 ctermfg=4
+endif
 
 " Activates PyDocString template
 nmap <silent> <C-_> <Plug>(pydocstring)
@@ -269,3 +329,17 @@ nmap <silent> <C-_> <Plug>(pydocstring)
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+
+" Use ctrl-[hjkl] to select the active split!
+nmap <silent> <c-k> :wincmd k<CR>
+nmap <silent> <c-j> :wincmd j<CR>
+nmap <silent> <c-h> :wincmd h<CR>
+nmap <silent> <c-l> :wincmd l<CR>
+
+nmap <silent> <c-f> :Files<CR>
+
+" highlight the visual selection after pressing enter.
+set hlsearch
+xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
