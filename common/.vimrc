@@ -200,6 +200,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'alvan/vim-closetag'
 	Plug 'Raimondi/delimitMate'
+	Plug 'hashivim/vim-terraform'
 call plug#end()
 
 if has("autocmd")
