@@ -10,7 +10,29 @@ set backspace=indent,eol,start
 set ignorecase
 set smartcase
 filetype plugin on
+let mapleader = " "
 imap <F5> <Esc>:w<CR>:!clear;python %<CR>
+
+" For local replace
+nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+" For global replace
+nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+
+" fzf buffer list
+nnoremap <silent><leader>l :Buffers<CR>
+" fzf dir list
+nnoremap <silent><leader>f :Files<CR>
+" Explore
+nnoremap <silent><leader>e :Lexplore<CR>
+" Remap ctl-w to leader for window management
+nnoremap <Leader>w <C-w>
+" Close buffer without losing split
+nnoremap <silent><leader>c :bp\|bd #<CR>
+" Quickly switch to previous buffer
+nnoremap <silent><leader>s <C-^>
+" Clear highlight
+nnoremap <silent><leader>h :noh<CR>
+
 
 " Gets the OS and works around the wonkiness of OS checks
 " in the various versions of Vim avalable for macOS.
@@ -39,10 +61,6 @@ if g:is_mac
 		let g:dark_mode = 0
 	endif
 endif
-
-" For NERDTree toggle
-nnoremap <C-t> :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
 
 " For vimtex completion
 " Use tab for trigger completion with characters ahead and navigate.
@@ -79,7 +97,7 @@ autocmd FileType tex set tw=85
 autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 
 autocmd FileType text set spell spelllang=en_us
-autocmd FileType rust setlocal shiftwidth=2 tabstop=2
+autocmd FileType rust set shiftwidth=2 tabstop=2
 
 
 if &compatible
@@ -91,9 +109,6 @@ set laststatus=2
 
 " Use 256 colours (Use this setting only if your terminal supports 256 colours)
 set t_Co=256
-
-" Required:
-filetype plugin indent on
 
 set clipboard=unnamed
 
@@ -109,7 +124,7 @@ else
 	if g:dark_mode
 		colorscheme nord
 	else
-		colorscheme edge
+		colorscheme snow
 	endif
 endif
 
@@ -119,13 +134,15 @@ else
 	if g:dark_mode
 		let g:airline_theme = 'nord'
 	else
-		let g:airline_theme = 'edge'
+		let g:airline_theme = 'papercolor'
 	endif
 endif
 
 if g:is_mac && !g:dark_mode 
 	set background=light
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
+	highlight Search guibg=lightgray ctermfg=3
+	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=None
 else
 	set background=dark
 	highlight CursorLine guibg=#211f1f ctermbg=0
@@ -176,6 +193,8 @@ endif
 
 
 highlight Comment cterm=italic gui=italic
+highlight VertSplit cterm=None ctermfg=None ctermbg=None
+set fillchars+=vert:\▏
 
 let g:ycm_filetype_blacklist = {
       \ 'tex': 1,
@@ -195,21 +214,25 @@ call plug#begin('~/.vim/plugged')
 	Plug 'sainnhe/edge'
 	Plug 'flrnprz/plastic.vim'
 	Plug 'edkolev/tmuxline.vim'
-	Plug 'arcticicestudio/nord-vim'
+	Plug 'nordtheme/vim'
 	Plug 'arzg/vim-colors-xcode'
-	Plug 'preservim/nerdtree'
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'alvan/vim-closetag'
 	Plug 'cohama/lexima.vim'
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
+	Plug 'tpope/vim-commentary'
 call plug#end()
 
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-nmap <F5> <Esc>:w<CR>:!clear;python3 %<CR>
+" Resolves conflicts between lexima and coc completion
+let g:lexima_no_default_rules = 1
+call lexima#set_default_rules()
+call lexima#insmode#map_hook('before', '<CR>', '')
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<CR>" : "\<CR>")
 
 " CocCompletion
 " Use tab for trigger completion with characters ahead and navigate
@@ -222,6 +245,7 @@ inoremap <silent><expr> <TAB>
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -231,6 +255,27 @@ endfunction
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Coc: Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 
 set updatetime=300
@@ -290,3 +335,7 @@ nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 
 nmap <silent> <c-f> :Files<CR>
+
+" highlight the visual selection after pressing enter.
+set hlsearch
+xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
