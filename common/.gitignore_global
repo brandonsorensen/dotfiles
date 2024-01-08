@@ -4,5 +4,6 @@
 *.synctex.gz
 *.fdb_latexmk
 *.swp
+*.swo
 .idea/
 .ipynb_checkpoints/
