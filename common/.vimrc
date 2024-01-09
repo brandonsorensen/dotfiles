@@ -3,7 +3,8 @@ set rnu
 set number
 set noexpandtab
 set tabstop=4
-set shiftwidth=4
+set shiftwidth=0   " use `tabstop` value
+set softtabstop=0  " use `tabstop` value
 set cursorline
 set clipboard=unnamed
 set backspace=indent,eol,start
@@ -97,7 +98,7 @@ autocmd FileType tex set tw=85
 autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 
 autocmd FileType text set spell spelllang=en_us
-autocmd FileType rust set shiftwidth=2 tabstop=2
+autocmd FileType rust set shiftwidth=2 tabstop=2 softtabstop=2
 
 
 if &compatible
@@ -232,6 +233,13 @@ endif
 let g:lexima_no_default_rules = 1
 call lexima#set_default_rules()
 call lexima#insmode#map_hook('before', '<CR>', '')
+call lexima#add_rule({'char': '"', 'at': '\%#\s*\w'})
+call lexima#add_rule({'char': '"', 'at': '"\S\{-1,}\%#\|\%#\S\{-1,}"'})
+call lexima#add_rule({'char': "'", 'at': "'\S\{-1,}\%#\|\%#\S\{-1,}'"})
+call lexima#add_rule({'char': '`', 'at': '`\S\{-1,}\%#\|\%#\S\{-1,}`'})
+call lexima#add_rule({'char': '(', 'at': '\%#\S\{-1,})'})
+call lexima#add_rule({'char': '[', 'at': '\%#\S\{-1,}]'})
+call lexima#add_rule({'char': '{', 'at': '\%#\S\{-1,}}'})
 inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<CR>" : "\<CR>")
 
 " CocCompletion
@@ -315,7 +323,8 @@ let g:syntastic_tex_checkers = ['chktex']
 
 let g:coc_global_extensions = [
 			\'coc-json', 'coc-git', 'coc-vimtex',
-			\'coc-jedi', 'coc-yaml', 'coc-xml'
+			\'coc-jedi', 'coc-yaml', 'coc-xml',
+			\'coc-rust-analyzer'
 			\]
 
 if g:dark_mode
