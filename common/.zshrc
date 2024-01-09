@@ -28,6 +28,7 @@ ZSH_DISABLE_COMPFIX=true
 export ZSH=$HOME/.oh-my-zsh
 PY_VERSION='python3.9'
 if [ "$is_mac" = true ]; then
+	export PATH="/opt/homebrew/bin/:$PATH"
 	export PATH=$(brew --prefix openvpn)/sbin:$PATH
 	PY_PACKAGE_DIR="$(brew --prefix)/lib/$PY_VERSION/site-packages"
 	plugins=(git brew tmux pip macos)
@@ -132,5 +133,22 @@ export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+__conda_setup="$('/Users/brandon/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/brandon/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/brandon/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/brandon/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+
 export PATH="$PYENV_ROOT/shims:${PATH}"
+export MODULAR_HOME="$HOME/.modular"
+export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
 eval "$(pyenv init -)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
