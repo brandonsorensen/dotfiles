@@ -33,6 +33,8 @@ nnoremap <silent><leader>c :bp\|bd #<CR>
 nnoremap <silent><leader>s <C-^>
 " Clear highlight
 nnoremap <silent><leader>h :noh<CR>
+" Shortcut for scrolling in a terminal
+tnoremap <c-b> <c-\><c-n>
 
 
 " Gets the OS and works around the wonkiness of OS checks
