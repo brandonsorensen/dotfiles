@@ -26,6 +26,7 @@ esac
 ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export BAT_CONFIG_PATH="$HOME/.bat.conf"
 PY_VERSION='python3.9'
 if [ "$is_mac" = true ]; then
 	export PATH="/opt/homebrew/bin/:$PATH"
