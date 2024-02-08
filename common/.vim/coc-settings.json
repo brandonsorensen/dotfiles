@@ -1,6 +1,16 @@
 {
 	"jedi.enable": true,
 	"coc.source.around.enable": false,
-	"coc.source.buffer.enable": false
-
+	"coc.source.buffer.enable": false,
+	"languageserver": {
+		"terraform": {
+			"command": "terraform-lsp",
+			"filetypes": [
+				"terraform",
+				"tf"
+			],
+			"initializationOptions": {},
+			"settings": {}
+		}
+	}
 }

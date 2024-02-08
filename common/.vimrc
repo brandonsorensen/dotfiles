@@ -225,6 +225,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-commentary'
+	Plug 'kaarmu/typst.vim', {'branch': 'main'}
 call plug#end()
 
 if has("autocmd")
@@ -333,6 +334,13 @@ if g:dark_mode
 	" Rust  type hints
 	hi CocInlayHint ctermbg=0 ctermfg=4
 endif
+
+
+" typst
+let g:typst_conceal = 1
+let g:typst_conceal_math = 1
+let g:typst_conceal_emoji = 1
+let g:typst_embedded_languages = []
 
 " Activates PyDocString template
 nmap <silent> <C-_> <Plug>(pydocstring)
