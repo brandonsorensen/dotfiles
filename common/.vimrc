@@ -226,6 +226,8 @@ call plug#begin('~/.vim/plugged')
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-commentary'
 	Plug 'kaarmu/typst.vim', {'branch': 'main'}
+	Plug 'christoomey/vim-tmux-navigator'
+	Plug 'preservim/vimux'
 call plug#end()
 
 if has("autocmd")
@@ -325,7 +327,7 @@ let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_tex_checkers = ['chktex']
 
 let g:coc_global_extensions = [
-			\'coc-json', 'coc-git', 'coc-vimtex',
+			\'coc-pyright', 'coc-json', 'coc-git', 'coc-vimtex',
 			\'coc-jedi', 'coc-yaml', 'coc-xml',
 			\'coc-rust-analyzer'
 			\]
