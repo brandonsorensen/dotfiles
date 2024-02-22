@@ -1,5 +1,5 @@
 {
-	"jedi.enable": true,
+	"python.jedi.enable": false,
 	"coc.source.around.enable": false,
 	"coc.source.buffer.enable": false,
 	"languageserver": {
