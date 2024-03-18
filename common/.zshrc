@@ -135,8 +135,9 @@ export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export PATH="$PYENV_ROOT/shims:${PATH}"
 export PATH="/opt/miniconda3/bin/:${PATH}"
+export PATH="$PYENV_ROOT/shims:${PATH}"
+export PATH="$HOME/.modular:${PATH}"
 eval "$(pyenv init -)"
 
 # >>> conda initialize >>>
