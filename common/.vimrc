@@ -33,6 +33,10 @@ nnoremap <silent><leader>c :bp\|bd #<CR>
 nnoremap <silent><leader>s <C-^>
 " Clear highlight
 nnoremap <silent><leader>h :noh<CR>
+" Run command
+map <Leader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
 
 
 " Gets the OS and works around the wonkiness of OS checks
@@ -223,6 +227,10 @@ call plug#begin('~/.vim/plugged')
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-commentary'
+	Plug 'cappyzawa/starlark.vim'
+	Plug 'vmware-tanzu/ytt.vim'
+	Plug 'preservim/vimux'
+	Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 if has("autocmd")
@@ -348,6 +356,8 @@ nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 
 nmap <silent> <c-f> :Files<CR>
+
+let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 " highlight the visual selection after pressing enter.
 set hlsearch
