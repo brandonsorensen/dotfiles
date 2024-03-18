@@ -69,11 +69,11 @@ endif
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -101,6 +101,7 @@ autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 
 autocmd FileType text set spell spelllang=en_us
 autocmd FileType rust set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType lua set shiftwidth=2 tabstop=2 softtabstop=2
 
 
 if &compatible
@@ -207,19 +208,16 @@ let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 
 call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
-	Plug 'scrooloose/syntastic'
 	Plug 'vim-airline/vim-airline'
 	Plug 'vim-airline/vim-airline-themes'
 	Plug 'ayu-theme/ayu-vim'
 	Plug 'sonph/onehalf', {'rtp': 'vim/'}
-	Plug 'vim-python/python-syntax'
 	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
 	Plug 'sainnhe/edge'
 	Plug 'flrnprz/plastic.vim'
 	Plug 'edkolev/tmuxline.vim'
 	Plug 'nordtheme/vim'
 	Plug 'arzg/vim-colors-xcode'
-	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'alvan/vim-closetag'
 	Plug 'cohama/lexima.vim'
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -228,6 +226,19 @@ call plug#begin('~/.vim/plugged')
 	Plug 'kaarmu/typst.vim', {'branch': 'main'}
 	Plug 'christoomey/vim-tmux-navigator'
 	Plug 'preservim/vimux'
+	Plug 'editorconfig/editorconfig-vim'
+	if has('nvim')
+		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+		Plug 'neovim/nvim-lspconfig'
+		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
+		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
+		Plug 'L3MON4D3/LuaSnip'
+		Plug 'shaunsingh/nord.nvim'
+		Plug 'nvim-lualine/lualine.nvim'
+	endif
 call plug#end()
 
 if has("autocmd")
@@ -253,12 +264,16 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<CR>" : "\<CR>")
 " no select by `"suggest.noselect": true` in your configuration file
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+" inoremap <silent><expr> <TAB>
+"       \ coc#pum#visible() ? coc#pum#next(1) :
+"       \ CheckBackspace() ? "\<Tab>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+if has("nvim")
+    au VimEnter * AirlineToggle
+endif
 
 function! CheckBackspace() abort
   let col = col('.') - 1
@@ -271,34 +286,34 @@ function! s:check_back_space() abort
 endfunction
 
 " Coc: Use K to show documentation in preview window
-nnoremap <silent> K :call ShowDocumentation()<CR>
+" nnoremap <silent> K :call ShowDocumentation()<CR>
 
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" function! ShowDocumentation()
+"   if CocAction('hasProvider', 'hover')
+"     call CocActionAsync('doHover')
+"   else
+"     call feedkeys('K', 'in')
+"   endif
+" endfunction
+" " Use K to show documentation in preview window
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocAction('doHover')
+"   endif
+" endfunction
 
-set updatetime=300
+" set updatetime=300
 
 " Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+" if has('nvim')
+"   inoremap <silent><expr> <c-space> coc#refresh()
+" else
+"   inoremap <silent><expr> <c-@> coc#refresh()
+" endif
 
 " ---- vim-airline ----
 "  " require powerline-symbol patched font installed
@@ -322,20 +337,16 @@ let g:python_highlight_all = 1
 " close-tag settings
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.plist'
 
-" Python 3 syntax checking, please
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_tex_checkers = ['chktex']
+" let g:coc_global_extensions = [
+" 			\'coc-pyright', 'coc-json', 'coc-git', 'coc-vimtex',
+" 			\'coc-jedi', 'coc-yaml', 'coc-xml',
+" 			\'coc-rust-analyzer'
+" 			\]
 
-let g:coc_global_extensions = [
-			\'coc-pyright', 'coc-json', 'coc-git', 'coc-vimtex',
-			\'coc-jedi', 'coc-yaml', 'coc-xml',
-			\'coc-rust-analyzer'
-			\]
-
-if g:dark_mode
-	" Rust  type hints
-	hi CocInlayHint ctermbg=0 ctermfg=4
-endif
+" if g:dark_mode
+" 	" Rust  type hints
+" 	hi CocInlayHint ctermbg=0 ctermfg=4
+" endif
 
 
 " typst
