@@ -283,6 +283,8 @@ nmap <silent> <c-l> :wincmd l<CR>
 
 nmap <silent> <c-f> :Files<CR>
 
+let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
+
 " highlight the visual selection after pressing enter.
 set hlsearch
 xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
