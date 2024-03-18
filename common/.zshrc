@@ -133,8 +133,9 @@ export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export PATH="$PYENV_ROOT/shims:${PATH}"
 export PATH="/opt/miniconda3/bin/:${PATH}"
+export PATH="$PYENV_ROOT/shims:${PATH}"
+export PATH="$HOME/.modular:${PATH}"
 eval "$(pyenv init -)"
 
 # >>> conda initialize >>>
@@ -151,3 +152,16 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/sorenb01/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+alias vfzf="fzf --bind 'enter:become(vim {})'"
+run_fzf_widget() {
+	vfzf .
+}
+zle -N run_fzf_widget
+bindkey '^F' run_fzf_widget
+export MODULAR_HOME="/Users/sorenb01/.modular"
+export PATH="/Users/sorenb01/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
