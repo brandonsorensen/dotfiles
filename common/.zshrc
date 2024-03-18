@@ -153,3 +153,6 @@ export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
 eval "$(pyenv init -)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Created by `pipx` on 2024-03-08 11:50:36
+export PATH="$PATH:/Users/brandon/.local/bin"
