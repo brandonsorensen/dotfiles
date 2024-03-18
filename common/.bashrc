@@ -9,3 +9,8 @@ fi
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/sorenb01/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+. "$HOME/.cargo/env"
