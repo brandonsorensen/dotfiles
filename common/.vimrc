@@ -72,7 +72,7 @@ call plug#begin('~/.vim/plugged')
 		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 		Plug 'daschw/leaf.nvim'
 		Plug 'folke/flash.nvim', {'branch': 'main'}
-		Plug 'f-person/auto-dark-mode.nvim'
+		Plug 'folke/trouble.nvim', {'branch': 'main'}
 		Plug 'shaunsingh/nord.nvim'
 	endif
 call plug#end()

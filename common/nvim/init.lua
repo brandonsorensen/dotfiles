@@ -12,7 +12,7 @@ local luasnip = require'luasnip'
 
 require("leaf").setup({
     theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
-    contrast = "low", -- default, alternatives: "medium", "high"
+    contrast = "low" 
 })
 
 function _G.set_terminal_keymaps()
