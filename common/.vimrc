@@ -20,7 +20,7 @@ nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
 " fzf buffer list
-nnoremap <silent><leader>l :Buffers<CR>
+nnoremap <silent><leader>r :Buffers<CR>
 " fzf dir list
 nnoremap <silent><leader>f :Files<CR>
 " Explore
@@ -38,8 +38,6 @@ tnoremap <c-b> <c-\><c-n>
 
 call plug#begin('~/.vim/plugged')
 	Plug 'lervag/vimtex'
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
 	Plug 'ayu-theme/ayu-vim'
 	Plug 'sonph/onehalf', {'rtp': 'vim/'}
 	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
@@ -74,6 +72,10 @@ call plug#begin('~/.vim/plugged')
 		Plug 'folke/flash.nvim', {'branch': 'main'}
 		Plug 'folke/trouble.nvim', {'branch': 'main'}
 		Plug 'shaunsingh/nord.nvim'
+		Plug 'nvim-tree/nvim-web-devicons'
+	else
+		Plug 'vim-airline/vim-airline'
+		Plug 'vim-airline/vim-airline-themes'
 	endif
 call plug#end()
 
