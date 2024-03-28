@@ -33,8 +33,51 @@ nnoremap <silent><leader>c :bp\|bd #<CR>
 nnoremap <silent><leader>s <C-^>
 " Clear highlight
 nnoremap <silent><leader>h :noh<CR>
+nnoremap <silent><leader>tt :ToggleTerm<CR>
+tnoremap <silent><leader>tt <C-\><C-n>:ToggleTerm<CR>
 " Shortcut for scrolling in a terminal
 tnoremap <c-b> <c-\><c-n>
+
+call plug#begin('~/.vim/plugged')
+	Plug 'lervag/vimtex'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'ayu-theme/ayu-vim'
+	Plug 'sonph/onehalf', {'rtp': 'vim/'}
+	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
+	Plug 'sainnhe/edge'
+	Plug 'flrnprz/plastic.vim'
+	Plug 'edkolev/tmuxline.vim'
+	Plug 'nordtheme/vim'
+	Plug 'arzg/vim-colors-xcode'
+	Plug 'alvan/vim-closetag'
+	Plug 'cohama/lexima.vim'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
+	Plug 'tpope/vim-commentary'
+	Plug 'kaarmu/typst.vim', {'branch': 'main'}
+	Plug 'christoomey/vim-tmux-navigator'
+	Plug 'preservim/vimux'
+	Plug 'editorconfig/editorconfig-vim'
+	Plug 'kdheepak/lazygit.nvim', {'branch': 'main'}
+	if has('nvim')
+		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+		Plug 'neovim/nvim-lspconfig'
+		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
+		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
+		Plug 'L3MON4D3/LuaSnip'
+		Plug 'shaunsingh/nord.nvim'
+		Plug 'nvim-lualine/lualine.nvim'
+		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+		Plug 'daschw/leaf.nvim'
+		Plug 'folke/flash.nvim', {'branch': 'main'}
+		Plug 'f-person/auto-dark-mode.nvim'
+		Plug 'shaunsingh/nord.nvim'
+	endif
+call plug#end()
 
 
 " Gets the OS and works around the wonkiness of OS checks
@@ -128,7 +171,8 @@ else
 	if g:dark_mode
 		colorscheme nord
 	else
-		colorscheme snow
+		" colorscheme leaf
+		hi Normal guibg=None
 	endif
 endif
 
@@ -143,13 +187,9 @@ else
 endif
 
 if g:is_mac && !g:dark_mode 
-	set background=light
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 	highlight Search guibg=lightgray ctermfg=3
 	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=None
-else
-	set background=dark
-	highlight CursorLine guibg=#211f1f ctermbg=0
 endif
 
 " macOS uses the GUI background even in the terminal.
@@ -170,7 +210,7 @@ if has("gui_running")
 			hi Normal guibg=#211f1f ctermbg=NONE
 			hi nonText guibg=#211f1f ctermbg=NONE
 			hi EndofBuffer guibg=#211f1f ctermbg=NONE
-			colorscheme nord
+			hi CursorLine guibg=#424a5b 
 		else
 			hi Normal guibg=NONE ctermbg=NONE guifg=black ctermfg=black
 			hi nonText guibg=NONE ctermbg=NONE
@@ -178,17 +218,6 @@ if has("gui_running")
 			hi CursorLine guibg=darkgray ctermbg=darkgray
 		endif
 	endif
-else 
-	if g:is_mac
-		if $ITERM_PROFILE == 'Xcode'
-			colorscheme xcodewwdc
-			let g:airline_theme = 'xcodewwdc'
-			hi CursorLine guibg=#292c35 ctermbg=NONE
-		endif
-	endif
-	hi Normal guibg=NONE ctermbg=NONE
-	hi nonText guibg=NONE ctermbg=NONE 
-	hi EndofBuffer guibg=NONE ctermbg=NONE
 endif
 
 if g:is_mac
@@ -198,6 +227,7 @@ endif
 
 highlight Comment cterm=italic gui=italic
 highlight VertSplit cterm=None ctermfg=None ctermbg=None
+highlight Normal guibg=None
 set fillchars+=vert:\▏
 
 let g:ycm_filetype_blacklist = {
@@ -205,41 +235,6 @@ let g:ycm_filetype_blacklist = {
       \}
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-
-call plug#begin('~/.vim/plugged')
-	Plug 'lervag/vimtex'
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
-	Plug 'ayu-theme/ayu-vim'
-	Plug 'sonph/onehalf', {'rtp': 'vim/'}
-	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
-	Plug 'sainnhe/edge'
-	Plug 'flrnprz/plastic.vim'
-	Plug 'edkolev/tmuxline.vim'
-	Plug 'nordtheme/vim'
-	Plug 'arzg/vim-colors-xcode'
-	Plug 'alvan/vim-closetag'
-	Plug 'cohama/lexima.vim'
-	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-	Plug 'junegunn/fzf.vim'
-	Plug 'tpope/vim-commentary'
-	Plug 'kaarmu/typst.vim', {'branch': 'main'}
-	Plug 'christoomey/vim-tmux-navigator'
-	Plug 'preservim/vimux'
-	Plug 'editorconfig/editorconfig-vim'
-	if has('nvim')
-		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-		Plug 'neovim/nvim-lspconfig'
-		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
-		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
-		Plug 'L3MON4D3/LuaSnip'
-		Plug 'shaunsingh/nord.nvim'
-		Plug 'nvim-lualine/lualine.nvim'
-	endif
-call plug#end()
 
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
