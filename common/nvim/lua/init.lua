@@ -4,6 +4,14 @@ require('lualine').setup({})
 local cmp = require'cmp'
 local luasnip = require'luasnip'
 
+require("leaf").setup({
+    theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
+    contrast = "low", -- default, alternatives: "medium", "high"
+})
+
+-- setup must be called before loading
+vim.cmd("colorscheme edge")
+
 
 local has_words_before = function()
 	unpack = unpack or table.unpack
