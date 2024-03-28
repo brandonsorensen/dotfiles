@@ -1,4 +1,48 @@
-require('lualine').setup({})
+vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
+vim.g.python3_host_prog = vim.fn.expand('~/virtual-envs/pynvim/bin')
+vim.cmd('source ~/.vimrc')
+vim.opt.guicursor = 'n-v-c-i:block'
+
+require('nvim-web-devicons').setup()
+require('lualine').setup({
+	options = {
+		theme = 'leaf'
+	}
+})
+
+require('leaf').setup({
+	transparent = true,
+	contrast = 'medium'
+
+})
+
+require('trouble').setup({
+	icons = false
+})
+
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', '<S-esc>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
+
+require('toggleterm').setup({
+	open_mapping = [[<leader>tt]],
+	terminal_mappings = false,
+	start_in_insert = true,
+	insert_mappings = false,
+	direction = 'float',
+	float_ops = {
+		border = 'curved'
+	}
+})
+
 
 -- Set up nvim-cmp.
 local cmp = require'cmp'
@@ -17,11 +61,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end,
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(args)
-			local client = vim.lsp.get_client_by_id(args.data.client_id)
-			if client.server_capabilities.inlayHintProvider then
-					vim.lsp.inlay_hint.enable(args.buf, true)
-			end
-			-- whatever other lsp config you want
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client.server_capabilities.inlayHintProvider then
+				vim.lsp.inlay_hint.enable(args.buf, true)
+				vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#6b6b6b" })
+		end
 	end
 })
 
@@ -30,8 +74,6 @@ cmp.setup({
 		-- REQUIRED - you must specify a snippet engine
 		expand = function(args)
 			require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-			-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-			-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 		end,
 	},
 	window = {
@@ -69,6 +111,8 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = 'nvim_lsp' },
 		{ name = 'luasnip' }, -- For luasnip users.
+		{ name = "buffer" }, -- text within current buffer
+        { name = "path" }, -- file system paths
 	},
 	{
 		{ name = 'buffer' },
@@ -109,7 +153,33 @@ require('lspconfig')['rust_analyzer'].setup {
 	capabilities = capabilities
 }
 require('lspconfig').rust_analyzer.setup({})
-require'lspconfig'.pylsp.setup{}
+require'lspconfig'.pylsp.setup {
+	settings = {
+      pylsp = {
+        plugins = {
+          -- formatter options
+          black = { enabled = false },
+          autopep8 = { enabled = false },
+          yapf = { enabled = false },
+          -- linter options
+          pylint = { enabled = false },
+          ruff = { enabled = true },
+          pyflakes = { enabled = false },
+          pycodestyle = { enabled = false },
+          -- type checker
+          pylsp_mypy = {
+            enabled = true,
+            report_progress = true,
+            live_mode = false
+          },
+          -- auto-completion options
+          jedi_completion = { enabled = true, fuzzy = true },
+          -- import sorting
+          isort = { enabled = false },
+        },
+      },
+    }
+}
 require('lspconfig').lua_ls.setup{
 	settings = {
 		Lua = {
@@ -128,12 +198,41 @@ require('lspconfig').lua_ls.setup{
 	}
 }
 
+require('lspconfig').jsonls.setup {
+	settings = {
+		json = {
+			schemas = require('schemastore').json.schemas {
+				extra = {
+				  {
+					description = 'SageMaker Pipeline schema',
+					fileMatch = 'sagemaker-pipline.json',
+					name = 'sagemaker-pipeline.json',
+					url = 'https://raw.githubusercontent.com/aws-sagemaker-mlops/sagemaker-model-building-pipeline-definition-JSON-schema/main/schema/pipeline-definition.schema.json',
+				  }
+			  }
+			}
+		}
+	}
+}
+
+require'lspconfig'.terraformls.setup{}
+require'lspconfig'.tflint.setup{}
+
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  pattern = {"*.tf", "*.tfvars"},
+  callback = function()
+    vim.lsp.buf.format()
+  end,
+})
+
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all" (the five listed parsers should always be installed)
   ensure_installed = {
-		"rust", "python", "vim", "vimdoc",
-		"markdown", "markdown_inline",
+		"rust", "python", "vim", "vimdoc", "lua", "json",
+		"markdown", "markdown_inline", "hcl", "terraform"
 	},
+  indent = { enabled = true },
+  -- theme = 'nord',
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
   -- Automatically install missing parsers when entering buffer
@@ -151,3 +250,4 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
+

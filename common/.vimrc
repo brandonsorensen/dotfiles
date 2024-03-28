@@ -38,6 +38,47 @@ map <Leader>vp :VimuxPromptCommand<CR>
 " Run last command executed by VimuxRunCommand
 map <Leader>vl :VimuxRunLastCommand<CR>
 
+call plug#begin('~/.vim/plugged')
+	Plug 'lervag/vimtex'
+	Plug 'ayu-theme/ayu-vim'
+	Plug 'sonph/onehalf', {'rtp': 'vim/'}
+	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
+	Plug 'sainnhe/edge'
+	Plug 'edkolev/tmuxline.vim'
+	Plug 'nordtheme/vim'
+	Plug 'arzg/vim-colors-xcode'
+	Plug 'alvan/vim-closetag'
+	Plug 'cohama/lexima.vim'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
+	Plug 'tpope/vim-commentary'
+	Plug 'cappyzawa/starlark.vim'
+	Plug 'vmware-tanzu/ytt.vim'
+	Plug 'preservim/vimux'
+	Plug 'editorconfig/editorconfig-vim'
+	Plug 'daschw/leaf.nvim'
+	if has('nvim')
+		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+		Plug 'neovim/nvim-lspconfig'
+		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
+		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
+		Plug 'L3MON4D3/LuaSnip'
+		Plug 'shaunsingh/nord.nvim'
+		Plug 'nvim-lualine/lualine.nvim'
+		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+		Plug 'kdheepak/lazygit.nvim'
+		Plug 'folke/trouble.nvim'
+		Plug 'b0o/SchemaStore.nvim'
+		Plug 'nvim-tree/nvim-web-devicons'
+	else
+		Plug 'vim-airline/vim-airline'
+		Plug 'vim-airline/vim-airline-themes'
+	endif
+call plug#end()
+
 
 " Gets the OS and works around the wonkiness of OS checks
 " in the various versions of Vim avalable for macOS.
@@ -118,8 +159,7 @@ set t_Co=256
 
 set clipboard=unnamed
 
-let g:edge_style = 'neon'
-let g:edge_disable_italic_comment = 1
+let g:edge_enable_italic = 0
 
 if !empty($VIM_THEME)
 	colorscheme $VIM_THEME
@@ -130,7 +170,8 @@ else
 	if g:dark_mode
 		colorscheme nord
 	else
-		colorscheme snow
+		colorscheme leaf
+		hi! LspInlayHint guifg=#6b6b6b
 	endif
 endif
 
@@ -145,12 +186,10 @@ else
 endif
 
 if g:is_mac && !g:dark_mode 
-	set background=light
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 	highlight Search guibg=lightgray ctermfg=3
 	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=None
 else
-	set background=dark
 	highlight CursorLine guibg=#211f1f ctermbg=0
 endif
 
@@ -172,7 +211,6 @@ if has("gui_running")
 			hi Normal guibg=#211f1f ctermbg=NONE
 			hi nonText guibg=#211f1f ctermbg=NONE
 			hi EndofBuffer guibg=#211f1f ctermbg=NONE
-			colorscheme nord
 		else
 			hi Normal guibg=NONE ctermbg=NONE guifg=black ctermfg=black
 			hi nonText guibg=NONE ctermbg=NONE
@@ -180,17 +218,6 @@ if has("gui_running")
 			hi CursorLine guibg=darkgray ctermbg=darkgray
 		endif
 	endif
-else 
-	if g:is_mac
-		if $ITERM_PROFILE == 'Xcode'
-			colorscheme xcodewwdc
-			let g:airline_theme = 'xcodewwdc'
-			hi CursorLine guibg=#292c35 ctermbg=NONE
-		endif
-	endif
-	hi Normal guibg=NONE ctermbg=NONE
-	hi nonText guibg=NONE ctermbg=NONE 
-	hi EndofBuffer guibg=NONE ctermbg=NONE
 endif
 
 if g:is_mac
@@ -207,41 +234,6 @@ let g:ycm_filetype_blacklist = {
       \}
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-
-call plug#begin('~/.vim/plugged')
-	Plug 'lervag/vimtex'
-	Plug 'vim-airline/vim-airline'
-	Plug 'vim-airline/vim-airline-themes'
-	Plug 'ayu-theme/ayu-vim'
-	Plug 'sonph/onehalf', {'rtp': 'vim/'}
-	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
-	Plug 'sainnhe/edge'
-	Plug 'flrnprz/plastic.vim'
-	Plug 'edkolev/tmuxline.vim'
-	Plug 'nordtheme/vim'
-	Plug 'arzg/vim-colors-xcode'
-	Plug 'alvan/vim-closetag'
-	Plug 'cohama/lexima.vim'
-	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-	Plug 'junegunn/fzf.vim'
-	Plug 'tpope/vim-commentary'
-	Plug 'cappyzawa/starlark.vim'
-	Plug 'vmware-tanzu/ytt.vim'
-	Plug 'preservim/vimux'
-	Plug 'editorconfig/editorconfig-vim'
-	if has('nvim')
-		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-		Plug 'neovim/nvim-lspconfig'
-		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
-		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
-		Plug 'L3MON4D3/LuaSnip'
-		Plug 'shaunsingh/nord.nvim'
-		Plug 'nvim-lualine/lualine.nvim'
-	endif
-call plug#end()
 
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -274,7 +266,8 @@ inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<CR>" : "\<CR>")
 " inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 
 if has("nvim")
-    au VimEnter * AirlineToggle
+    " au VimEnter * AirlineToggle
+	let g:coc_start_at_startup = v:false
 endif
 
 function! CheckBackspace() abort
@@ -370,5 +363,5 @@ nmap <silent> <c-f> :Files<CR>
 let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 " highlight the visual selection after pressing enter.
-set hlsearch
+" set hlsearch
 xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
