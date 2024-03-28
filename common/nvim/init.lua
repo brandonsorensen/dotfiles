@@ -1,3 +1,9 @@
+vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
+-- vim.g.python3_host_prog = vim.fn.expand('~/virtual-envs/pynvim/bin')
+vim.cmd('source ~/.vimrc')
+vim.opt.guicursor = 'n-v-c-i:block'
+
+require('nvim-web-devicons').setup()
 require('lualine').setup({})
 
 -- Set up nvim-cmp.
@@ -9,9 +15,28 @@ require("leaf").setup({
     contrast = "low", -- default, alternatives: "medium", "high"
 })
 
--- setup must be called before loading
-vim.cmd("colorscheme edge")
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set('t', '<S-esc>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
 
+vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
+
+require('toggleterm').setup({
+	open_mapping = [[<leader>tt]],
+	terminal_mappings = false,
+	start_in_insert = true,
+	insert_mappings = false,
+	direction = 'float',
+	float_ops = {
+		border = 'curved'
+	}
+})
 
 local has_words_before = function()
 	unpack = unpack or table.unpack

@@ -33,8 +33,6 @@ nnoremap <silent><leader>c :bp\|bd #<CR>
 nnoremap <silent><leader>s <C-^>
 " Clear highlight
 nnoremap <silent><leader>h :noh<CR>
-nnoremap <silent><leader>tt :ToggleTerm<CR>
-tnoremap <silent><leader>tt <C-\><C-n>:ToggleTerm<CR>
 " Shortcut for scrolling in a terminal
 tnoremap <c-b> <c-\><c-n>
 
