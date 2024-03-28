@@ -6,6 +6,7 @@ alias dtypes="column -xt $HOME/.dtypes.tsv"
 alias bztar="tar -jcvf"
 alias bzuntar="tar -xjf"
 alias reddit='ttrv'
+alias lg='lazygit'
 
 
 latex_aux_ext="*.log *.aux *.toc *.blg *.fdb_latexmk *.out *.fls *.synctex.gz *.bbl *.dvi"
