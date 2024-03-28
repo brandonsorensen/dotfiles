@@ -1,5 +1,5 @@
 vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
--- vim.g.python3_host_prog = vim.fn.expand('~/virtual-envs/pynvim/bin')
+vim.g.python3_host_prog = vim.fn.expand('~/venvs/pynvim/bin')
 vim.cmd('source ~/.vimrc')
 vim.opt.guicursor = 'n-v-c-i:block'
 
@@ -14,6 +14,11 @@ require("leaf").setup({
     theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
     contrast = "low" 
 })
+
+require('trouble').setup{}
+vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
+vim.keymap.set("n", "<leader>xz", function() require("trouble").toggle("quickfix") end)
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
 
 function _G.set_terminal_keymaps()
   local opts = {buffer = 0}
