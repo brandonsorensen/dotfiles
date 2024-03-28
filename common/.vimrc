@@ -82,6 +82,47 @@ call plug#begin('~/.vim/plugged')
 	endif
 call plug#end()
 
+call plug#begin('~/.vim/plugged')
+	Plug 'lervag/vimtex'
+	Plug 'ayu-theme/ayu-vim'
+	Plug 'sonph/onehalf', {'rtp': 'vim/'}
+	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
+	Plug 'sainnhe/edge'
+	Plug 'edkolev/tmuxline.vim'
+	Plug 'nordtheme/vim'
+	Plug 'arzg/vim-colors-xcode'
+	Plug 'alvan/vim-closetag'
+	Plug 'cohama/lexima.vim'
+	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+	Plug 'junegunn/fzf.vim'
+	Plug 'tpope/vim-commentary'
+	Plug 'cappyzawa/starlark.vim'
+	Plug 'vmware-tanzu/ytt.vim'
+	Plug 'preservim/vimux'
+	Plug 'editorconfig/editorconfig-vim'
+	Plug 'daschw/leaf.nvim'
+	if has('nvim')
+		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+		Plug 'neovim/nvim-lspconfig'
+		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
+		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
+		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
+		Plug 'L3MON4D3/LuaSnip'
+		Plug 'shaunsingh/nord.nvim'
+		Plug 'nvim-lualine/lualine.nvim'
+		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+		Plug 'kdheepak/lazygit.nvim'
+		Plug 'folke/trouble.nvim'
+		Plug 'b0o/SchemaStore.nvim'
+		Plug 'nvim-tree/nvim-web-devicons'
+	else
+		Plug 'vim-airline/vim-airline'
+		Plug 'vim-airline/vim-airline-themes'
+	endif
+call plug#end()
+
 
 " Gets the OS and works around the wonkiness of OS checks
 " in the various versions of Vim avalable for macOS.
@@ -152,8 +193,7 @@ set t_Co=256
 
 set clipboard=unnamed
 
-let g:edge_style = 'neon'
-let g:edge_disable_italic_comment = 1
+let g:edge_enable_italic = 0
 
 if !empty($VIM_THEME)
 	colorscheme $VIM_THEME
@@ -165,6 +205,7 @@ else
 		colorscheme nord
 	else
 		colorscheme leaf
+		hi! LspInlayHint guifg=#6b6b6b
 		hi Normal guibg=None
 	endif
 endif
@@ -183,6 +224,8 @@ if g:is_mac && !g:dark_mode
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 	highlight Search guibg=lightgray ctermfg=3
 	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=None
+else
+	highlight CursorLine guibg=#211f1f ctermbg=0
 endif
 
 " macOS uses the GUI background even in the terminal.
@@ -286,5 +329,5 @@ nmap <silent> <c-f> :Files<CR>
 let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 " highlight the visual selection after pressing enter.
-set hlsearch
+" set hlsearch
 xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
