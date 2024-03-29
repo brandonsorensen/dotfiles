@@ -56,6 +56,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/vimux'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'kdheepak/lazygit.nvim', {'branch': 'main'}
+	Plug 'f-person/auto-dark-mode.nvim'
 	if has('nvim')
 		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 		Plug 'neovim/nvim-lspconfig'

@@ -3,6 +3,25 @@ vim.g.python3_host_prog = vim.fn.expand('~/venvs/pynvim/bin')
 vim.cmd('source ~/.vimrc')
 vim.opt.guicursor = 'n-v-c-i:block'
 
+require("leaf").setup({
+    theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
+    contrast = "low",
+	transparent = true
+})
+
+local auto_dark_mode = require('auto-dark-mode')
+auto_dark_mode.setup({
+	update_interval = 1000,
+	set_dark_mode = function()
+		vim.api.nvim_set_option('background', 'dark')
+		vim.cmd('colorscheme nord')
+	end,
+	set_light_mode = function()
+		vim.api.nvim_set_option('background', 'light')
+		vim.cmd('colorscheme leaf')
+	end,
+})
+
 require('nvim-web-devicons').setup()
 require('lualine').setup({})
 
@@ -10,11 +29,7 @@ require('lualine').setup({})
 local cmp = require'cmp'
 local luasnip = require'luasnip'
 
-require("leaf").setup({
-    theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
-    contrast = "low" 
-})
-
+require('flash').setup{}
 require('trouble').setup{}
 vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
 vim.keymap.set("n", "<leader>xz", function() require("trouble").toggle("quickfix") end)
