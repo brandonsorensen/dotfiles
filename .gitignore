@@ -1,2 +1,4 @@
 /common/.tmux/plugins/
 /common/.vim/plugged/
+/common/.ssh/id_rsa*
+/common/.ssh/*.pub
