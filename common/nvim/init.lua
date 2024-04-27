@@ -3,11 +3,15 @@ vim.g.python3_host_prog = vim.fn.expand('~/venvs/pynvim/bin')
 vim.cmd('source ~/.vimrc')
 vim.opt.guicursor = 'n-v-c-i:block'
 
+vim.keymap.set("n", "<leader>lg", ":LazyGit<CR>")
+
 require("leaf").setup({
     theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
     contrast = "low",
 	transparent = true
 })
+
+require("nvim-autopairs").setup{}
 
 local auto_dark_mode = require('auto-dark-mode')
 auto_dark_mode.setup({
@@ -161,9 +165,21 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require('lspconfig')['rust_analyzer'].setup {
 	capabilities = capabilities
 }
-require('lspconfig').rust_analyzer.setup({})
+require('lspconfig').rust_analyzer.setup {
+	settings = {
+		['rust-analyzer'] = {
+			checkOnSave = {
+				allFeatures = true,
+				overrideCommand = {
+					'cargo', 'clippy', '--workspace', '--message-format=json',
+					'--all-targets', '--all-features'
+				}
+			}
+		}
+	}
+}
 require'lspconfig'.pylsp.setup {
-        settings = {
+	settings = {
       pylsp = {
         plugins = {
           -- formatter options
@@ -173,8 +189,7 @@ require'lspconfig'.pylsp.setup {
           -- linter options
           pylint = { enabled = false },
           ruff = {
-			  enabled = true,
-			  select = {'ALL'}
+			  enabled = true
 		  },
           pyflakes = { enabled = false },
           pycodestyle = { enabled = false },

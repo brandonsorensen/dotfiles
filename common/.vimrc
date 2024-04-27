@@ -47,10 +47,10 @@ call plug#begin('~/.vim/plugged')
 	Plug 'nordtheme/vim'
 	Plug 'arzg/vim-colors-xcode'
 	Plug 'alvan/vim-closetag'
-	Plug 'cohama/lexima.vim'
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-commentary'
+	Plug 'tpope/vim-fugitive'
 	Plug 'kaarmu/typst.vim', {'branch': 'main'}
 	Plug 'christoomey/vim-tmux-navigator'
 	Plug 'preservim/vimux'
@@ -74,7 +74,9 @@ call plug#begin('~/.vim/plugged')
 		Plug 'folke/trouble.nvim', {'branch': 'main'}
 		Plug 'shaunsingh/nord.nvim'
 		Plug 'nvim-tree/nvim-web-devicons'
+		Plug 'windwp/nvim-autopairs'
 	else
+		Plug 'cohama/lexima.vim'
 		Plug 'vim-airline/vim-airline'
 		Plug 'vim-airline/vim-airline-themes'
 	endif
