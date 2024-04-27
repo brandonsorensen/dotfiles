@@ -164,7 +164,7 @@ else
 	if g:dark_mode
 		colorscheme nord
 	else
-		" colorscheme leaf
+		colorscheme leaf
 		hi Normal guibg=None
 	endif
 endif
