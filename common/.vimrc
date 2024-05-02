@@ -20,7 +20,7 @@ nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
 " fzf buffer list
-nnoremap <silent><leader>l :Buffers<CR>
+nnoremap <silent><leader>r :Buffers<CR>
 " fzf dir list
 nnoremap <silent><leader>f :Files<CR>
 " Explore
@@ -48,7 +48,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'nordtheme/vim'
 	Plug 'arzg/vim-colors-xcode'
 	Plug 'alvan/vim-closetag'
-	Plug 'cohama/lexima.vim'
+	Plug 'tpope/vim-surround'
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-commentary'
@@ -57,6 +57,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/vimux'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'daschw/leaf.nvim'
+	Plug 'tpope/vim-fugitive'
 	if has('nvim')
 		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 		Plug 'neovim/nvim-lspconfig'
@@ -71,11 +72,15 @@ call plug#begin('~/.vim/plugged')
 		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 		Plug 'kdheepak/lazygit.nvim'
 		Plug 'folke/trouble.nvim'
+		Plug 'folke/flash.nvim', {'branch': 'main'}
 		Plug 'b0o/SchemaStore.nvim'
 		Plug 'nvim-tree/nvim-web-devicons'
+		Plug 'windwp/nvim-autopairs'
+		Plug 'ibhagwan/fzf-lua', {'branch': 'main'} 
 	else
 		Plug 'vim-airline/vim-airline'
 		Plug 'vim-airline/vim-airline-themes'
+		Plug 'cohama/lexima.vim'
 	endif
 call plug#end()
 
@@ -145,6 +150,7 @@ autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 autocmd FileType text set spell spelllang=en_us
 autocmd FileType rust set shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType lua set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType terraform set shiftwidth=2 tabstop=2 softtabstop=2
 
 
 if &compatible
@@ -239,18 +245,6 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-" Resolves conflicts between lexima and coc completion
-let g:lexima_no_default_rules = 1
-call lexima#set_default_rules()
-call lexima#insmode#map_hook('before', '<CR>', '')
-call lexima#add_rule({'char': '"', 'at': '\%#\s*\w'})
-call lexima#add_rule({'char': '"', 'at': '"\S\{-1,}\%#\|\%#\S\{-1,}"'})
-call lexima#add_rule({'char': "'", 'at': "'\S\{-1,}\%#\|\%#\S\{-1,}'"})
-call lexima#add_rule({'char': '`', 'at': '`\S\{-1,}\%#\|\%#\S\{-1,}`'})
-call lexima#add_rule({'char': '(', 'at': '\%#\S\{-1,})'})
-call lexima#add_rule({'char': '[', 'at': '\%#\S\{-1,}]'})
-call lexima#add_rule({'char': '{', 'at': '\%#\S\{-1,}}'})
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<CR>" : "\<CR>")
 
 " CocCompletion
 " Use tab for trigger completion with characters ahead and navigate
