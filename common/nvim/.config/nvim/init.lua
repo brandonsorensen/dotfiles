@@ -34,7 +34,9 @@ vim.g.python3_host_prog = vim.fn.expand('~/virtual-envs/pynvim/bin')
 vim.cmd('source ~/.vimrc')
 vim.opt.guicursor = 'n-v-c-i:block'
 
-require('nvim-web-devicons').setup()
+vim.keymap.set('n', '<leader>lg', 'gg :LazyGit<CR>')
+
+require('nvim-web-devicons')
 require('lualine').setup({
 	options = {
 		theme = 'leaf'
@@ -44,9 +46,18 @@ require('lualine').setup({
 require('leaf').setup({
 	transparent = true,
 	contrast = 'medium'
-
 })
 
+require("nvim-autopairs").setup {}
+require("flash").setup {}
+
+-- Lua
+vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
+vim.keymap.set("n", "<leader>xz", function() require("trouble").toggle("quickfix") end)
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
+vim.keymap.set("n", "<leader>f", ':FzfLua files<CR>')
+vim.keymap.set("n", "<leader>r", ':FzfLua buffers<CR>')
+vim.keymap.set("n", "<leader>a", ':FzfLua lsp_code_actions<CR>')
 require('trouble').setup({
 	icons = false
 })
@@ -299,6 +310,8 @@ require('lspconfig').jsonls.setup {
 
 require'lspconfig'.terraformls.setup{}
 require'lspconfig'.tflint.setup{}
+require('lspconfig').mojo.setup{}
+require('lspconfig').hls.setup{}
 
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
   pattern = {"*.tf", "*.tfvars"},

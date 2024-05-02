@@ -92,7 +92,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'nordtheme/vim'
 	Plug 'arzg/vim-colors-xcode'
 	Plug 'alvan/vim-closetag'
-	Plug 'cohama/lexima.vim'
+	Plug 'tpope/vim-surround'
 	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 	Plug 'junegunn/fzf.vim'
 	Plug 'tpope/vim-commentary'
@@ -101,6 +101,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/vimux'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'daschw/leaf.nvim'
+	Plug 'tpope/vim-fugitive'
 	if has('nvim')
 		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 		Plug 'neovim/nvim-lspconfig'
@@ -115,11 +116,15 @@ call plug#begin('~/.vim/plugged')
 		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 		Plug 'kdheepak/lazygit.nvim'
 		Plug 'folke/trouble.nvim'
+		Plug 'folke/flash.nvim', {'branch': 'main'}
 		Plug 'b0o/SchemaStore.nvim'
 		Plug 'nvim-tree/nvim-web-devicons'
+		Plug 'windwp/nvim-autopairs'
+		Plug 'ibhagwan/fzf-lua', {'branch': 'main'} 
 	else
 		Plug 'vim-airline/vim-airline'
 		Plug 'vim-airline/vim-airline-themes'
+		Plug 'cohama/lexima.vim'
 	endif
 call plug#end()
 
@@ -179,6 +184,7 @@ autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 autocmd FileType text set spell spelllang=en_us
 autocmd FileType rust set shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType lua set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType terraform set shiftwidth=2 tabstop=2 softtabstop=2
 
 
 if &compatible
