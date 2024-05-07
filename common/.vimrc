@@ -77,6 +77,7 @@ call plug#begin('~/.vim/plugged')
 		Plug 'nvim-tree/nvim-web-devicons'
 		Plug 'windwp/nvim-autopairs'
 		Plug 'ibhagwan/fzf-lua', {'branch': 'main'} 
+		Plug 'mrcjkb/rustaceanvim'
 	else
 		Plug 'vim-airline/vim-airline'
 		Plug 'vim-airline/vim-airline-themes'
