@@ -56,7 +56,6 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/vimux'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'kdheepak/lazygit.nvim', {'branch': 'main'}
-	Plug 'f-person/auto-dark-mode.nvim'
 	if has('nvim')
 		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 		Plug 'neovim/nvim-lspconfig'
@@ -75,60 +74,13 @@ call plug#begin('~/.vim/plugged')
 		Plug 'shaunsingh/nord.nvim'
 		Plug 'nvim-tree/nvim-web-devicons'
 		Plug 'windwp/nvim-autopairs'
+		Plug 'f-person/auto-dark-mode.nvim'
 	else
 		Plug 'cohama/lexima.vim'
 		Plug 'vim-airline/vim-airline'
 		Plug 'vim-airline/vim-airline-themes'
 	endif
 call plug#end()
-
-call plug#begin('~/.vim/plugged')
-	Plug 'lervag/vimtex'
-	Plug 'ayu-theme/ayu-vim'
-	Plug 'sonph/onehalf', {'rtp': 'vim/'}
-	Plug 'heavenshell/vim-pydocstring', { 'do': 'make install' }
-	Plug 'sainnhe/edge'
-	Plug 'edkolev/tmuxline.vim'
-	Plug 'nordtheme/vim'
-	Plug 'arzg/vim-colors-xcode'
-	Plug 'alvan/vim-closetag'
-	Plug 'tpope/vim-surround'
-	Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-	Plug 'junegunn/fzf.vim'
-	Plug 'tpope/vim-commentary'
-	Plug 'cappyzawa/starlark.vim'
-	Plug 'vmware-tanzu/ytt.vim'
-	Plug 'preservim/vimux'
-	Plug 'editorconfig/editorconfig-vim'
-	Plug 'daschw/leaf.nvim'
-	Plug 'tpope/vim-fugitive'
-	if has('nvim')
-		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-		Plug 'neovim/nvim-lspconfig'
-		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
-		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
-		Plug 'L3MON4D3/LuaSnip'
-		Plug 'shaunsingh/nord.nvim'
-		Plug 'nvim-lualine/lualine.nvim'
-		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
-		Plug 'kdheepak/lazygit.nvim'
-		Plug 'folke/trouble.nvim'
-		Plug 'folke/flash.nvim', {'branch': 'main'}
-		Plug 'b0o/SchemaStore.nvim'
-		Plug 'nvim-tree/nvim-web-devicons'
-		Plug 'windwp/nvim-autopairs'
-		Plug 'ibhagwan/fzf-lua', {'branch': 'main'} 
-		Plug 'mrcjkb/rustaceanvim'
-	else
-		Plug 'vim-airline/vim-airline'
-		Plug 'vim-airline/vim-airline-themes'
-		Plug 'cohama/lexima.vim'
-	endif
-call plug#end()
-
 
 " Gets the OS and works around the wonkiness of OS checks
 " in the various versions of Vim avalable for macOS.
