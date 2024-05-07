@@ -75,6 +75,7 @@ call plug#begin('~/.vim/plugged')
 		Plug 'nvim-tree/nvim-web-devicons'
 		Plug 'windwp/nvim-autopairs'
 		Plug 'f-person/auto-dark-mode.nvim'
+		Plug 'ibhagwan/fzf-lua'
 	else
 		Plug 'cohama/lexima.vim'
 		Plug 'vim-airline/vim-airline'
