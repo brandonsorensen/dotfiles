@@ -216,7 +216,32 @@ cmp.setup.cmdline(':', {
 		{ name = 'cmdline' }
 	})
 })
-
+vim.g.rustaceanvim = {
+  -- Plugin configuration
+  tools = {
+  },
+  -- LSP configuration
+  server = {
+    on_attach = function(client, bufnr)
+      -- you can also put keymaps in here
+    end,
+    default_settings = {
+      -- rust-analyzer language server configuration
+      ['rust-analyzer'] = {
+		checkOnSave = {
+			allFeatures = true,
+			overrideCommand = {
+				'cargo', 'clippy', '--workspace', '--message-format=json',
+				'--all-targets', '--all-features'
+			}
+		}
+      },
+    },
+  },
+  -- DAP configuration
+  dap = {
+  },
+}
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
