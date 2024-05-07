@@ -274,6 +274,10 @@ let g:typst_embedded_languages = []
 
 " Activates PyDocString template
 nmap <silent> <C-_> <Plug>(pydocstring)
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 

@@ -155,12 +155,15 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-export PATH="$PYENV_ROOT/shims:${PATH}"
-export MODULAR_HOME="$HOME/.modular"
-export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
-eval "$(pyenv init -)"
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/sorenb01/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Created by `pipx` on 2024-03-08 11:50:36
-export PATH="$PATH:/Users/brandon/.local/bin"
+alias vfzf="fzf --bind 'enter:become(vim {})'"
+run_fzf_widget() {
+	vfzf .
+}
+zle -N run_fzf_widget
+bindkey '^F' run_fzf_widget
+export MODULAR_HOME="/Users/sorenb01/.modular"
+export PATH="/Users/sorenb01/.modular/pkg/packages.modular.com_mojo/bin:$PATH"

@@ -1,10 +1,8 @@
 vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
-<<<<<<<< HEAD:common/nvim/init.lua
-vim.g.python3_host_prog = vim.fn.expand('~/venvs/pynvim/bin')
 vim.cmd('source ~/.vimrc')
 vim.opt.guicursor = 'n-v-c-i:block'
 
-vim.keymap.set("n", "<leader>lg", ":LazyGit<CR>")
+vim.keymap.set('n', '<leader>lg', 'gg :LazyGit<CR>')
 
 require("leaf").setup({
     theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
@@ -29,12 +27,6 @@ auto_dark_mode.setup({
 
 require('nvim-web-devicons').setup()
 require('lualine').setup({})
-========
-vim.g.python3_host_prog = vim.fn.expand('~/virtual-envs/pynvim/bin')
-vim.cmd('source ~/.vimrc')
-vim.opt.guicursor = 'n-v-c-i:block'
-
-vim.keymap.set('n', '<leader>lg', 'gg :LazyGit<CR>')
 
 require('nvim-web-devicons')
 require('lualine').setup({
@@ -85,7 +77,6 @@ require('toggleterm').setup({
 	}
 })
 
->>>>>>>> 698082b (Lua for entry):common/nvim/.config/nvim/init.lua
 
 -- Set up nvim-cmp.
 local cmp = require'cmp'
@@ -275,13 +266,7 @@ require'lspconfig'.pylsp.setup {
           yapf = { enabled = false },
           -- linter options
           pylint = { enabled = false },
-<<<<<<<< HEAD:common/nvim/init.lua
-          ruff = {
-			  enabled = true
-		  },
-========
           ruff = { enabled = true },
->>>>>>>> 698082b (Lua for entry):common/nvim/.config/nvim/init.lua
           pyflakes = { enabled = false },
           pycodestyle = { enabled = false },
           -- type checker

@@ -588,7 +588,6 @@
 			<real>1</real>
 			<key>Idle Code</key>
 			<integer>0</integer>
-			<key>Initial Use Transparency</key>
 			<key>Jobs to Ignore</key>
 			<array>
 				<string>rlogin</string>
@@ -880,105 +879,106 @@
 				</dict>
 			</dict>
 				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+				<key>Alpha Component</key>
+				<string>Calibrated</string>
+			<key>Initial Use Transparency</key>
 				<integer>1</integer>
 				<real>0.25300124287605286</real>
-				<string>Calibrated</string>
 				<real>0.19692185521125793</real>
 				<real>0.17621420323848724</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.34168937802314758</real>
-				<string>Calibrated</string>
 				<real>0.29435792565345764</real>
 				<real>0.68855589628219604</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.47597441077232361</real>
-				<string>Calibrated</string>
 				<real>0.7002110481262207</real>
 				<real>0.57605421543121338</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.47280269861221313</real>
-				<string>Calibrated</string>
 				<real>0.75577855110168457</real>
 				<real>0.89902019500732422</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.70459425449371338</real>
-				<string>Calibrated</string>
 				<real>0.56080448627471924</real>
 				<real>0.43401443958282471</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.61571133136749268</real>
-				<string>Calibrated</string>
 				<real>0.47487166523933411</real>
 				<real>0.64283657073974609</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.67779052257537842</real>
-				<string>Calibrated</string>
 				<real>0.68614721298217773</real>
 				<real>0.49344515800476074</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.94574689865112305</real>
-				<string>Calibrated</string>
 				<real>0.92092084884643555</real>
 				<real>0.90727746486663818</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.47597441077232361</real>
-				<string>Calibrated</string>
 				<real>0.7002110481262207</real>
 				<real>0.57605421543121338</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.47280269861221313</real>
-				<string>Calibrated</string>
 				<real>0.75577855110168457</real>
 				<real>0.89902019500732422</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.70459425449371338</real>
-				<string>Calibrated</string>
 				<real>0.56080448627471924</real>
 				<real>0.43401443958282471</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.61571133136749268</real>
-				<string>Calibrated</string>
 				<real>0.47487166523933411</real>
 				<real>0.64283657073974609</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.77356863021850586</real>
-				<string>Calibrated</string>
 				<real>0.70216643810272217</real>
 				<real>0.4660642147064209</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.92620980739593506</real>
-				<string>Calibrated</string>
 				<real>0.8916594386100769</real>
 				<real>0.87367779016494751</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.34064260125160217</real>
-				<string>Calibrated</string>
 				<real>0.2652154266834259</real>
 				<real>0.23306176066398621</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.34168937802314758</real>
-				<string>Calibrated</string>
 				<real>0.29435792565345764</real>
 				<real>0.68855589628219604</real>
-				<key>Alpha Component</key>
 				<integer>1</integer>
 				<real>0.19183900952339172</real>
-				<string>Calibrated</string>
 				<real>0.15255947411060333</real>
 				<real>0.1357133686542511</real>
 				<real>0.7057952880859375</real>
@@ -1678,15 +1678,15 @@
 			<key>Ansi 2 Color</key>
 			<dict>
 				<key>Alpha Component</key>
-				<integer>1</integer>
+				<real>1</real>
 				<key>Blue Component</key>
-				<integer>0</integer>
+				<real>0.083219881635159254</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.70196080207824707</real>
+				<real>0.645050048828125</real>
 				<key>Red Component</key>
-				<real>0.52549022436141968</real>
+				<real>0.50380784001853307</real>
 			</dict>
 			<key>Ansi 2 Color (Dark)</key>
 			<dict>
@@ -1717,15 +1717,15 @@
 			<key>Ansi 3 Color</key>
 			<dict>
 				<key>Alpha Component</key>
-				<integer>1</integer>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.28627452254295349</real>
+				<real>0.23377252835780382</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.68235296010971069</real>
+				<real>0.63590445897005765</real>
 				<key>Red Component</key>
-				<real>0.94901961088180542</real>
+				<real>0.906646728515625</real>
 			</dict>
 			<key>Ansi 3 Color (Dark)</key>
 			<dict>
@@ -1757,8 +1757,14 @@
 				<real>0.22352941334247589</real>
 			<key>Ansi 4 Color (Dark)</key>
 				<real>0.70459425449371338</real>
+				<key>Color Space</key>
+				<string>Calibrated</string>
+				<key>Green Component</key>
 				<real>0.56080448627471924</real>
+				<key>Red Component</key>
 				<real>0.43401443958282471</real>
+			</dict>
+			<key>Ansi 13 Color</key>
 			<key>Ansi 4 Color (Light)</key>
 				<integer>1</integer>
 				<real>0.90196079015731812</real>
