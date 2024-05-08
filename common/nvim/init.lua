@@ -4,9 +4,6 @@ vim.cmd('source ~/.vimrc')
 vim.opt.guicursor = 'n-v-c-i:block'
 
 vim.keymap.set("n", "<leader>lg", ":LazyGit<CR>")
-vim.keymap.set("n", "<leader>f", ':FzfLua files<CR>')
-vim.keymap.set("n", "<leader>r", ':FzfLua buffers<CR>')
-vim.keymap.set("n", "<leader>a", ':FzfLua lsp_code_actions<CR>')
 
 require("leaf").setup({
 	theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
@@ -28,9 +25,6 @@ auto_dark_mode.setup({
 		vim.cmd('colorscheme leaf')
 	end,
 })
-
-require('nvim-web-devicons').setup()
-require('lualine').setup({})
 
 require('nvim-web-devicons').setup()
 require('lualine').setup({
