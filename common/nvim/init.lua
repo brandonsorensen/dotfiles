@@ -7,6 +7,7 @@ vim.keymap.set("n", "<leader>lg", ":LazyGit<CR>")
 vim.keymap.set("n", "<leader>f", ':FzfLua files<CR>')
 vim.keymap.set("n", "<leader>r", ':FzfLua buffers<CR>')
 vim.keymap.set("n", "<leader>a", ':FzfLua lsp_code_actions<CR>')
+vim.keymap.set("n", "<leader>i", function() vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled()) end)
 
 require("leaf").setup({
 	theme = "auto", -- default, based on vim.o.background, alternatives: "light", "dark"
