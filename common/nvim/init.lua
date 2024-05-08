@@ -33,16 +33,6 @@ require('lualine').setup({
 	}
 })
 
-require('leaf').setup({
-	transparent = true,
-	contrast = 'medium'
-
-})
-
-require('trouble').setup({
-	icons = false
-})
-
 function _G.set_terminal_keymaps()
 	local opts = {buffer = 0}
 	vim.keymap.set('t', '<S-esc>', [[<C-\><C-n>]], opts)
@@ -71,7 +61,9 @@ local cmp = require'cmp'
 local luasnip = require'luasnip'
 
 require('flash').setup{}
-require('trouble').setup{}
+require('trouble').setup({
+    icons = false
+})
 vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
 vim.keymap.set("n", "<leader>xz", function() require("trouble").toggle("quickfix") end)
 vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
@@ -137,7 +129,7 @@ cmp.setup({
 		['<TAB>'] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-				-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
+				-- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
 				-- that way you will only jump inside the snippet region
 			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
