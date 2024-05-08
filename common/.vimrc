@@ -265,10 +265,6 @@ let g:python_highlight_all = 1
 " close-tag settings
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.plist'
 
-" if g:dark_mode
-" 	" Rust  type hints
-" 	hi CocInlayHint ctermbg=0 ctermfg=4
-" endif
 
 
 " typst
