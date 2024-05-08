@@ -56,7 +56,6 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/vimux'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'kdheepak/lazygit.nvim', {'branch': 'main'}
-	Plug 'f-person/auto-dark-mode.nvim'
 	if has('nvim')
 		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 		Plug 'neovim/nvim-lspconfig'
@@ -75,13 +74,14 @@ call plug#begin('~/.vim/plugged')
 		Plug 'shaunsingh/nord.nvim'
 		Plug 'nvim-tree/nvim-web-devicons'
 		Plug 'windwp/nvim-autopairs'
+		Plug 'f-person/auto-dark-mode.nvim'
+		Plug 'ibhagwan/fzf-lua'
 	else
 		Plug 'cohama/lexima.vim'
 		Plug 'vim-airline/vim-airline'
 		Plug 'vim-airline/vim-airline-themes'
 	endif
 call plug#end()
-
 
 " Gets the OS and works around the wonkiness of OS checks
 " in the various versions of Vim avalable for macOS.
@@ -138,6 +138,7 @@ autocmd FileType tex setlocal foldmethod=expr foldexpr=3
 autocmd FileType text set spell spelllang=en_us
 autocmd FileType rust set shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType lua set shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType terraform set shiftwidth=2 tabstop=2 softtabstop=2
 
 
 if &compatible
@@ -152,8 +153,7 @@ set t_Co=256
 
 set clipboard=unnamed
 
-let g:edge_style = 'neon'
-let g:edge_disable_italic_comment = 1
+let g:edge_enable_italic = 0
 
 if !empty($VIM_THEME)
 	colorscheme $VIM_THEME
@@ -165,6 +165,7 @@ else
 		colorscheme nord
 	else
 		colorscheme leaf
+		hi! LspInlayHint guifg=#6b6b6b
 		hi Normal guibg=None
 	endif
 endif
@@ -183,6 +184,8 @@ if g:is_mac && !g:dark_mode
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 	highlight Search guibg=lightgray ctermfg=3
 	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=None
+else
+	highlight CursorLine guibg=#211f1f ctermbg=0
 endif
 
 " macOS uses the GUI background even in the terminal.
@@ -307,6 +310,8 @@ nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 
 nmap <silent> <c-f> :Files<CR>
+
+let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 " highlight the visual selection after pressing enter.
 set hlsearch
