@@ -76,6 +76,10 @@ call plug#begin('~/.vim/plugged')
 		Plug 'windwp/nvim-autopairs'
 		Plug 'f-person/auto-dark-mode.nvim'
 		Plug 'ibhagwan/fzf-lua'
+
+		" add this line to your .vimrc file
+		Plug 'cappyzawa/starlark.vim'
+		Plug 'vmware-tanzu/ytt.vim'
 	else
 		Plug 'cohama/lexima.vim'
 		Plug 'vim-airline/vim-airline'
