@@ -275,10 +275,6 @@ let g:typst_embedded_languages = []
 
 " Activates PyDocString template
 nmap <silent> <C-_> <Plug>(pydocstring)
-
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
@@ -293,5 +289,5 @@ nmap <silent> <c-f> :Files<CR>
 let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 " highlight the visual selection after pressing enter.
-" set hlsearch
+set hlsearch
 xnoremap <silent> <cr> "*y:silent! let searchTerm = '\V'.substitute(escape(@*, '\/'), "\n", '\\n', "g") <bar> let @/ = searchTerm <bar> echo '/'.@/ <bar> call histadd("search", searchTerm) <bar> set hls<cr>
