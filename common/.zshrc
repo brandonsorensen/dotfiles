@@ -135,29 +135,26 @@ export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-export PATH="/opt/miniconda3/bin/:${PATH}"
 export PATH="$PYENV_ROOT/shims:${PATH}"
 export PATH="$HOME/.modular:${PATH}"
+export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
 eval "$(pyenv init -)"
 
 # >>> conda initialize >>>
+conda_base='/opt/miniconda3'
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('${conda_base}/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/opt/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "${conda_base}/etc/profile.d/conda.sh" ]; then
+        . "${conda_base}/etc/profile.d/conda.sh"
     else
-        export PATH="/opt/miniconda3/bin:$PATH"
+        export PATH="${conda_base}/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/sorenb01/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 alias vfzf="fzf --bind 'enter:become(vim {})'"
 run_fzf_widget() {
