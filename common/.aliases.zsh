@@ -26,3 +26,5 @@ else
 	# distro uses the GNU core
 	alias lf="ls $1 $lf_args"
 fi
+
+alias cpwd='pwd|pbcopy'

@@ -4,6 +4,7 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+eval "$(/Users/sorenb01/homebrew/bin/brew shellenv)"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -134,7 +135,14 @@ export EDITOR=vim
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-__conda_setup="$('/Users/brandon/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+export PATH="$PYENV_ROOT/shims:${PATH}"
+export PATH="$HOME/.modular:${PATH}"
+export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
+eval "$(pyenv init -)"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
@@ -145,14 +153,13 @@ else
     fi
 fi
 unset __conda_setup
+# <<< conda initialize <<<
 
-
-export PATH="$PYENV_ROOT/shims:${PATH}"
-export MODULAR_HOME="$HOME/.modular"
-export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
-eval "$(pyenv init -)"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Created by `pipx` on 2024-03-08 11:50:36
-export PATH="$PATH:/Users/brandon/.local/bin"
+alias vfzf="fzf --bind 'enter:become(vim {})'"
+run_fzf_widget() {
+	vfzf .
+}
+zle -N run_fzf_widget
+bindkey '^F' run_fzf_widget
+export MODULAR_HOME="/Users/sorenb01/.modular"
+export PATH="/Users/sorenb01/.modular/pkg/packages.modular.com_mojo/bin:$PATH"

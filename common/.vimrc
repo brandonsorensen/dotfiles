@@ -236,27 +236,6 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-" Resolves conflicts between lexima and coc completion
-" let g:lexima_no_default_rules = 1
-" call lexima#set_default_rules()
-" call lexima#insmode#map_hook('before', '<CR>', '')
-" call lexima#add_rule({'char': '"', 'at': '\%#\s*\w'})
-" call lexima#add_rule({'char': '"', 'at': '"\S\{-1,}\%#\|\%#\S\{-1,}"'})
-" call lexima#add_rule({'char': "'", 'at': "'\S\{-1,}\%#\|\%#\S\{-1,}'"})
-" call lexima#add_rule({'char': '`', 'at': '`\S\{-1,}\%#\|\%#\S\{-1,}`'})
-" call lexima#add_rule({'char': '(', 'at': '\%#\S\{-1,})'})
-" call lexima#add_rule({'char': '[', 'at': '\%#\S\{-1,}]'})
-" call lexima#add_rule({'char': '{', 'at': '\%#\S\{-1,}}'})
-" inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<CR>" : "\<CR>")
-
-" if has("nvim")
-"     au VimEnter * AirlineToggle
-" endif
-
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 function! s:check_back_space() abort
   let col = col('.') - 1
