@@ -4,7 +4,7 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-eval "$(/Users/sorenb01/homebrew/bin/brew shellenv)"
+eval "$($HOME/homebrew/bin/brew shellenv)"
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -120,6 +120,7 @@ source $HOME/.aliases.zsh
 export LANG=en_US.UTF-8
 export PATH=$HOME/dotfiles/scripts:$PATH
 export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 
 bindkey -v  # vim bindings
