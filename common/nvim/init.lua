@@ -27,14 +27,43 @@ auto_dark_mode.setup({
 })
 
 require('nvim-web-devicons').setup()
-require('lualine').setup({})
+require('lualine').setup({
+	options = {
+		theme = 'leaf'
+	}
+})
+
+function _G.set_terminal_keymaps()
+	local opts = {buffer = 0}
+	vim.keymap.set('t', '<S-esc>', [[<C-\><C-n>]], opts)
+	-- vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
+	vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+	vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+	vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+	vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+end
+
+vim.cmd('autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()')
+
+require('toggleterm').setup({
+	open_mapping = [[<leader>tt]],
+	terminal_mappings = false,
+	start_in_insert = true,
+	insert_mappings = false,
+	direction = 'float',
+	float_ops = {
+		border = 'curved'
+	}
+})
 
 -- Set up nvim-cmp.
 local cmp = require'cmp'
 local luasnip = require'luasnip'
 
 require('flash').setup{}
-require('trouble').setup{}
+require('trouble').setup({
+    icons = false
+})
 vim.keymap.set("n", "<leader>xx", function() require("trouble").toggle() end)
 vim.keymap.set("n", "<leader>xz", function() require("trouble").toggle("quickfix") end)
 vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
