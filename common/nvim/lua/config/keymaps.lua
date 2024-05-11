@@ -7,7 +7,11 @@ map("n", "<leader>w", "<C-w>", {
 	silent = true,
 	desc = "window management modal"
 })
-map("n", "<leader>h", ":noh", {
+map("n", "<leader>e", ":Lexplore<CR>", {
+	silent = true,
+	desc = "window management modal"
+})
+map("n", "<leader>h", ":noh<CR>", {
 	silent = true,
 	desc = "Clear highlight"
 })
@@ -20,29 +24,18 @@ map("t", "<c-b>", "<c-\\><c-n>", {
 	desc = "Shortcut for scrolling in terminal"
 })
 
+map("n", "<leader>s", "<C-^>", {
+	silent = true,
+	desc = "Quickly switch to previous buffer"
+})
+map("n", "<leader>c", ":bp\\|bd #<CR>", {
+	silent = true,
+	desc = "Quickly switch to previous buffer"
+})
+
 map("n", "<leader>i",
 	function()
 		vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
 	end
 )
 
--- nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
--- " For global replace
--- nnoremap gR gD:%s/<C-R>///gc<left><left><left>
-
--- " fzf buffer list
--- nnoremap <silent><leader>r :Buffers<CR>
--- " fzf dir list
--- nnoremap <silent><leader>f :Files<CR>
--- " Explore
--- nnoremap <silent><leader>e :Lexplore<CR>
--- " Remap ctl-w to leader for window management
--- nnoremap <Leader>w <C-w>
--- " Close buffer without losing split
--- nnoremap <silent><leader>c :bp\|bd #<CR>
--- " Quickly switch to previous buffer
--- nnoremap <silent><leader>s <C-^>
--- " Clear highlight
--- nnoremap <silent><leader>h :noh<CR>
--- " Shortcut for scrolling in a terminal
--- tnoremap <c-b> <c-\><c-n>

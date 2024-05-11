@@ -3,7 +3,7 @@ return {
 	event = {"BufReadPre", "BufNewfile"},
 	dependencies = {
 		{
-			"folke/neoconf.nvim", 
+			"folke/neoconf.nvim",
 			cmd = "Neoconf",
 			config = false,
 			dependencies = { "nvim-lspconfig" }
@@ -31,13 +31,13 @@ return {
 		capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 		local function setup(server)
 			local server_opts = vim.tbl_deep_extend("force", {
-			  capabilities = vim.deepcopy(capabilities),
+				capabilities = vim.deepcopy(capabilities),
 			}, servers[server] or {})
 			require("lspconfig")[server].setup(server_opts)
-      end
-	  for server, _server_opts in pairs(servers) do
-		setup(server)
-	  end
+		end
+		for server, _server_opts in pairs(servers) do
+			setup(server)
+		end
 	end,
 	opts = {
 		inlay_hints = {
@@ -104,7 +104,8 @@ return {
 						},
 					},
 				}
-			}
+			},
+
 		}
 	},
 }

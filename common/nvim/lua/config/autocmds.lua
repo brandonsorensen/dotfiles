@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "type" },
+	pattern = { "typst" },
 	callback = function(_)
 		vim.g.typst_conceal = 1
 		vim.g.typst_conceal_math = 1
