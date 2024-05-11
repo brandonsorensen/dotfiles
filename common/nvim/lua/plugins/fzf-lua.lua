@@ -12,10 +12,12 @@ return {
 			desc = "list all project files"
 		},
 		{
-			"<leader>f", ":FzfLua buffers<CR>",
+			"<leader>r", ":FzfLua buffers<CR>",
 			desc = "list all open buffers"
 		},
-		"<leader>a", ":FzfLua lsp_code_actions<CR>",
-		desc = "Current code actions"
+		{
+			"<leader>a", ":FzfLua lsp_code_actions<CR>",
+			desc = "Current code actions"
+		}
 	}
 }

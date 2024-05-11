@@ -1,3 +1,6 @@
+vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.maplocalleader = "\\" -- Same for `maplocalleader`
+
 local map = vim.keymap.set
 
 map("n", "<leader>w", "<C-w>", {
@@ -16,6 +19,12 @@ map("t", "<c-b>", "<c-\\><c-n>", {
 	silent = true,
 	desc = "Shortcut for scrolling in terminal"
 })
+
+map("n", "<leader>i",
+	function()
+		vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+	end
+)
 
 -- nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 -- " For global replace

@@ -2,6 +2,7 @@ return {
   {
 		"akinsho/toggleterm.nvim",
 		version = "*",
+		lazy = false,
 		opts = {
 			open_mapping = [[<leader>tt]],
 			terminal_mappings = false,

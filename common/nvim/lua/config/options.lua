@@ -10,6 +10,6 @@ vim.opt.clipboard ="unnamed"
 vim.opt.backspace = "indent,eol,start"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.opt.guicursor = "n-v-c-i:block"
 
 vim.g.python3_host_prog = vim.fn.expand("~/venvs/pynvim/bin")
-vim.opt.guicursor = "n-v-c-i:block"
