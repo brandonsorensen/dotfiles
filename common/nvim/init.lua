@@ -1,3 +1,13 @@
+--vim.uv = vim.uv or vim.loop
+
+--local M = {}
+
+-----@param opts? LazyVimConfig
+--function M.setup(opts)
+--  require("lazyvim.config").setup(opts)
+--end
+
+--return M
 vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
 vim.g.python3_host_prog = vim.fn.expand('~/venvs/pynvim/bin')
 vim.cmd('source ~/.vimrc')

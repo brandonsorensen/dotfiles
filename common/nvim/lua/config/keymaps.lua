@@ -1,0 +1,36 @@
+local map = vim.keymap.set_keymap_safe
+
+map({"n", "gr", "gd[{V%::s/<C-R>///gc<left><left><left>"})
+map({"n", "<leader>w", "<C-w>"}, {
+	silent = true,
+	desc = "window management modal"
+})
+map({"n", "<leader>h", ":noh"}, {
+	silent = true,
+	desc = "Clear highlight"
+})
+map({"<leader>lg", ":LazyGit<CR>"}, {
+	silent = true,
+	desc = "Activate LazyGit window"
+})
+
+-- nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+-- " For global replace
+-- nnoremap gR gD:%s/<C-R>///gc<left><left><left>
+
+-- " fzf buffer list
+-- nnoremap <silent><leader>r :Buffers<CR>
+-- " fzf dir list
+-- nnoremap <silent><leader>f :Files<CR>
+-- " Explore
+-- nnoremap <silent><leader>e :Lexplore<CR>
+-- " Remap ctl-w to leader for window management
+-- nnoremap <Leader>w <C-w>
+-- " Close buffer without losing split
+-- nnoremap <silent><leader>c :bp\|bd #<CR>
+-- " Quickly switch to previous buffer
+-- nnoremap <silent><leader>s <C-^>
+-- " Clear highlight
+-- nnoremap <silent><leader>h :noh<CR>
+-- " Shortcut for scrolling in a terminal
+-- tnoremap <c-b> <c-\><c-n>
