@@ -53,7 +53,6 @@ call plug#begin('~/.vim/plugged')
 	Plug 'tpope/vim-fugitive'
 	Plug 'kaarmu/typst.vim', {'branch': 'main'}
 	Plug 'christoomey/vim-tmux-navigator'
-	Plug 'preservim/vimux'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'kdheepak/lazygit.nvim', {'branch': 'main'}
 	if has('nvim')
@@ -71,7 +70,6 @@ call plug#begin('~/.vim/plugged')
 		Plug 'daschw/leaf.nvim'
 		Plug 'folke/flash.nvim', {'branch': 'main'}
 		Plug 'folke/trouble.nvim', {'branch': 'main'}
-		Plug 'shaunsingh/nord.nvim'
 		Plug 'nvim-tree/nvim-web-devicons'
 		Plug 'windwp/nvim-autopairs'
 		Plug 'f-person/auto-dark-mode.nvim'
@@ -82,6 +80,8 @@ call plug#begin('~/.vim/plugged')
 		Plug 'vmware-tanzu/ytt.vim'
 	else
 		Plug 'cohama/lexima.vim'
+		" neovim 0.9+ comes with editorconfig built in
+		Plug 'preservim/vimux'  
 		Plug 'vim-airline/vim-airline'
 		Plug 'vim-airline/vim-airline-themes'
 	endif
@@ -268,8 +268,6 @@ let g:python_highlight_all = 1
 
 " close-tag settings
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.plist'
-
-
 
 " typst
 let g:typst_conceal = 1
