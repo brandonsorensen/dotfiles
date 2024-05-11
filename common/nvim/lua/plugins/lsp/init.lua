@@ -14,15 +14,13 @@ return {
 	},
 	config = function(_, opts)
 		vim.api.nvim_create_autocmd("LspAttach", {
-			callback = function(args)
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
-			end,
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(args)
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
 				local client = vim.lsp.get_client_by_id(args.data.client_id)
 				if client.server_capabilities.inlayHintProvider then
 					vim.lsp.inlay_hint.enable(args.buf, true)
-					vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#6b6b6b" })
+					-- vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#6b6b6b" })
 				end
 			end
 		})
@@ -48,7 +46,6 @@ return {
 		},
 		servers = {
 			rust_analyzer = {
-				capabilities = capabilities,
 				settings = {
 					["rust-analyzer"] = {
 						cargo = {

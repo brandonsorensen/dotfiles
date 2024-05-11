@@ -132,7 +132,7 @@ bindkey '^[^M' self-insert-unmeta
 export GIT_EDITOR=vim
 export EDITOR=vim
 
-export FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
+export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

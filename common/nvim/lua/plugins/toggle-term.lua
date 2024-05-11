@@ -1,5 +1,5 @@
 return {
-  {
+	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
 		lazy = false,
@@ -14,8 +14,13 @@ return {
 			}
 		},
 		keys = {
+			{"t", "<C-esc>", [[<C-\><C-n>]]},
+			{"t", "<C-h>", [[<Cmd>wincmd h<CR>]]},
+			{"t", "<C-j>", [[<Cmd>wincmd j<CR>]]},
+			{"t", "<C-k>", [[<Cmd>wincmd k<CR>]]},
+			{"t", "<C-w>", [[<C-\><C-n><C-w>]]},
 			{
-				"<c-b>", "<c-\\><c-n>",
+				"t", "<c-b>", "<c-\\><c-n>",
 				desc = "Shortcut for scrolling in a terminal"
 			}
 		}
