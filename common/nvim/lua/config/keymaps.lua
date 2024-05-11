@@ -1,17 +1,20 @@
-local map = vim.keymap.set_keymap_safe
+local map = vim.keymap.set
 
-map({"n", "gr", "gd[{V%::s/<C-R>///gc<left><left><left>"})
-map({"n", "<leader>w", "<C-w>"}, {
+map("n", "<leader>w", "<C-w>", {
 	silent = true,
 	desc = "window management modal"
 })
-map({"n", "<leader>h", ":noh"}, {
+map("n", "<leader>h", ":noh", {
 	silent = true,
 	desc = "Clear highlight"
 })
-map({"<leader>lg", ":LazyGit<CR>"}, {
+map("n", "<leader>lg", ":LazyGit<CR>", {
 	silent = true,
 	desc = "Activate LazyGit window"
+})
+map("t", "<c-b>", "<c-\\><c-n>", {
+	silent = true,
+	desc = "Shortcut for scrolling in terminal"
 })
 
 -- nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
