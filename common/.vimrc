@@ -168,9 +168,9 @@ else
 	if g:dark_mode
 		colorscheme nord
 	else
-		colorscheme leaf
+		colorscheme edge
 		hi! LspInlayHint guifg=#6b6b6b
-		hi Normal guibg=None
+		hi Normal guibg=NONE
 	endif
 endif
 
@@ -187,7 +187,7 @@ endif
 if g:is_mac && !g:dark_mode 
 	highlight CursorLine guibg=lightgray ctermbg=lightgray
 	highlight Search guibg=lightgray ctermfg=3
-	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=None
+	highlight Visual cterm=bold guibg=lightgray ctermbg=blue ctermfg=NONE
 else
 	highlight CursorLine guibg=#211f1f ctermbg=0
 endif
@@ -226,8 +226,8 @@ endif
 
 
 highlight Comment cterm=italic gui=italic
-highlight VertSplit cterm=None ctermfg=None ctermbg=None
-highlight Normal guibg=None
+highlight VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE
+highlight Normal guibg=NONE
 set fillchars+=vert:\▏
 
 let g:ycm_filetype_blacklist = {
