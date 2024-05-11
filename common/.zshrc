@@ -132,6 +132,7 @@ bindkey '^[^M' self-insert-unmeta
 export GIT_EDITOR=vim
 export EDITOR=vim
 
+export FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -164,3 +165,5 @@ zle -N run_fzf_widget
 bindkey '^F' run_fzf_widget
 export MODULAR_HOME="/Users/sorenb01/.modular"
 export PATH="/Users/sorenb01/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
+
+
