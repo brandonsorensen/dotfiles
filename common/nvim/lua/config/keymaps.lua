@@ -39,3 +39,32 @@ map("n", "<leader>i",
 	end
 )
 
+-- lsp mappings
+-- move them to LSP module?
+map("n", "gd",
+  function()
+	  vim.lsp.buf.definition()
+  end,
+  {silent = true}
+)
+map("n", "gb",
+  function()
+	  vim.lsp.buf.implementation()
+  end,
+  {silent = true}
+)
+
+map("n", "gu",
+  function()
+	  vim.lsp.buf.references()
+  end,
+  {silent = true}
+)
+
+map("n", "<leader>R",
+  function()
+	  vim.lsp.buf.rename()
+  end,
+  {silent = true}
+)
+
