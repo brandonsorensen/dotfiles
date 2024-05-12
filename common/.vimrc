@@ -55,36 +55,11 @@ call plug#begin('~/.vim/plugged')
 	Plug 'christoomey/vim-tmux-navigator'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'kdheepak/lazygit.nvim', {'branch': 'main'}
-	if has('nvim')
-		Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-		Plug 'neovim/nvim-lspconfig'
-		Plug 'hrsh7th/cmp-nvim-lsp', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-buffer', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-path', {'branch': 'main'}
-		Plug 'hrsh7th/cmp-cmdline', {'branch': 'main'}
-		Plug 'hrsh7th/nvim-cmp', {'branch': 'main'}
-		Plug 'L3MON4D3/LuaSnip'
-		Plug 'shaunsingh/nord.nvim'
-		Plug 'nvim-lualine/lualine.nvim'
-		Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
-		Plug 'daschw/leaf.nvim'
-		Plug 'folke/flash.nvim', {'branch': 'main'}
-		Plug 'folke/trouble.nvim', {'branch': 'main'}
-		Plug 'nvim-tree/nvim-web-devicons'
-		Plug 'windwp/nvim-autopairs'
-		Plug 'f-person/auto-dark-mode.nvim'
-		Plug 'ibhagwan/fzf-lua'
-
-		" add this line to your .vimrc file
-		Plug 'cappyzawa/starlark.vim'
-		Plug 'vmware-tanzu/ytt.vim'
-	else
-		Plug 'cohama/lexima.vim'
-		" neovim 0.9+ comes with editorconfig built in
-		Plug 'preservim/vimux'  
-		Plug 'vim-airline/vim-airline'
-		Plug 'vim-airline/vim-airline-themes'
-	endif
+	Plug 'cohama/lexima.vim'
+	" neovim 0.9+ comes with editorconfig built in
+	Plug 'preservim/vimux'  
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " Gets the OS and works around the wonkiness of OS checks
@@ -287,8 +262,6 @@ nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 
 nmap <silent> <c-f> :Files<CR>
-
-let $FZF_DEFAULT_COMMAND = 'fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
 " highlight the visual selection after pressing enter.
 set hlsearch
