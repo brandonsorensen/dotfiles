@@ -13,12 +13,20 @@ return {
 				border = "curved"
 			}
 		},
+		init = function()
+			vim.api.nvim_create_autocmd('TermOpen', {
+				pattern = "term://*toggleterm#*",
+				callback = function()
+					local opts = {buffer = 0}
+					vim.keymap.set('t', '<S-esc>', [[<C-\><C-n>]], opts)
+					vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+					vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+					vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+					vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
+				end
+			})
+		end,
 		keys = {
-			{"t", "<C-esc>", [[<C-\><C-n>]]},
-			{"t", "<C-h>", [[<Cmd>wincmd h<CR>]]},
-			{"t", "<C-j>", [[<Cmd>wincmd j<CR>]]},
-			{"t", "<C-k>", [[<Cmd>wincmd k<CR>]]},
-			{"t", "<C-w>", [[<C-\><C-n><C-w>]]},
 			{
 				"t", "<c-b>", "<c-\\><c-n>",
 				desc = "Shortcut for scrolling in a terminal"
