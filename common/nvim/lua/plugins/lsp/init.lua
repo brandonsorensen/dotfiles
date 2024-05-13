@@ -20,8 +20,8 @@ return {
 				local client = vim.lsp.get_client_by_id(args.data.client_id)
 				if client.server_capabilities.inlayHintProvider then
 					vim.lsp.inlay_hint.enable(args.buf, true)
-					-- vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#6b6b6b" })
 				end
+				client.server_capabilities.semanticTokensProvider = nil
 			end
 		})
 		local servers = opts.servers
