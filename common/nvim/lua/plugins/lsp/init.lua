@@ -75,6 +75,8 @@ return {
 					}
 				}
 			},
+			terraformls = {},
+			tflint = {},
 			pylsp = {
 				settings = {
 					pylsp = {
