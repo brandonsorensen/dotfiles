@@ -6,7 +6,7 @@ return {
 			"rust", "python", "vim", "vimdoc", "lua", "json",
 			"markdown", "markdown_inline", "hcl", "terraform"
 		},
-		indent = { enabled = true },
+		indent = { enable = true },
 		-- theme = 'nord',
 		-- Install parsers synchronously (only applied to `ensure_installed`)
 		sync_install = false,
