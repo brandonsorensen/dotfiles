@@ -163,7 +163,7 @@ run_fzf_widget() {
 }
 zle -N run_fzf_widget
 bindkey '^F' run_fzf_widget
-export MODULAR_HOME="/Users/sorenb01/.modular"
-export PATH="/Users/sorenb01/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
+export MODULAR_HOME="$HOME/.modular"
+export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
 
 
