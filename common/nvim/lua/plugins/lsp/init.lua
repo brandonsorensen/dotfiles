@@ -45,6 +45,13 @@ return {
 			enabled = true,
 		},
 		servers = {
+			bashls = {
+				opts = {
+					filetypes = {
+						"sh", "zsh"
+					}
+				}
+			},
 			rust_analyzer = {
 				settings = {
 					["rust-analyzer"] = {
