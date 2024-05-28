@@ -101,6 +101,7 @@ return {
 							pylsp_mypy = {
 								enabled = true,
 								report_progress = true,
+								dmypy = true,
 								live_mode = false
 							},
 							-- auto-completion options
