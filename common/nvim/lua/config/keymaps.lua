@@ -7,10 +7,6 @@ map("n", "<leader>w", "<C-w>", {
 	silent = true,
 	desc = "window management modal"
 })
-map("n", "<leader>e", ":Lexplore<CR>", {
-	silent = true,
-	desc = "window management modal"
-})
 map("n", "<leader>h", ":noh<CR>", {
 	silent = true,
 	desc = "Clear highlight"
