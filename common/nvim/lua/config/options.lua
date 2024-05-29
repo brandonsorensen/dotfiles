@@ -13,4 +13,8 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.guicursor = "n-v-c-i:block"
 
+-- disabled netrw in favor of nvim-tree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.g.python3_host_prog = vim.fn.expand("~/venvs/pynvim/bin/python3")
