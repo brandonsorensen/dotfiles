@@ -100,8 +100,8 @@ return {
 							-- type checker
 							pylsp_mypy = {
 								enabled = true,
-								report_progress = true,
-								dmypy = true,
+								report_progress = false,
+								dmypy = false,
 								live_mode = false
 							},
 							-- auto-completion options
