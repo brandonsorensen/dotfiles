@@ -1,7 +1,6 @@
--- empty for now
 vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*.rs",
-    callback = function()
-        vim.cmd("RustFmt")
-    end,
+  pattern = "*",
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
+  end,
 })
