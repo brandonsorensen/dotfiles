@@ -7,10 +7,6 @@ map("n", "<leader>w", "<C-w>", {
 	silent = true,
 	desc = "window management modal"
 })
-map("n", "<leader>e", ":Lexplore<CR>", {
-	silent = true,
-	desc = "window management modal"
-})
 map("n", "<leader>h", ":noh<CR>", {
 	silent = true,
 	desc = "Clear highlight"
@@ -28,7 +24,7 @@ map("n", "<leader>s", "<C-^>", {
 	silent = true,
 	desc = "Quickly switch to previous buffer"
 })
-map("n", "<leader>c", ":bp\\|bd #<CR>", {
+map("n", "<leader>c", ":bp|bd #<CR>", {
 	silent = true,
 	desc = "Quickly switch to previous buffer"
 })

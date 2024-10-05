@@ -1,3 +1,24 @@
+local ELLIPSIS_CHAR = '…'
+local MAX_LABEL_WIDTH = 60
+local MAX_KIND_WIDTH = 14
+
+local get_ws = function (max, len)
+  return (" "):rep(max - len)
+end
+
+local format = function(_, item)
+  local content = item.abbr
+  -- local kind_symbol = symbols[item.kind]
+  -- item.kind = kind_symbol .. get_ws(MAX_KIND_WIDTH, #kind_symbol)
+
+  if #content > MAX_LABEL_WIDTH then
+    item.abbr = vim.fn.strcharpart(content, 0, MAX_LABEL_WIDTH) .. ELLIPSIS_CHAR
+  else
+    item.abbr = content
+  end
+  return item
+end
+
 return {
 	{
 		"hrsh7th/nvim-cmp",
@@ -66,7 +87,10 @@ return {
 				},
 				{
 					{ name = "buffer" },
-				})
+				}),
+				formatting = {
+					format = format,
+				}
 			})
 			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won"t work anymore).
 			cmp.setup.cmdline({ "/", "?" }, {
