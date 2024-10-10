@@ -39,8 +39,15 @@ return {
 				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 				return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 			end
-
 			cmp.setup({
+				formatting = {
+					format = function(_entry, item)
+						if item.menu ~= nil and string.len(item.menu) > 0 then
+						  item.menu = string.sub(item.menu, 1, 0) .. ""
+						end
+						return item
+					end,
+				},
 				snippet = {
 					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
@@ -49,7 +56,7 @@ return {
 				},
 				window = {
 					-- completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
+					-- documentation = cmp.config.window.bordered(),
 				},
 				mapping = {
 					["<C-Space>"] = cmp.mapping.complete(),
@@ -79,18 +86,12 @@ return {
 						end
 					end, { "i", "s" }),
 				},
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" }, -- For luasnip users.
-					{ name = "buffer" }, -- text within current buffer
-					{ name = "path" }, -- file system paths
+				sources = cmp.config.sources {
+					{ name = "nvim_lsp", priority = 1000},
+					{ name = "path", priority = 90 }, -- file system paths
+					{ name = "luasnip", priority = 70 }, -- For luasnip users.
+					{ name = "buffer", priority = 30}, -- text within current buffer
 				},
-				{
-					{ name = "buffer" },
-				}),
-				formatting = {
-					format = format,
-				}
 			})
 			-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won"t work anymore).
 			cmp.setup.cmdline({ "/", "?" }, {
