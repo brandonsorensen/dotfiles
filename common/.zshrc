@@ -129,8 +129,8 @@ bindkey '^r' history-incremental-search-backward
 # Insert newline symbol with Alt-Return
 bindkey '^[^M' self-insert-unmeta  
 
-export GIT_EDITOR=vim
-export EDITOR=vim
+export GIT_EDITOR=nvim
+export EDITOR=nvim
 
 export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
 
