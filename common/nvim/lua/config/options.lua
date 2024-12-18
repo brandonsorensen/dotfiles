@@ -1,4 +1,4 @@
--- style 
+-- style
 vim.cmd("syntax on")
 vim.o.background = "light"
 vim.opt.rnu = true
@@ -7,7 +7,7 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 0
 vim.opt.softtabstop = 0
 vim.opt.cursorline = true
-vim.opt.clipboard ="unnamed"
+vim.opt.clipboard = "unnamed"
 vim.opt.backspace = "indent,eol,start"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
