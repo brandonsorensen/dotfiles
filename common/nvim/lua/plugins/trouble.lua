@@ -1,28 +1,28 @@
 return {
   "folke/trouble.nvim",
   opts = {
-    icons = false,
+    icons = {},
   },
   keys = {
     {
       "<leader>xx",
-      function()
-        require("trouble").toggle()
-      end,
-      desc = "Toggle problem buffer",
+      "<cmd>Trouble diagnostics toggle<cr>",
+      desc = "Diagnostics (Trouble)",
     },
     {
-      "<leader>xz",
-      function()
-        require("trouble").toggle("quickfix")
-      end,
-      desc = "Toggle problem quick fix buffer",
+      "<leader>xX",
+      "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+      desc = "Buffer Diagnostics (Trouble)",
     },
     {
-      "gR",
-      function()
-        require("trouble").toggle("lsp_references")
-      end,
+      "<leader>cs",
+      "<cmd>Trouble symbols toggle focus=false<cr>",
+      desc = "Symbols (Trouble)",
+    },
+    {
+      "<leader>cl",
+      "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+      desc = "LSP Definitions / references / ... (Trouble)",
     },
   },
 }
