@@ -24,7 +24,7 @@ map("n", "<leader>s", "<C-^>", {
   silent = true,
   desc = "Quickly switch to previous buffer",
 })
-map("n", "<leader>c", ":bp|bd #<CR>", {
+map("n", "<leader>d", ":bp|bd #<CR>", {
   silent = true,
   desc = "Quickly switch to previous buffer",
 })
