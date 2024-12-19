@@ -24,6 +24,11 @@ return {
       desc = "live grep current project",
     },
     {
+      "<leader>ft",
+      ":FzfLua treesitter<CR>",
+      desc = "list treesitter symbols",
+    },
+    {
       "<leader>a",
       ":FzfLua lsp_code_actions<CR>",
       desc = "Current code actions",
