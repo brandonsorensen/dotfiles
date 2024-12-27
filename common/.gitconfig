@@ -6,10 +6,19 @@
 [core]
 	askpass = git-gui--askpass
 	autocrlf = input
-	editor = vim
-	excludesfile = /Users/sorenb01/.gitignore_global
+	editor = nvim
+	pager = delta
+	excludesfile = $HOME/.gitignore_global
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true  # use n and N to move between diff sections
+	side-by-side = false
+	syntax-theme = Nord
+[merge]
+    conflictstyle = zdiff3
