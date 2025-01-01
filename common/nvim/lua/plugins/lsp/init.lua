@@ -86,6 +86,9 @@ return {
       terraformls = {},
       tflint = {},
       ruff = {},
+      sourcekit = {
+        filetypes = { "swift" },
+      },
       basedpyright = {
         settings = {
           basedpyright = {
