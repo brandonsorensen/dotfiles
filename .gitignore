@@ -3,4 +3,4 @@
 /common/.ssh/id_rsa*
 /common/.ssh/*.pub
 /common/.vim/.netrwhist
-/common/.terminfo/*.terminfo
+/common/.terminfo/
