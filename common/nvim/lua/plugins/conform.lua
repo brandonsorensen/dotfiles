@@ -1,20 +1,3 @@
--- return {
---   "stevearc/conform.nvim",
---   opts = {
---     formatters_by_ft = {
---       lua = { "stylua" },
---       -- Conform will run multiple formatters sequentially
---       python = { "ruff_format", "ruff_fix", "ruff_organize_imports" },
---       -- You can customize some of the format options for the filetype (:help conform.format)
---       rust = { "rustfmt" },
---       swift_format = {
---         command = "swift format",
---       },
---       terraform = { "terraform_fmt" },
---     },
---   },
--- }
-
 return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },
