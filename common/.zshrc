@@ -11,11 +11,7 @@ fi
 case "$OSTYPE" in 
 	darwin*)
 		is_mac=true
-		if [ "$ITERM_PROFILE" = "Xcode" ]; then
-			ZSH_THEME="sorin"
-		else
-			ZSH_THEME="norm"
-		fi
+		ZSH_THEME="powerlevel10k/powerlevel10k"
 		;;
 	linux*)
 		is_linux=true
@@ -137,25 +133,7 @@ export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --ignore-file ~/.git/info
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 export PATH="$PYENV_ROOT/shims:${PATH}"
-export PATH="$HOME/.modular:${PATH}"
-export PATH="$HOME/.modular/pkg/packages.modular.com_mojo/bin:$PATH"
 eval "$(pyenv init -)"
-
-# >>> conda initialize >>>
-conda_base='/opt/miniconda3'
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('${conda_base}/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "${conda_base}/etc/profile.d/conda.sh" ]; then
-        . "${conda_base}/etc/profile.d/conda.sh"
-    else
-        export PATH="${conda_base}/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 alias vfzf="fzf --bind 'enter:become(vim {})'"
 run_fzf_widget() {
@@ -163,7 +141,6 @@ run_fzf_widget() {
 }
 zle -N run_fzf_widget
 bindkey '^F' run_fzf_widget
-export MODULAR_HOME="$HOME/.modular"
-export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
+export DOCKER_HOST="unix://${HOME}/.colima/docker.sock"
 
 
