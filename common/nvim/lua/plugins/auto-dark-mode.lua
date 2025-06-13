@@ -9,7 +9,7 @@ return {
     end,
     set_light_mode = function()
       vim.api.nvim_set_option_value("background", "light", {})
-      vim.cmd("colorscheme leaf")
+      vim.cmd("colorscheme rose-pine")
       vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#6b6b6b" })
     end,
   },

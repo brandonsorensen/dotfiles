@@ -9,6 +9,7 @@ return {
 
     lint.linters_by_ft = {
       swift = { "swiftlint" },
+      terraform = { "tflint" },
     }
 
     vim.api.nvim_create_autocmd({ "BufWritePost" }, {
