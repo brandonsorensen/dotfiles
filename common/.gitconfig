@@ -2,20 +2,22 @@
 [user]
 # Please adapt and uncomment the following lines:
 	name = Brandon Sorensen
-	email = brandon.sorensen@stepstone.com
+	email = Brandon.Sorensen@trendminer.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEO6d74Sybz12gqH5O1fAAJ5F1wAJye9Irj13P2F4mFs
 [core]
 	askpass = git-gui--askpass
 	autocrlf = input
-	editor = vim
-	excludesfile = /Users/sorenb01/.gitignore_global
+	editor = nvim
+	excludesfile = /Users/Brandon.Sorensen/.gitignore_global
+	sshCommand = /usr/bin/ssh -i /Users/Brandon.Sorensen/.ssh/id_gh_ed25519
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true
