@@ -8,7 +8,7 @@ return {
       config = false,
       dependencies = { "nvim-lspconfig" },
     },
-    { "folke/neodev.nvim", opts = {} },
+    { "folke/lazydev.nvim", opts = {} },
     -- "mason.nvim",
     -- "williamboman/mason-lspconfig.nvim",
   },
