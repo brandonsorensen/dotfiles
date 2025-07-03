@@ -21,3 +21,5 @@
 	syntax-theme = GitHub
 [merge]
     conflictstyle = zdiff3
+[diff]
+	tool = nvimdiff
