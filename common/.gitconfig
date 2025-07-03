@@ -5,10 +5,12 @@
 [core]
 	askpass = git-gui--askpass
 	autocrlf = input
-	editor = vim
-	excludesfile = /Users/sorenb01/.gitignore_global
+	editor = nvim
+	excludesfile = ~/.gitignore_global
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+[diff]
+	tool = nvimdiff
