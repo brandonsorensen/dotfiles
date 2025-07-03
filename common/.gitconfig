@@ -1,6 +1,5 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
 	name = Brandon Sorensen
 	email = brandon@brandonsorensen.com
 [core]
@@ -18,7 +17,7 @@
     diffFilter = delta --color-only
 [delta]
     navigate = true  # use n and N to move between diff sections
-	side-by-side = false
-	syntax-theme = Nord
+	side-by-side = true
+	syntax-theme = GitHub
 [merge]
     conflictstyle = zdiff3
