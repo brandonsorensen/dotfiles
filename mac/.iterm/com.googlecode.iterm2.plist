@@ -4,6 +4,10 @@
 <dict>
 	<key>AutoHideTmuxClientSession</key>
 	<true/>
+	<key>ClosingTmuxTabKillsTmuxWindows</key>
+	<true/>
+	<key>ClosingTmuxTabKillsTmuxWindows_selection</key>
+	<integer>1</integer>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>Nord</key>
@@ -361,9 +365,13 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>CustomScriptsFolder</key>
+	<string>/Users/Brandon.Sorensen/repos/iterm-scripts</string>
 	<key>Default Bookmark Guid</key>
 	<string>B14C559D-DB44-4A10-ACF6-57292379FE86</string>
 	<key>DimOnlyText</key>
+	<true/>
+	<key>EnableAPIServer</key>
 	<true/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
@@ -1964,7 +1972,7 @@
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
-			<integer>0</integer>
+			<integer>50000</integer>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -2127,7 +2135,7 @@
 			<key>Transparency</key>
 			<real>0.063677285885260615</real>
 			<key>Unlimited Scrollback</key>
-			<true/>
+			<false/>
 			<key>Use Bold Font</key>
 			<true/>
 			<key>Use Bright Bold</key>
@@ -3830,12 +3838,60 @@
 			<false/>
 			<key>Shortcut</key>
 			<string>L</string>
+			<key>Show Status Bar</key>
+			<true/>
 			<key>Silence Bell</key>
 			<true/>
 			<key>Smart Cursor Color (Dark)</key>
 			<false/>
 			<key>Smart Cursor Color (Light)</key>
 			<false/>
+			<key>Status Bar Layout</key>
+			<dict>
+				<key>advanced configuration</key>
+				<dict>
+					<key>algorithm</key>
+					<integer>0</integer>
+					<key>auto-rainbow style</key>
+					<integer>0</integer>
+					<key>font</key>
+					<string>.AppleSystemUIFont 12</string>
+					<key>remove empty components</key>
+					<false/>
+				</dict>
+				<key>components</key>
+				<array>
+					<dict>
+						<key>class</key>
+						<string>iTermStatusBarWorkingDirectoryComponent</string>
+						<key>configuration</key>
+						<dict>
+							<key>knobs</key>
+							<dict>
+								<key>base: compression resistance</key>
+								<integer>1</integer>
+								<key>base: priority</key>
+								<real>5</real>
+								<key>maxwidth</key>
+								<real>+infinity</real>
+								<key>minwidth</key>
+								<integer>0</integer>
+								<key>path</key>
+								<string>path</string>
+							</dict>
+							<key>layout advanced configuration dictionary value</key>
+							<dict>
+								<key>algorithm</key>
+								<integer>0</integer>
+								<key>auto-rainbow style</key>
+								<integer>0</integer>
+								<key>remove empty components</key>
+								<false/>
+							</dict>
+						</dict>
+					</dict>
+				</array>
+			</dict>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tab Color (Dark)</key>
@@ -3957,6 +4013,8 @@
 	<key>TabViewType</key>
 	<integer>0</integer>
 	<key>TmuxSyncClipboard</key>
+	<true/>
+	<key>UseCustomScriptsFolder</key>
 	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
