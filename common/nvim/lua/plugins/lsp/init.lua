@@ -84,6 +84,7 @@ return {
         },
       },
       terraformls = {},
+      ts_ls = {},
       ruff = {},
       sourcekit = {
         filetypes = { "swift" },
