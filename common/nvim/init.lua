@@ -1,3 +1,5 @@
+vim.g.python3_host_prog = vim.fn.expand("~/venvs/pynvim/bin/python3")
+
 require("config")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
