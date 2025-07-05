@@ -11,6 +11,7 @@ export ZSH=$HOME/.oh-my-zsh
 export BAT_CONFIG_PATH="$HOME/.bat.conf"
 export LANG=en_US.UTF-8
 
+
 case "$OSTYPE" in
 	darwin*)
 		is_mac=true
@@ -22,6 +23,8 @@ esac
 
 if [ "$is_mac" = true ]; then
 	export PATH="/opt/homebrew/bin/:$PATH"
+	eval "$(brew shellenv)"
+	fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 	plugins=(git brew tmux pip macos)
 else
 	plugins=(git tmux pip)
@@ -74,7 +77,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 export PATH="$PYENV_ROOT/shims:${PATH}"
 eval "$(pyenv init -)"
 
-alias vfzf="fzf --bind 'enter:become(vim {})'"
+alias vfzf="fzf --bind 'enter:become(nvim {})'"
 run_fzf_widget() {
 	vfzf .
 }
