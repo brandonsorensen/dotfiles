@@ -8,6 +8,9 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+autoload -Uz compinit
+compinit
+
 case "$OSTYPE" in 
 	darwin*)
 		is_mac=true
