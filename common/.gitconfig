@@ -30,3 +30,5 @@
     conflictstyle = zdiff3
 [diff]
 	tool = nvimdiff
+[push]
+	autoSetupRemote = true
