@@ -30,3 +30,5 @@
 	side-by-side = true
 	line-numbers = true
 	syntax-theme = GitHub
+[push]
+	autoSetupRemote = true
