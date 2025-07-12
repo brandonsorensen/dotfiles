@@ -16,3 +16,5 @@ alias tcc='tmux -CC'
 # just
 alias jb='just build'
 alias jr='just run'
+
+alias gs='git switch'
