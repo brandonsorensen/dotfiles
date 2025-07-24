@@ -32,3 +32,5 @@
 	tool = nvimdiff
 [push]
 	autoSetupRemote = true
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"
