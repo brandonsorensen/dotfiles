@@ -17,3 +17,6 @@ alias gs='git switch'
 alias co='git checkout'
 
 alias rg="rg --hidden --glob '!.git'"
+
+alias j='just'
+alias jb='just build'
