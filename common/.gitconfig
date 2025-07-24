@@ -32,3 +32,5 @@
 	syntax-theme = GitHub
 [push]
 	autoSetupRemote = true
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"
