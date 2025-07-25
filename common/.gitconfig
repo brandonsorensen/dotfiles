@@ -6,7 +6,7 @@
 	askpass = git-gui--askpass
 	autocrlf = input
 	editor = nvim
-	pager = delta
+	pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
 	excludesfile = $HOME/.gitignore_global
 [filter "lfs"]
 	process = git-lfs filter-process
@@ -18,7 +18,16 @@
 [delta]
     navigate = true  # use n and N to move between diff sections
 	side-by-side = true
-	syntax-theme = GitHub
+	syntax-theme = Nord
+[core]
+
+[delta "light-mode"]
+  light = true
+  syntax-theme = GitHub
+
+[delta "dark-mode"]
+  light = false
+  syntax-theme = Nord
 [merge]
     conflictstyle = zdiff3
 [diff]
