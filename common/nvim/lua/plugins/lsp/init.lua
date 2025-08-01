@@ -60,9 +60,10 @@ return {
               allFeatures = true,
               allTargets = true,
             },
-            checkOnSave = {
+            check = {
               command = "clippy",
             },
+            checkOnSave = true,
           },
         },
       },
