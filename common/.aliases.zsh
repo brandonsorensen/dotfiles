@@ -19,3 +19,6 @@ alias rg="rg --hidden --glob '!.git'"
 alias j='just'
 alias jb='just build'
 alias jr='just run'
+
+alias darkmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to true'"
+alias lightmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to false'"
