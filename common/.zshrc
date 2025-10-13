@@ -85,3 +85,4 @@ zle -N run_fzf_widget
 bindkey '^F' run_fzf_widget
 export MODULAR_HOME="$HOME/.modular"
 export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
