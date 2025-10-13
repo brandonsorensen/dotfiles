@@ -15,4 +15,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.lsp.enable({
+  "rust_analyzer",
+  "lua_ls",
+  "bashls",
+  "just",
+  "basedpyright",
+  "ruff",
+  "terraformls",
+})
 require("lazy").setup("plugins")
