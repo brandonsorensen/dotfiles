@@ -2,14 +2,8 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewfile" },
   config = function(_, opts)
-    vim.lsp.config("*", {
-      inlay_hints = {
-        enabled = true,
-      },
-      codelens = {
-        enabled = true,
-      },
-    })
+    vim.lsp.inlay_hint.enable(true)
+    vim.lsp.config("*", {})
     vim.lsp.config("rust_analyzer", {
       settings = {
         ["rust-analyzer"] = {
