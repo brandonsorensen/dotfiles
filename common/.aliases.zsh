@@ -5,6 +5,7 @@ alias dtypes="column -xt $HOME/.dtypes.tsv"
 alias bztar="tar -jcvf"
 alias bzuntar="tar -xjf"
 alias lg='lazygit'
+alias lc='lazydocker'
 alias cb='cargo build'
 alias cr='cargo run'
 alias tcc='tmux -CC'
@@ -20,3 +21,5 @@ alias rg="rg --hidden --glob '!.git'"
 
 alias j='just'
 alias jb='just build'
+
+alias le='eza'
