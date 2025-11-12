@@ -13,12 +13,15 @@ alias cpwd='pwd|pbcopy'
 alias gs='git switch'
 alias co='git checkout'
 alias lg='lazygit'
+alias lc='lazydocker'
 
 alias rg="rg --hidden --glob '!.git'"
 
 alias j='just'
 alias jb='just build'
 alias jr='just run'
+
+alias le='eza'
 
 alias darkmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to true'"
 alias lightmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to false'"
