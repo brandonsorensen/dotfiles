@@ -1,4 +1,5 @@
 return {
+  import = "plugins.lsp.jdtls",
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewfile" },
   dependencies = {
@@ -83,8 +84,23 @@ return {
           },
         },
       },
+      jdtls = {},
       terraformls = {},
-      ts_ls = {},
+      ts_ls = {
+        format = {
+          enable = false,
+          insertSpaceAfterOpeningAndBeforeClosingEmptyBraces = false,
+          insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = false,
+        },
+        inlayHints = {
+          parameterNames = { enabled = "literals" },
+          parameterTypes = { enabled = true },
+          variableTypes = { enabled = true },
+          propertyDeclarationTypes = { enabled = true },
+          functionLikeReturnTypes = { enabled = true },
+          enumMemberValues = { enabled = true },
+        },
+      },
       ruff = {},
       sourcekit = {
         filetypes = { "swift" },
