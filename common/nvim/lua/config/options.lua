@@ -1,6 +1,7 @@
 -- style
 vim.cmd("syntax on")
 vim.o.background = "light"
+vim.o.winborder = "rounded"
 vim.opt.rnu = true
 vim.opt.number = true
 vim.opt.tabstop = 4
