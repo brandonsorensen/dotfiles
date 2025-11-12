@@ -1,4 +1,5 @@
 vim.g.python3_host_prog = vim.fn.expand("~/venvs/pynvim/bin/python3")
+
 require("config")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -14,4 +15,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.lsp.enable({
+  "rust_analyzer",
+  "lua_ls",
+  "bashls",
+  "just",
+  "basedpyright",
+  "ruff",
+  "terraformls",
+})
 require("lazy").setup("plugins")

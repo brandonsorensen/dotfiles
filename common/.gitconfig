@@ -1,6 +1,5 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
 	name = Brandon Sorensen
 	email = Brandon.Sorensen@trendminer.com
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEO6d74Sybz12gqH5O1fAAJ5F1wAJye9Irj13P2F4mFs
@@ -8,9 +7,8 @@
 	askpass = git-gui--askpass
 	autocrlf = input
 	editor = nvim
-	excludesfile = /Users/Brandon.Sorensen/.gitignore_global
 	sshCommand = /usr/bin/ssh -i /Users/Brandon.Sorensen/.ssh/id_gh_ed25519
-	pager = delta
+	pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
 	excludesfile = $HOME/.gitignore_global
 [filter "lfs"]
 	process = git-lfs filter-process
@@ -25,15 +23,23 @@
 	gpgsign = true
 [interactive]
     diffFilter = delta --color-only
-[delta]
-    navigate = true  # use n and N to move between diff sections
-	side-by-side = true
-	line-numbers = true
-	syntax-theme = GitHub
-[push]
-	autoSetupRemote = true
-[mergetool "nvimdiff"]
-  layout = "LOCAL,BASE,REMOTE / MERGED"
 [alias]
 	reword = commit --amend
 	ac = !git add -A && git commit
+[delta]
+	navigate = true  # use n and N to move between diff sections
+	side-by-side = true
+	line-numbers = true
+[push]
+	autoSetupRemote = true
+[delta "light-mode"]
+	light = true
+	syntax-theme = GitHub
+
+[delta "dark-mode"]
+	light = false
+	syntax-theme = Nord
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	tool = nvimdiff
