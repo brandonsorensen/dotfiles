@@ -34,3 +34,6 @@
 	autoSetupRemote = true
 [mergetool "nvimdiff"]
   layout = "LOCAL,BASE,REMOTE / MERGED"
+[alias]
+	reword = commit --amend
+	ac = !git add -A && git commit
