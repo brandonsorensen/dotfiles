@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository structure
 
-This is a multi-platform dotfiles repository. Configs live in `common/` (Linux/shared) and `mac/` (macOS-specific). Deployment is via manual symlinks — no GNU Stow. See `README.md` for the full setup checklist.
+This is a multi-platform dotfiles repository. Configs live in `common/` (shared) and `mac/` (macOS-specific). Deployment is via manual symlinks — no GNU Stow.
 
-- `common/` — sway, waybar, kanshi, gtklock, systemd services, nvim, tmux, vim, shell
+- `common/` — nvim, tmux, shell, git, and Linux/Wayland configs (sway, waybar, kanshi, gtklock, systemd)
 - `mac/` — Brewfile, iTerm2 profiles
 - `scripts/` — utility scripts (gtklock wrapper, NVIDIA sway setup)
 
-**Branches:** `master` is the common base. Machine-specific branches (e.g. `terra`) extend it for that machine's OS and hardware — some machines run macOS, others Linux.
+**Branches:** `master` is the common base. Machine-specific branches (e.g. `terra`) extend it for a particular OS and hardware. See `README.md` for the branch strategy and sync workflow.
 
 ## Applying config changes
 
