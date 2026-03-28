@@ -23,5 +23,6 @@ vim.lsp.enable({
   "basedpyright",
   "ruff",
   "terraformls",
+  "jdtls",
 })
 require("lazy").setup("plugins")
