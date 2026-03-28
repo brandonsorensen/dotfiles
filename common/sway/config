@@ -45,6 +45,9 @@ bindsym $mod+Print       exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%
 # Screen lock
 bindsym $mod+Escape      exec $lock
 
+# HDR toggle (for gaming — off by default, requires WLR_RENDERER=vulkan)
+bindsym $mod+Shift+g     output DP-3 hdr toggle
+
 # Sway control
 bindsym $mod+Shift+r     reload
 bindsym $mod+Shift+e     exec swaymsg exit
