@@ -17,14 +17,17 @@ input "type:pointer" {
 }
 
 ### Startup Apps
+# "current" is a symlink: ln -sf ~/Pictures/wallpapers/<name> ~/Pictures/wallpapers/current
 output * bg $HOME/Pictures/wallpapers/current fill
 exec mako
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# Waybar and kanshi are managed as systemd user services (via sway-session.target),
+# not exec'd here. See README.md for setup instructions.
 exec swayidle -w \
-    timeout 300 'gtklock' \
+    timeout 300 $lock \
     timeout 600 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
-    before-sleep 'gtklock'
+    before-sleep $lock
 
 ### Key Bindings
 
@@ -96,6 +99,12 @@ mode "resize" {
 }
 
 ### Media & Volume Keys
+# Keychron K8: media keys require the hid_apple kernel module with fnmode=1.
+# One-time setup (persisted via modprobe.d — see README.md):
+#   sudo modprobe hid_apple
+#   echo 'options hid_apple fnmode=1' | sudo tee /etc/modprobe.d/hid_apple.conf
+#   sudo mkinitcpio -P
+# Alternatively: hold fn+X+L for 4s to toggle hardware fn mode.
 bindsym XF86AudioPlay        exec playerctl play-pause
 bindsym XF86AudioNext        exec playerctl next
 bindsym XF86AudioPrev        exec playerctl previous

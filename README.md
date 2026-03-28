@@ -20,7 +20,41 @@ Link the relevant configs into `~/.config/`:
 ln -sf ~/dotfiles/common/sway       ~/.config/sway
 ln -sf ~/dotfiles/common/waybar     ~/.config/waybar
 ln -sf ~/dotfiles/common/kanshi     ~/.config/kanshi
+ln -sf ~/dotfiles/common/gtklock    ~/.config/gtklock
 ```
+
+### Wallpaper
+
+The sway config and gtklock stylesheet reference `~/Pictures/wallpapers/current`.
+Set this to your desired wallpaper via symlink:
+
+```bash
+ln -sf ~/Pictures/wallpapers/<name>.jpg ~/Pictures/wallpapers/current
+```
+
+### Lock screen (gtklock)
+
+`gtklock` is used as the lock screen. The wrapper script `scripts/gtklock-launch.sh`
+resolves `$HOME` in the CSS stylesheet at runtime (GTK CSS `url()` does not expand
+environment variables). Make the script executable after cloning:
+
+```bash
+chmod +x ~/dotfiles/scripts/gtklock-launch.sh
+```
+
+### Keychron K8 media keys
+
+The Keychron K8 requires the `hid_apple` kernel module for media keys to work on Linux.
+To persist this across reboots:
+
+```bash
+sudo modprobe hid_apple
+echo 'options hid_apple fnmode=1' | sudo tee /etc/modprobe.d/hid_apple.conf
+sudo mkinitcpio -P
+```
+
+Alternatively, hold `fn+X+L` for 4 seconds to toggle hardware fn mode without any
+driver configuration.
 
 ### Set up systemd user services (Linux/sway only)
 

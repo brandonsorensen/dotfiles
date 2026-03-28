@@ -10,6 +10,7 @@
         "sway/workspaces",
         "sway/mode"
     ],
+    // Center is intentionally empty: webcam protrudes over screen center.
     "modules-center": [],
     "modules-right": [
         "mpris",
@@ -61,6 +62,7 @@
         "tooltip-format": "{used:0.1f} GiB used / {total:0.1f} GiB"
     },
 
+    // left-click: mute toggle  |  right-click: open pavucontrol  |  scroll: ±5%
     "wireplumber": {
         "format": "vol  {volume}%",
         "format-muted": "vol  muted",
