@@ -16,6 +16,7 @@
         "network",
         "cpu",
         "memory",
+        "wireplumber",
         "clock",
         "custom/power"
     ],
@@ -30,15 +31,12 @@
     },
 
     "mpris": {
-        "format": "{player_icon}  {title}",
-        "format-paused": "{player_icon}  {title}",
-        "player-icons": {
-            "default": "▶"
-        },
+        "format": "{status_icon}  {title}",
+        "format-paused": "{status_icon}  {title}",
         "status-icons": {
-            "playing": "",
-            "paused": "",
-            "stopped": ""
+            "playing": "▶",
+            "paused": "⏸",
+            "stopped": "⏹"
         },
         "max-length": 48,
         "tooltip-format": "{title} — {artist}\n{album}"
@@ -61,6 +59,14 @@
         "interval": 5,
         "format": "mem  {percentage}%",
         "tooltip-format": "{used:0.1f} GiB used / {total:0.1f} GiB"
+    },
+
+    "wireplumber": {
+        "format": "vol  {volume}%",
+        "format-muted": "vol  muted",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "pavucontrol",
+        "scroll-step": 5
     },
 
     "clock": {

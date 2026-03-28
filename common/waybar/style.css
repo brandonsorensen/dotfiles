@@ -56,6 +56,7 @@ window#waybar {
 #network,
 #cpu,
 #memory,
+#wireplumber,
 #clock,
 #custom-power {
     padding: 0 10px;
@@ -105,6 +106,7 @@ tooltip label {
 #mpris,
 #network,
 #cpu,
-#memory {
+#memory,
+#wireplumber {
     border-right: 2px solid rgba(255, 255, 255, 0.12);
 }
