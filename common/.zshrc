@@ -8,6 +8,7 @@ fi
 ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export ZSH_THEME="powerlevel10k/powerlevel10k"
 export BAT_CONFIG_PATH="$HOME/.bat.conf"
 export LANG=en_US.UTF-8
 
