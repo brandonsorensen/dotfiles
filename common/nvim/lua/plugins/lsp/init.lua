@@ -1,5 +1,5 @@
 return {
-  import = "plugins.lsp.jdtls",
+  import = "plugins.lsp",
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewfile" },
   config = function(_, opts)
@@ -79,6 +79,24 @@ return {
         },
       },
     })
+    vim.lsp.config("yamlls", {
+      settings = {
+        yaml = {
+          schemas = {
+            ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+          },
+        },
+      },
+    })
+    vim.lsp.config("helm_ls", {
+      settings = {
+        ["helm-ls"] = {
+          yamlls = {
+            path = "yaml-language-server",
+          },
+        },
+      },
+    })
     vim.lsp.enable({
       "rust_analyzer",
       "lua_ls",
@@ -87,6 +105,10 @@ return {
       "basedpyright",
       "ruff",
       "terraformls",
+      "ts_ls",
+      "yamlls",
+      "helm_ls",
+      "docker_language_server",
     })
   end,
 }
