@@ -1,6 +1,6 @@
 -- style
 vim.cmd("syntax on")
-vim.o.background = "light"
+vim.o.winborder = "rounded"
 vim.opt.rnu = true
 vim.opt.number = true
 vim.opt.tabstop = 4
@@ -12,7 +12,6 @@ vim.opt.backspace = "indent,eol,start"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.guicursor = "n-v-c-i:block"
-
 -- disabled netrw in favor of nvim-tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
