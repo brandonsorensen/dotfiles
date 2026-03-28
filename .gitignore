@@ -4,3 +4,4 @@
 /common/.ssh/*.pub
 /common/.vim/.netrwhist
 /common/.terminfo/
+/.claude/settings.local.json
