@@ -65,6 +65,7 @@ ln -sf ~/dotfiles/common/sway       ~/.config/sway
 ln -sf ~/dotfiles/common/waybar     ~/.config/waybar
 ln -sf ~/dotfiles/common/kanshi     ~/.config/kanshi
 ln -sf ~/dotfiles/common/gtklock    ~/.config/gtklock
+sudo ln -sf ~/dotfiles/common/greetd/config.toml /etc/greetd/config.toml
 ```
 
 ### Wallpaper
@@ -84,6 +85,14 @@ environment variables). Make the script executable after cloning:
 
 ```bash
 chmod +x ~/dotfiles/scripts/gtklock-launch.sh
+```
+
+### greetd login manager
+
+greetd is configured at `/etc/greetd/config.toml`. The config is tracked at `common/greetd/config.toml` — symlink it with:
+
+```bash
+sudo ln -sf ~/dotfiles/common/greetd/config.toml /etc/greetd/config.toml
 ```
 
 ### Keychron K8 media keys
