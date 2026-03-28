@@ -1,0 +1,11 @@
+[Unit]
+Description=Waybar
+PartOf=sway-session.target
+After=sway-session.target
+
+[Service]
+ExecStart=/usr/bin/waybar
+Restart=on-failure
+
+[Install]
+WantedBy=sway-session.target

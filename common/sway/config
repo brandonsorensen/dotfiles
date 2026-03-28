@@ -14,14 +14,9 @@ input "type:pointer" {
     accel_profile flat
 }
 
-### Environment
-exec_always systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE SWAYSOCK
-exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland SWAYSOCK
-
 ### Startup Apps
-exec waybar
+output * bg $HOME/Pictures/wallpapers/current fill
 exec mako
-exec kanshi
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec swayidle -w \
     timeout 300 'swaylock -f -c 2E3440' \

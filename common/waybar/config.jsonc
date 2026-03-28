@@ -1,0 +1,93 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 0,
+    "exclusive": true,
+
+    "modules-left": [
+        "sway/workspaces",
+        "sway/mode"
+    ],
+    "modules-center": [
+        "mpris"
+    ],
+    "modules-right": [
+        "network",
+        "cpu",
+        "memory",
+        "clock",
+        "custom/power"
+    ],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": "  {}"
+    },
+
+    "mpris": {
+        "format": "{player_icon}  {title}",
+        "format-paused": "{player_icon}  {title}",
+        "player-icons": {
+            "cider": "",
+            "default": ""
+        },
+        "status-icons": {
+            "playing": "",
+            "paused": "",
+            "stopped": ""
+        },
+        "max-length": 48,
+        "tooltip-format": "{title} — {artist}\n{album}"
+    },
+
+    "network": {
+        "interval": 2,
+        "format-ethernet": "↑ {bandwidthUpBytes}  ↓ {bandwidthDownBytes}",
+        "format-disconnected": "disconnected",
+        "tooltip-format": "{ifname}  {ipaddr}/{cidr}"
+    },
+
+    "cpu": {
+        "interval": 2,
+        "format": "cpu  {usage}%",
+        "tooltip": false
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": "mem  {percentage}%",
+        "tooltip-format": "{used:0.1f} GiB used / {total:0.1f} GiB"
+    },
+
+    "clock": {
+        "format": "{:%a %b %e   %I:%M %p}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "weeks-pos": "",
+            "on-scroll": 1,
+            "format": {
+                "today": "<b><u>{}</u></b>"
+            }
+        }
+    },
+
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "$HOME/.config/waybar/power_menu.xml",
+        "menu-actions": {
+            "shutdown": "shutdown now",
+            "reboot": "reboot",
+            "logout": "swaymsg exit",
+            "suspend": "systemctl suspend"
+        }
+    }
+}
