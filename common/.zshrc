@@ -5,9 +5,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+autoload -Uz compinit
+compinit
+
+
 ZSH_DISABLE_COMPFIX=true
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export ZSH_THEME="powerlevel10k/powerlevel10k"
 export BAT_CONFIG_PATH="$HOME/.bat.conf"
 export LANG=en_US.UTF-8
 
@@ -70,7 +75,7 @@ bindkey '^[^M' self-insert-unmeta
 export GIT_EDITOR=nvim
 export EDITOR=nvim
 
-export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --ignore-file ~/.git/info/exclude'
+export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --ignore-file .git/info/exclude'
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
