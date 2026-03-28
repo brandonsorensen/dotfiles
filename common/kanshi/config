@@ -1,0 +1,3 @@
+profile home {
+    output DP-3 mode 5120x2880@165Hz position 0 0 scale 2
+}
