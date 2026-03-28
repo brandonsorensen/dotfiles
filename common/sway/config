@@ -2,7 +2,9 @@
 set $mod Mod1
 set $term ghostty
 set $menu wofi --show drun
-set $lock swaylock -f -c 2E3440
+# gtklock-launch.sh wraps gtklock to expand $HOME in the CSS stylesheet,
+# since GTK CSS url() does not support environment variable substitution.
+set $lock $HOME/dotfiles/scripts/gtklock-launch.sh
 
 ### Input
 input "type:keyboard" {
@@ -19,10 +21,10 @@ output * bg $HOME/Pictures/wallpapers/current fill
 exec mako
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec swayidle -w \
-    timeout 300 'swaylock -f -c 2E3440' \
+    timeout 300 'gtklock' \
     timeout 600 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
-    before-sleep 'swaylock -f -c 2E3440'
+    before-sleep 'gtklock'
 
 ### Key Bindings
 
@@ -100,5 +102,5 @@ client.unfocused        #4C566A #2E3440 #D8DEE9 #4C566A #4C566A
 client.focused_inactive #4C566A #3B4252 #D8DEE9 #4C566A #4C566A
 client.urgent           #BF616A #BF616A #ECEFF4 #BF616A #BF616A
 
-default_border pixel 2
-gaps inner 6
+default_border pixel 3
+gaps inner 4
