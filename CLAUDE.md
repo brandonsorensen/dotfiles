@@ -39,7 +39,7 @@ Leader key is `<Space>`. Navigation is vim-style throughout.
 - **Terminal:** ghostty  |  **Launcher:** wofi  |  **Notifications:** mako
 - **Lock screen:** gtklock via `scripts/gtklock-launch.sh` (wrapper required — GTK CSS `url()` doesn't expand `$HOME`)
 - **Waybar/kanshi** are systemd user services (`sway-session.target`), not exec'd from sway config
-- **Display scaling:** kanshi profile `home` drives the 5K display at 2× HiDPI; restart kanshi if scaling resets after sway reload
+- **Display scaling:** kanshi profile `home` drives the 5K display at 2× HiDPI; `exec_always` in sway config auto-restarts kanshi on every reload to reapply scaling
 - **Media keys:** Keychron K8 requires `hid_apple` module with `fnmode=1` — see README for persistence instructions
 - **Audio:** PipeWire + WirePlumber; use `wpctl` for CLI control, `pavucontrol` for GUI
 

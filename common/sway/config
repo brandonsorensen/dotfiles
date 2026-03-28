@@ -23,6 +23,8 @@ exec mako
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Waybar and kanshi are managed as systemd user services (via sway-session.target),
 # not exec'd here. See README.md for setup instructions.
+# Restart kanshi on every reload so HiDPI scaling is reapplied after sway reload.
+exec_always systemctl --user restart kanshi
 exec swayidle -w \
     timeout 300 $lock \
     timeout 600 'swaymsg "output * dpms off"' \
@@ -120,4 +122,4 @@ client.focused_inactive #4C566A #3B4252 #D8DEE9 #4C566A #4C566A
 client.urgent           #BF616A #BF616A #ECEFF4 #BF616A #BF616A
 
 default_border pixel 3
-gaps inner 4
+gaps inner 3
