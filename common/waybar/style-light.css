@@ -65,7 +65,7 @@ window#waybar {
 
 #network {
     /* Fixed width prevents layout shift as bandwidth numbers change width */
-    min-width: 220px;
+    min-width: 140px;
 }
 
 #clock {
