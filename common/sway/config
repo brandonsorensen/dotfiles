@@ -119,12 +119,12 @@ bindsym XF86AudioMute        exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
 bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 
-### Appearance (Nord theme)
+### Appearance
+# Color scheme is managed by darkman (dark/light mode switching).
+# The colorscheme file is a symlink maintained by dark/light mode scripts.
+# See ~/dotfiles/common/sway/colors-dark and colors-light for the palettes.
 # client.focused <border> <background> <text> <indicator> <child_border>
-client.focused          #88C0D0 #3B4252 #ECEFF4 #88C0D0 #88C0D0
-client.unfocused        #4C566A #2E3440 #D8DEE9 #4C566A #4C566A
-client.focused_inactive #4C566A #3B4252 #D8DEE9 #4C566A #4C566A
-client.urgent           #BF616A #BF616A #ECEFF4 #BF616A #BF616A
+include $HOME/.config/sway/colorscheme
 
 default_border pixel 3
 gaps inner 3

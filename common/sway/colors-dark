@@ -1,0 +1,5 @@
+# Nord color scheme
+client.focused          #88C0D0 #3B4252 #ECEFF4 #88C0D0 #88C0D0
+client.unfocused        #4C566A #2E3440 #D8DEE9 #4C566A #4C566A
+client.focused_inactive #4C566A #3B4252 #D8DEE9 #4C566A #4C566A
+client.urgent           #BF616A #BF616A #ECEFF4 #BF616A #BF616A
