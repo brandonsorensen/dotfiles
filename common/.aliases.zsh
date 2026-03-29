@@ -25,3 +25,9 @@ alias le='eza'
 
 alias darkmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to true'"
 alias lightmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to false'"
+
+# Prevent suspend for a given number of seconds (default: 1 hour)
+# Usage: caffeinate [seconds]
+caffeinate() {
+    systemd-inhibit --what=sleep --who="caffeinate" --why="manual hold" sleep "${1:-3600}"
+}

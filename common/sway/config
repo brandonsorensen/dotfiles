@@ -32,6 +32,7 @@ exec swayidle -w \
     timeout 300 $lock \
     timeout 315 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
+    timeout 7200 'systemctl suspend' \
     before-sleep $lock
 
 ### Key Bindings
