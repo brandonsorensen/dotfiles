@@ -124,6 +124,11 @@ bindsym XF86AudioMute        exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
 bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 
+### 1Password
+bindsym Ctrl+Shift+space exec 1password --quick-access
+bindsym Ctrl+Shift+l     exec 1password --lock
+bindsym Ctrl+backslash   exec 1password --fill
+
 ### Appearance
 # Color scheme is managed by darkman (dark/light mode switching).
 # The colorscheme file is a symlink maintained by dark/light mode scripts.
