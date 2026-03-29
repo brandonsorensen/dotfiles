@@ -22,6 +22,7 @@ output * bg $HOME/Pictures/wallpapers/current fill
 # Export Wayland environment to systemd so user services (waybar, kanshi) can connect to the display.
 exec systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
 exec mako
+exec wl-paste --type text --watch cliphist store
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Waybar and kanshi are managed as systemd user services (via sway-session.target),
 # not exec'd here. See README.md for setup instructions.
@@ -39,6 +40,9 @@ exec swayidle -w \
 bindsym $mod+Return      exec $term
 bindsym $mod+Space       exec $menu
 bindsym $mod+Shift+q     kill
+
+# Clipboard manager
+bindsym $mod+Shift+v     exec cliphist list | wofi --dmenu | cliphist decode | wl-copy
 
 # Screenshots
 bindsym Print            exec grim ~/Pictures/screenshot-$(date +%F_%T).png
