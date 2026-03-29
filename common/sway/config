@@ -64,7 +64,7 @@ bindsym $mod+Shift+f     fullscreen toggle
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+e           layout toggle split
 bindsym $mod+r           layout stacking
-bindsym $mod+i           layout tabbed
+bindsym $mod+Shift+i     layout tabbed
 
 # Focus (vim-style)
 bindsym $mod+h           focus left
