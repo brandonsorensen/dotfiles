@@ -19,6 +19,8 @@ input "type:pointer" {
 ### Startup Apps
 # "current" is a symlink: ln -sf ~/Pictures/wallpapers/<name> ~/Pictures/wallpapers/current
 output * bg $HOME/Pictures/wallpapers/current fill
+# Export Wayland environment to systemd so user services (waybar, kanshi) can connect to the display.
+exec systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
 exec mako
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # Waybar and kanshi are managed as systemd user services (via sway-session.target),
