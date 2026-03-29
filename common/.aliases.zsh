@@ -8,7 +8,10 @@ alias cr='cargo run'
 
 alias tcc='tmux -CC'
 
-alias cpwd='pwd|pbcopy'
+alias pbcopy='wl-copy'
+alias pbpaste='wl-paste'
+
+alias cpwd='pwd|wl-copy'
 
 alias gs='git switch'
 alias co='git checkout'
