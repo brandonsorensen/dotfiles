@@ -30,7 +30,7 @@ exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always systemctl --user restart kanshi
 exec swayidle -w \
     timeout 300 $lock \
-    timeout 600 'swaymsg "output * dpms off"' \
+    timeout 315 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
     before-sleep $lock
 
