@@ -1,0 +1,46 @@
+[theme.palette]
+# Polar Night
+background = "#2E3440"
+black = "#2E3440"
+# Snow Storm
+foreground = "#D8DEE9"
+white = "#D8DEE9"
+light_white = "#ECEFF4"
+# Polar Night mid-tones (used as "grays")
+light_black = "#4C566A"
+selection_background = "#434C5E"
+selection_foreground = "#ECEFF4"
+# Frost
+blue = "#5E81AC"
+light_blue = "#81A1C1"
+cyan = "#8FBCBB"
+light_cyan = "#88C0D0"
+# Aurora
+red = "#BF616A"
+light_red = "#BF616A"
+green = "#A3BE8C"
+light_green = "#A3BE8C"
+yellow = "#EBCB8B"
+light_yellow = "#EBCB8B"
+magenta = "#B48EAD"
+light_magenta = "#B48EAD"
+
+[theme.component_style]
+title_bar = { front = "#2E3440", back = "#5E81AC", effect = "bold" }
+matched_highlight = { front = "#2E3440", back = "#EBCB8B" }
+metadata = { front = "#4C566A" }
+username = { effect = "bold" }
+loading_bar = { front = "#88C0D0", back = "#2E3440" }
+header = { front = "#88C0D0", effect = "bold" }
+quote = { front = "#4C566A" }
+italic = { effect = "italic" }
+bold = { effect = "bold" }
+single_code_block = { back = "#3B4252", front = "#D8DEE9" }
+multiline_code_block = { front = "light black", effect = "bold" }
+link = { front = "#88C0D0" }
+link_id = { front = "#2E3440", back = "#5E81AC" }
+current_story_tag = { front = "light white" }
+ask_hn = { front = "red", effect = "bold" }
+tell_hn = { front = "yellow", effect = "bold" }
+show_hn = { front = "blue", effect = "bold" }
+launch_hn = { front = "green", effect = "bold" }
