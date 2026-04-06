@@ -1,3 +1,5 @@
+xwayland force
+
 ### Variables
 set $mod Mod1
 set $term ghostty
@@ -14,13 +16,14 @@ input "type:keyboard" {
 }
 input "type:pointer" {
     accel_profile flat
+	pointer_accel -0.3
 }
 
 ### Startup Apps
 # "current" is a symlink: ln -sf ~/Pictures/wallpapers/<name> ~/Pictures/wallpapers/current
 output * bg $HOME/Pictures/wallpapers/current fill
 # Export Wayland environment to systemd so user services (waybar, kanshi) can connect to the display.
-exec systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE && systemctl --user start sway-session.target
 exec mako
 exec wl-paste --type text --watch cliphist store
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1

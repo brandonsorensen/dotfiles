@@ -85,10 +85,27 @@ window#waybar {
 menu {
     font-size: 14px;
     padding: 4px 0;
+    background-color: #1a1a1a;
+    color: #d4d4d4;
+    border: 1px solid #333333;
 }
 
 menuitem {
     padding: 6px 16px;
+    color: #d4d4d4;
+    background-color: transparent;
+}
+
+menuitem label {
+    color: #d4d4d4;
+}
+
+menuitem:hover {
+    background-color: #2e2e2e;
+}
+
+menuitem:hover label {
+    color: #ffffff;
 }
 
 /* Clock calendar tooltip */
