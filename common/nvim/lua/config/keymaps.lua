@@ -33,6 +33,10 @@ map("n", "<leader>i", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end)
 
+map("n", "<leader>cp", function()
+  vim.fn.setreg("+", vim.fn.expand("%:p"))
+end, { desc = "Copy buffer path to system clipboard" })
+
 -- lsp mappings
 -- move them to LSP module?
 map("n", "gd", function()
