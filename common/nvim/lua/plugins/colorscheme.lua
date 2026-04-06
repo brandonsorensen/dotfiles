@@ -33,10 +33,7 @@ return {
     -- Optional; default configuration will be used if setup isn't called.
     config = function()
       require("everforest").setup({
-        -- Your config here
         transparent_background_level = 1,
-
-        vim.cmd("colorscheme everforest"),
       })
     end,
   },
@@ -44,25 +41,16 @@ return {
     "rose-pine/neovim",
     name = "rose-pine",
     lazy = false,
-    priority = 1000, -- make sure to load this before all the other start plugins
-    opts = {
-      styles = {
-        bold = true,
-        italic = true,
-        transparency = true,
-      },
-    },
+    priority = 1000,
     config = function()
       require("rose-pine").setup({
-        -- Your config here
         styles = {
           bold = true,
           italic = false,
           transparency = true,
         },
-
-        vim.cmd("colorscheme rose-pine"),
       })
+      vim.cmd("colorscheme rose-pine")
     end,
   },
 }
