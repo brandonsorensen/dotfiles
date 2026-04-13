@@ -23,7 +23,7 @@ ctrl + alt - l : yabai -m window --stack east
 # shift + alt - h : yabai -m window --swap north
 
 # move managed window
-# shift + cmd - h : yabai -m window --warp east
+shift + cmd - h : yabai -m window --warp east
 
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
