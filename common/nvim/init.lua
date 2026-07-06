@@ -25,3 +25,5 @@ vim.lsp.enable({
   "terraformls",
 })
 require("lazy").setup("plugins")
+
+vim.cmd(vim.o.background == "dark" and "colorscheme nord" or "colorscheme rose-pine")
