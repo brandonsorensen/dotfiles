@@ -9,8 +9,8 @@
 }
 
 window#waybar {
-    background-color: rgba(250, 244, 237, 0.92);
-    color: #575279;
+    background-color: rgba(12, 12, 12, 0.88);
+    color: #d4d4d4;
 }
 
 /* ── Left ───────────────────────────────────────────────── */
@@ -21,26 +21,26 @@ window#waybar {
 
 #workspaces button {
     padding: 0 6px;
-    color: #9893a5;
+    color: #888888;
     background: transparent;
     box-shadow: none;
 }
 
 #workspaces button.focused {
-    color: #575279;
+    color: #e8e8e8;
 }
 
 #workspaces button.urgent {
-    color: #b4637a;
+    color: #ff6b6b;
 }
 
 #workspaces button:hover {
-    background: rgba(87, 82, 121, 0.08);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 #mode {
     padding: 0 10px;
-    color: #797593;
+    color: #aaaaaa;
     font-style: italic;
 }
 
@@ -48,7 +48,7 @@ window#waybar {
 
 #mpris {
     padding: 0 12px;
-    color: #797593;
+    color: #bbbbbb;
 }
 
 /* ── Right ──────────────────────────────────────────────── */
@@ -60,7 +60,7 @@ window#waybar {
 #clock,
 #custom-power {
     padding: 0 10px;
-    color: #575279;
+    color: #cccccc;
 }
 
 #network {
@@ -69,25 +69,25 @@ window#waybar {
 }
 
 #clock {
-    color: #575279;
+    color: #e8e8e8;
 }
 
 #custom-power {
     padding: 0 12px;
-    color: #797593;
+    color: #cccccc;
     font-size: 18px;
 }
 
 #custom-power:hover {
-    color: #575279;
+    color: #e8e8e8;
 }
 
 menu {
     font-size: 14px;
     padding: 4px 0;
-    background-color: #1a1a1a;
+    background-color: rgba(18, 18, 18, 0.92);
     color: #d4d4d4;
-    border: 1px solid #333333;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 menuitem {
@@ -96,28 +96,21 @@ menuitem {
     background-color: transparent;
 }
 
-menuitem label {
-    color: #d4d4d4;
-}
-
 menuitem:hover {
-    background-color: #2e2e2e;
-}
-
-menuitem:hover label {
+    background-color: rgba(255, 255, 255, 0.08);
     color: #ffffff;
 }
 
 /* Clock calendar tooltip */
 tooltip {
-    background: rgba(250, 244, 237, 0.98);
-    border: 1px solid rgba(87, 82, 121, 0.15);
+    background: rgba(12, 12, 12, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 tooltip label {
     font-size: 20px;
     padding: 14px;
-    color: #575279;
+    color: #d4d4d4;
 }
 
 /* Subtle separator between right-side modules */
@@ -126,5 +119,5 @@ tooltip label {
 #cpu,
 #memory,
 #wireplumber {
-    border-right: 2px solid rgba(87, 82, 121, 0.15);
+    border-right: 2px solid rgba(255, 255, 255, 0.12);
 }
