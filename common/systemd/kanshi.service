@@ -2,12 +2,13 @@
 Description=kanshi
 PartOf=sway-session.target
 After=sway-session.target
+StartLimitIntervalSec=30
+StartLimitBurst=10
 
 [Service]
 ExecStart=/usr/bin/kanshi
 Restart=on-failure
-StartLimitIntervalSec=10
-StartLimitBurst=10
+RestartSec=1
 
 [Install]
 WantedBy=sway-session.target
