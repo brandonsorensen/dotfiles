@@ -9,12 +9,23 @@ vim.api.nvim_create_autocmd("OptionSet", {
     vim.schedule(function()
       if vim.o.background == "dark" then
         vim.cmd("colorscheme nord")
-        vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#54637d" })
       else
         vim.cmd("colorscheme rose-pine")
-        vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#6b6b6b" })
       end
     end)
+  end,
+})
+
+-- Applies colorscheme-specific highlight overrides. Using ColorScheme rather
+-- than OptionSet background ensures overrides are set on every colorscheme
+-- load, including the initial synchronous load at startup.
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function(ev)
+    if ev.match == "nord" then
+      vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#54637d" })
+    elseif ev.match:match("^rose%-pine") then
+      vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#6b6b6b" })
+    end
   end,
 })
 
