@@ -1,0 +1,45 @@
+use_pacman_loading = false
+
+[theme.palette]
+background           = "#2E3440"
+foreground           = "#D8DEE9"
+selection_background = "#4C566A"
+selection_foreground = "#ECEFF4"
+
+black   = "#3B4252"
+red     = "#BF616A"
+green   = "#A3BE8C"
+yellow  = "#EBCB8B"
+blue    = "#5E81AC"
+magenta = "#B48EAD"
+cyan    = "#8FBCBB"
+white   = "#D8DEE9"
+
+light_black   = "#4C566A"
+light_red     = "#BF616A"
+light_green   = "#A3BE8C"
+light_yellow  = "#EBCB8B"
+light_blue    = "#81A1C1"
+light_magenta = "#B48EAD"
+light_cyan    = "#88C0D0"
+light_white   = "#ECEFF4"
+
+[theme.component_style]
+title_bar           = { back = "#D08770", effect = "bold" }
+current_story_tag   = { front = "#ECEFF4" }
+link                = { front = "#88C0D0" }
+link_id             = { front = "#2E3440", back = "#EBCB8B" }
+matched_highlight   = { front = "#2E3440", back = "#EBCB8B" }
+single_code_block   = { front = "#D8DEE9", back = "#3B4252" }
+multiline_code_block = { front = "#4C566A", effect = "bold" }
+header              = { front = "#ECEFF4", effect = "bold" }
+quote               = { front = "#4C566A" }
+italic              = { effect = "italic" }
+bold                = { effect = "bold" }
+metadata            = { front = "#4C566A" }
+username            = { front = "#88C0D0", effect = "bold" }
+loading_bar         = { front = "#88C0D0", back = "#5E81AC" }
+ask_hn              = { front = "#BF616A", effect = "bold" }
+tell_hn             = { front = "#EBCB8B", effect = "bold" }
+show_hn             = { front = "#81A1C1", effect = "bold" }
+launch_hn           = { front = "#A3BE8C", effect = "bold" }
