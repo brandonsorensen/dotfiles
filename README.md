@@ -3,12 +3,24 @@
 ## Structure
 
 ```
-common/   # shared config (nvim, tmux, shell, git)
+common/   # shared config (nvim, tmux, shell, git, pi)
 mac/      # macOS-specific config (Brewfile, iTerm2)
 scripts/  # utility scripts
 ```
 
 Configs are symlinked from `~/.config/` (or `$HOME`) into the appropriate subdirectory here. Machine-specific branches contain their own setup instructions.
+
+## Pi global config
+
+Global pi config lives in `common/.pi/agent/` and is intended to be symlinked as `~/.pi/agent`:
+
+```bash
+mkdir -p ~/.pi
+mv ~/.pi/agent ~/.pi/agent.backup 2>/dev/null || true
+ln -s "$PWD/common/.pi/agent" ~/.pi/agent
+```
+
+Runtime state such as auth, trust decisions, sessions, and installed pi packages is ignored by git inside that directory.
 
 ## Branch strategy
 

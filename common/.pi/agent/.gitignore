@@ -1,0 +1,13 @@
+# pi runtime and machine-local state
+/auth.json
+/trust.json
+/sessions/
+/npm/
+/git/
+/logs/
+/*.log
+
+# Local experiments that should not be shared by default
+/extensions/local/
+/skills/local/
+/prompts/local/

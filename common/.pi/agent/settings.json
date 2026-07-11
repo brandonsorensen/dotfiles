@@ -1,0 +1,50 @@
+{
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "high",
+  "showCacheMissNotices": true,
+  "enabledModels": [
+    "openai/gpt-*",
+    "anthropic/claude-*",
+    "ollama/gpt-oss:20b"
+  ],
+  "theme": "light/dark",
+  "quietStartup": true,
+  "externalEditor": "nvim",
+  "defaultProjectTrust": "ask",
+  "doubleEscapeAction": "tree",
+  "treeFilterMode": "default",
+  "hideThinkingBlock": false,
+  "enableInstallTelemetry": false,
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3,
+    "baseDelayMs": 2000,
+    "provider": {
+      "maxRetries": 0,
+      "maxRetryDelayMs": 60000
+    }
+  },
+  "terminal": {
+    "showImages": true,
+    "imageWidthCells": 60
+  },
+  "images": {
+    "autoResize": true,
+    "blockImages": false
+  },
+  "packages": [
+    "npm:@ollama/pi-web-search",
+    "npm:pi-lens",
+    "npm:pi-diet-ripgrep",
+    "npm:pi-vim"
+  ],
+  "warnings": {
+    "anthropicExtraUsage": true
+  }
+}
