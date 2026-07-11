@@ -25,3 +25,22 @@ alias le='eza'
 
 alias darkmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to true'"
 alias lightmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to false'"
+
+unalias hn 2>/dev/null
+hn() {
+    local theme_config=""
+
+    if command -v darkman >/dev/null 2>&1; then
+        theme_config="$HOME/.config/hn-tui-$(darkman get).toml"
+    fi
+
+    if [[ -z "$theme_config" || ! -f "$theme_config" ]]; then
+        theme_config="$HOME/.config/hn-tui-dark.toml"
+    fi
+
+    if [[ -f "$theme_config" ]]; then
+        hackernews_tui --config "$theme_config" "$@"
+    else
+        hackernews_tui "$@"
+    fi
+}
