@@ -80,7 +80,6 @@ new layout is accepted, explicitly discard the old backups with:
 - macOS application configuration;
 - macbook-specific SSH host settings;
 - the macbook tmux variant;
-- Neovim machine data;
 - shared shell, Git, SSH, Vim, Neovim, terminal, tmux data, and pi settings.
 
 The effective result has been checked against the existing `macbook-pro` branch.

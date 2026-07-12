@@ -63,9 +63,9 @@ settings, so numeric prefixes encode precedence:
 2. `platform-macos/dot-ssh/config.d/20-platform.conf`
 3. defaults in `common-ssh/dot-ssh/config`
 
-Neovim loads optional machine data from `~/.config/dotfiles/nvim.lua`. The
-macbook profile uses this to disable its historical LSP list and assign Nord's
-startup priority without duplicating the shared Neovim tree.
+Only encode a platform or host difference when the machine has an actual
+requirement. Historical branch drift is not a profile requirement; shared
+Neovim LSP enablement and Nord startup priority therefore remain global.
 
 When an application cannot compose configuration cleanly, profiles choose one
 complete variant. For example, `macbook-pro` selects `tmux-macbook-pro` instead

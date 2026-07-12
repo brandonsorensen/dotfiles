@@ -50,12 +50,12 @@ Most configuration takes effect immediately or with a lightweight reload:
 ## Neovim architecture
 
 The entry point is `modules/common-nvim/dot-config/nvim/init.lua`. It loads
-`lua/config/`, then plugins from `lua/plugins/` via lazy.nvim. Optional machine
-data comes from `~/.config/dotfiles/nvim.lua`.
+`lua/config/`, enables the shared LSP servers, then loads plugins from
+`lua/plugins/` via lazy.nvim.
 
 Plugins are split into single-concern files under `lua/plugins/`. Per-filetype
-overrides live in `after/ftplugin/`. LSP servers are enabled in `init.lua` unless
-machine data sets `enable_lsps = false`.
+overrides live in `after/ftplugin/`. Commit `lazy-lock.json` changes so plugin
+versions remain reproducible across profiles.
 
 Leader is `<Space>`. Navigation is Vim-style throughout.
 

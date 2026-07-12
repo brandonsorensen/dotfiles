@@ -1,7 +1,7 @@
 return {
 	{
 		"shaunsingh/nord.nvim",
-		priority = (vim.g.dotfiles_machine or {}).nord_priority,
+		priority = 1000,
 	},
 	{
 		"ramojus/mellifluous.nvim",
