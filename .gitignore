@@ -1,7 +1,8 @@
-/modules/common-tmux-data/dot-tmux/plugins/
-/modules/common-vim/dot-vim/plugged/
-/modules/common-vim/dot-vim/.netrwhist
-/modules/common-ssh/dot-ssh/id_*
-/modules/common-ssh/dot-ssh/*.pub
-/modules/common-ssh/dot-ssh/known_hosts*
-/modules/common-terminal/dot-terminfo/[0-9A-Za-z][0-9A-Za-z]/
+.DS_Store
+.aider*
+
+/modules/component-tmux/dot-tmux/plugins/
+/modules/component-ssh/dot-ssh/id_*
+/modules/component-ssh/dot-ssh/*.pub
+/modules/component-ssh/dot-ssh/known_hosts*
+/modules/component-terminfo/dot-terminfo/[0-9A-Za-z][0-9A-Za-z]/

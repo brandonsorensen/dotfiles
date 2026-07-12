@@ -34,8 +34,12 @@ same platform. Host modules are reserved for hardware, display topology,
 location, or source-host-specific connection behavior. For example, Terra's
 Wayland services and general Sway configuration are platform settings, while
 its DP-3 mode, Vulkan renderer, and darkman coordinates remain host settings.
-The MacBook Pro host module currently contains only SSH connection overrides;
-its iTerm, yabai, skhd, Colima, and 1Password agent configuration is macOS-wide.
+The personal MacBook Pro host module currently contains only SSH connection
+overrides; iTerm, yabai, skhd, and the 1Password agent configuration are
+macOS-wide. The TrendMiner MacBook host module contains its globally applied
+corporate Git identity and signing configuration. Colima and SDKMAN remain
+independent components because they are selected capabilities, not inherent
+macOS requirements.
 
 Modules remain in one flat directory because Stow does not permit slashes in
 package names. The prefixes preserve logical grouping while allowing an entire
@@ -55,10 +59,12 @@ packages from the current operating system or hostname.
 Preview, apply, or remove a profile with:
 
 ```bash
-./scripts/stow-profile --dry-run macbook-pro
-./scripts/stow-profile macbook-pro
-./scripts/stow-profile --delete macbook-pro
+./scripts/stow-profile --dry-run tm-macbook-pro
+./scripts/stow-profile tm-macbook-pro
+./scripts/stow-profile --delete tm-macbook-pro
 ```
+
+Available complete profiles are `macbook-pro`, `tm-macbook-pro`, and `terra`.
 
 The script invokes Stow once for the complete package list, using `modules/` as
 the Stow directory and `$HOME` as the target. It passes `--dotfiles` for visible
@@ -91,10 +97,11 @@ enablement and Pi's provider, model, packages, and behavior are component-wide.
 
 Prefer native include mechanisms when only part of an application differs.
 `component-ghostty` loads optional `platform.conf` and `host.conf` files, while
-`component-tmux` loads optional tmux overlays before TPM initialization. Sway's
-Linux platform config similarly includes `~/.config/sway/host.d/*`. This keeps
-one reusable primary configuration without sacrificing narrowly scoped
-overrides.
+`component-tmux` loads optional tmux overlays before TPM initialization. Git
+optionally includes `~/.config/git/host.conf`, and the shell loads component
+fragments from `~/.config/zsh/conf.d/`. Sway's Linux platform config similarly
+includes `~/.config/sway/host.d/*`. This keeps one reusable primary
+configuration without sacrificing narrowly scoped overrides.
 
 Pi settings are user-level component configuration rather than platform state.
 The canonical settings use OpenAI Codex with `gpt-5.6-sol`, retain `pi-vim`,

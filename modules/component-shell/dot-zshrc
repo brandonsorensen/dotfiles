@@ -98,3 +98,9 @@ if [[ "$OSTYPE" == linux* && -r /usr/share/zsh-theme-powerlevel10k/powerlevel10k
 fi
 
 [[ ! -f "$HOME/.ghcup/env" ]] || source "$HOME/.ghcup/env"
+
+# Independently selectable components may contribute shell initialization.
+for component_config in "$HOME"/.config/zsh/conf.d/*.zsh(N); do
+  source "$component_config"
+done
+unset component_config

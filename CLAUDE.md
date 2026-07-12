@@ -18,9 +18,9 @@ secondary copies elsewhere.
 Use visible `dot-` names for paths that become dotfiles. The deployment script
 always passes Stow's `--dotfiles` and `--no-folding` options.
 
-The `refactor/stow-machine-profiles` branch contains `macbook-pro` and `terra`
-profiles. Existing machine branches must remain unchanged until their profiles
-have been migrated and verified.
+The `refactor/stow-machine-profiles` branch contains `macbook-pro`,
+`tm-macbook-pro`, and `terra` profiles. Existing machine branches must remain
+unchanged until their profiles have been migrated and verified.
 
 ## Deployment safety
 
@@ -63,8 +63,8 @@ editor.
 ## Neovim architecture
 
 The entry point is `modules/component-nvim/dot-config/nvim/init.lua`. It loads
-`lua/config/`, enables the shared LSP servers, then loads plugins from
-`lua/plugins/` via lazy.nvim.
+`lua/config/` and plugins from `lua/plugins/` via lazy.nvim. The LSP plugin
+configures and enables the shared language servers.
 
 Plugins are split into single-concern files under `lua/plugins/`. Per-filetype
 overrides live in `after/ftplugin/`. Commit `lazy-lock.json` changes so plugin

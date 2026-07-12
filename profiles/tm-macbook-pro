@@ -1,0 +1,18 @@
+# Independently selectable components
+component-shell
+component-bat
+component-git
+component-pi
+component-ssh
+component-terminfo
+component-ghostty
+component-tmux
+component-vim
+component-nvim
+component-hn-tui
+component-colima
+component-sdkman
+
+# Environment overlays
+platform-macos
+host-tm-macbook-pro

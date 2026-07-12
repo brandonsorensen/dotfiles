@@ -15,6 +15,9 @@ return {
       rust = { "rustfmt" },
       swift = { "swift-format" },
       terraform = { "terraform_fmt" },
+      typescript = { "prettier" },
+      typescriptreact = { "prettier" },
+      angular = { "prettier" },
     },
     -- Set default options
     default_format_opts = {

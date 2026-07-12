@@ -4,9 +4,9 @@ Multi-platform configuration managed as composable GNU Stow modules.
 Independently selectable components plus platform and host overlays coexist on
 one branch; profiles select the modules deployed to each machine.
 
-This branch contains complete profiles for `macbook-pro` and the Linux/Wayland
-workstation `terra`. Existing machine branches remain unchanged while the
-layout is evaluated.
+This branch contains complete profiles for `macbook-pro`, the TrendMiner
+`tm-macbook-pro`, and the Linux/Wayland workstation `terra`. Existing machine
+branches remain unchanged while the layout is evaluated.
 
 ## Structure
 
@@ -34,8 +34,9 @@ GNU Stow 2.4 or newer is recommended:
 ./scripts/stow-profile terra
 ```
 
-Replace `terra` with `macbook-pro` on the Mac. The script records the applied
-module list under `~/.local/state/dotfiles-profiles/`. On the next run it
+Replace `terra` with `macbook-pro` or `tm-macbook-pro` on the corresponding
+Mac. The script records the applied module list under
+`~/.local/state/dotfiles-profiles/`. On the next run it
 unstows modules removed from the profile before restowing the selected set.
 
 Remove links owned by the profile with:
@@ -120,17 +121,18 @@ depend on the checkout location.
 
 ## macbook-pro profile
 
-`profiles/macbook-pro` composes shared modules with:
+`profiles/macbook-pro` combines reusable components, the macOS platform
+overlay, and MacBook-specific SSH host settings. The effective result was
+checked against the existing `macbook-pro` branch, then normalized where branch
+drift was not a genuine machine requirement.
 
-- macOS application configuration;
-- macbook-specific SSH host settings;
-- the macbook tmux variant;
-- shared shell, Git, SSH, Vim, Neovim, terminal, tmux data, and pi settings.
+`profiles/tm-macbook-pro` uses the same macOS and application configuration,
+retaining the existing iTerm preferences. Its host overlay applies the
+TrendMiner Git identity, SSH signing key, and repository SSH key globally.
+Colima and SDKMAN are selected as independent components for this profile.
 
-The effective result was checked against the existing `macbook-pro` branch,
-then normalized where branch drift was not a genuine machine requirement.
-Neovim is the primary development editor; Vim is intentionally reduced to a
-portable, plugin-free server fallback.
+Neovim is the primary development editor in all profiles; Vim is intentionally
+reduced to a portable, plugin-free server fallback.
 
 ## Bootstrap assets
 

@@ -61,6 +61,41 @@ return {
         },
       },
     })
+    vim.lsp.config("ts_ls", {
+      settings = {
+        format = {
+          enable = false,
+          insertSpaceAfterOpeningAndBeforeClosingEmptyBraces = false,
+          insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = false,
+        },
+        inlayHints = {
+          parameterNames = { enabled = "literals" },
+          parameterTypes = { enabled = true },
+          variableTypes = { enabled = true },
+          propertyDeclarationTypes = { enabled = true },
+          functionLikeReturnTypes = { enabled = true },
+          enumMemberValues = { enabled = true },
+        },
+      },
+    })
+    vim.lsp.config("yamlls", {
+      settings = {
+        yaml = {
+          schemas = {
+            ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+          },
+        },
+      },
+    })
+    vim.lsp.config("helm_ls", {
+      settings = {
+        ["helm-ls"] = {
+          yamlls = {
+            path = "yaml-language-server",
+          },
+        },
+      },
+    })
     vim.lsp.enable({
       "rust_analyzer",
       "lua_ls",
@@ -69,6 +104,10 @@ return {
       "basedpyright",
       "ruff",
       "terraformls",
+      "ts_ls",
+      "yamlls",
+      "helm_ls",
+      "docker_language_server",
     })
   end,
 }

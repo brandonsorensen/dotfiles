@@ -18,6 +18,7 @@
 [delta]
     navigate = true  # use n and N to move between diff sections
 	side-by-side = true
+	line-numbers = true
 
 [delta "light-mode"]
   light = true
@@ -37,3 +38,5 @@
 [alias]
 	reword = commit --amend
 	ac = !git add -A && git commit
+[include]
+	path = ~/.config/git/host.conf
