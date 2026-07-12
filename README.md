@@ -82,9 +82,10 @@ new layout is accepted, explicitly discard the old backups with:
 - the macbook tmux variant;
 - shared shell, Git, SSH, Vim, Neovim, terminal, tmux data, and pi settings.
 
-The effective result has been checked against the existing `macbook-pro` branch.
-The only omitted tree differences are a repository-only `.gitignore` under pi's
-source directory and removal of a blank line in a Neovim options file.
+The effective result was checked against the existing `macbook-pro` branch,
+then normalized where branch drift was not a genuine machine requirement.
+Neovim is the primary development editor; Vim is intentionally reduced to a
+portable, plugin-free server fallback.
 
 ## Bootstrap assets
 

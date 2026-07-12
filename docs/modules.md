@@ -29,6 +29,10 @@ Modules remain in one flat directory because Stow does not permit slashes in
 package names. The prefixes preserve logical grouping while allowing an entire
 profile to be applied in one transaction.
 
+`common-vim` contains only a portable Vim 8 configuration for editing on
+servers. It uses no downloaded plugins or external executables. Neovim remains
+the full-featured development editor in `common-nvim`.
+
 ## Profiles
 
 Files in `profiles/` list the modules selected for a machine, one per line.
@@ -94,6 +98,12 @@ to inventory its exact file destinations. It then validates every destination:
 - regular files are moved into the rollback backup;
 - directories, broken links, and links to unrelated locations abort the
   operation.
+
+An optional `profiles/PROFILE.retired` file lists obsolete legacy links that no
+longer have a destination in the profile. Migration removes only managed links
+at those paths and records them for rollback; a real directory is preserved as
+machine-local state. The macbook profile uses this to retire the old managed
+`~/.vim` tree while leaving an independently managed runtime directory alone.
 
 The previous raw link targets, regular files, and complete deployed-path list
 are stored under `~/.local/state/dotfiles-layout/PROFILE`. If applying Stow

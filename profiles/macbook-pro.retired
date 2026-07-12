@@ -1,0 +1,2 @@
+# Legacy managed paths intentionally absent from the new profile.
+.vim

@@ -47,6 +47,12 @@ Most configuration takes effect immediately or with a lightweight reload:
 | tmux | Run `tmux source ~/.tmux.conf` or restart tmux |
 | shell | Run `source ~/.zshrc` |
 
+## Vim fallback
+
+`modules/common-vim/dot-vimrc` is a portable Vim 8 server fallback. Keep it
+plugin-free and independent of external executables; Neovim is the primary
+editor.
+
 ## Neovim architecture
 
 The entry point is `modules/common-nvim/dot-config/nvim/init.lua`. It loads

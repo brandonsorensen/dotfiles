@@ -85,6 +85,7 @@ if [[ -d "$legacy_root" ]]; then
 fi
 state_root=${DOTFILES_MIGRATION_STATE_ROOT:-"$HOME/.local/state/dotfiles-layout"}
 state_dir="$state_root/$profile"
+retired_file="$repo_root/profiles/$profile.retired"
 
 is_within() {
 	local path=$1
@@ -141,6 +142,20 @@ load_deployed_paths() {
 		validate_relative_path "$relative"
 		deployed_paths+=("$relative")
 	done <"$state_dir/deployed"
+}
+
+load_retired_paths() {
+	local relative
+	retired_paths=()
+	[[ -f "$retired_file" ]] || return 0
+
+	while IFS= read -r relative || [[ -n "$relative" ]]; do
+		case "$relative" in
+		"" | \#*) continue ;;
+		esac
+		validate_relative_path "$relative"
+		retired_paths+=("$relative")
+	done <"$retired_file"
 }
 
 add_plan_entry() {
@@ -222,6 +237,24 @@ preflight_migration() {
 		done
 		if [[ "$found" == false ]]; then
 			((missing_count += 1))
+		fi
+	done
+
+	for relative in "${retired_paths[@]}"; do
+		target="$HOME/$relative"
+		if [[ -L "$target" ]]; then
+			if ! resolved=$(resolve_link "$target"); then
+				printf 'Refusing to retire broken link: %s -> %s\n' "$target" "$(readlink "$target")" >&2
+				return 1
+			fi
+			if ! is_within "$resolved" "$legacy_root" && ! is_within "$resolved" "$repo_root/modules"; then
+				printf 'Refusing to retire link outside the managed repositories: %s -> %s\n' "$target" "$resolved" >&2
+				return 1
+			fi
+			add_plan_entry link "$relative"
+		elif [[ -e "$target" && ! -d "$target" ]]; then
+			printf 'Refusing to retire non-directory target: %s\n' "$target" >&2
+			return 1
 		fi
 	done
 
@@ -437,6 +470,7 @@ if [[ "$command_name" == "migrate" ]]; then
 	fi
 
 	inventory_profile
+	load_retired_paths
 	preflight_migration
 	if [[ "$dry_run" == true ]]; then
 		printf 'Dry run complete; no home-directory paths were changed.\n'
