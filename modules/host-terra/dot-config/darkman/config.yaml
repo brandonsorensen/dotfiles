@@ -1,0 +1,8 @@
+# darkman configuration
+# Set your coordinates — geoclue is unreliable on standalone WMs.
+# Precision beyond one decimal place is unnecessary.
+lat:  52.5169142
+lng:  13.3438600
+usegeoclue: false
+dbusserver: true
+portal: true

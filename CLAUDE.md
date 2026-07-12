@@ -19,9 +19,9 @@ secondary copies elsewhere.
 Use visible `dot-` names for paths that become dotfiles. The deployment script
 always passes Stow's `--dotfiles` and `--no-folding` options.
 
-The `refactor/stow-machine-profiles` branch is a proof of concept. Existing
-machine branches must remain unchanged until their profiles have been migrated
-and verified.
+The `refactor/stow-machine-profiles` branch contains `macbook-pro` and `terra`
+profiles. Existing machine branches must remain unchanged until their profiles
+have been migrated and verified.
 
 ## Deployment safety
 
@@ -33,9 +33,14 @@ have explicit rollback state. Do not use Stow's `--adopt` option.
 Preview either a clean deployment or a protected migration with:
 
 ```bash
-./scripts/stow-profile --dry-run macbook-pro
-./scripts/migrate-profile-layout --dry-run migrate macbook-pro
+./scripts/stow-profile --dry-run terra
+./scripts/migrate-profile-layout --dry-run migrate terra
 ```
+
+`stow-profile` records applied modules under
+`~/.local/state/dotfiles-profiles/` and reconciles modules removed from a
+profile. Run legacy migration from a separate permanent checkout while the old
+checkout remains in place; never switch the old checkout before migration.
 
 ## Applying configuration changes
 
@@ -46,6 +51,9 @@ Most configuration takes effect immediately or with a lightweight reload:
 | Neovim plugins | Run `:Lazy sync` |
 | tmux | Run `tmux source ~/.tmux.conf` or restart tmux |
 | shell | Run `source ~/.zshrc` |
+| Waybar | Run `systemctl --user restart waybar` |
+| kanshi | Run `systemctl --user restart kanshi` |
+| Sway | Run `swaymsg reload` |
 
 ## Vim fallback
 

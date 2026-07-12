@@ -22,8 +22,9 @@ Module names describe their scope and purpose:
 - `common-*` contains configuration shared by all profiles;
 - `platform-*` contains operating-system configuration;
 - `host-*` contains settings for one machine;
-- variant modules such as `tmux-common` and `tmux-macbook-pro` are mutually
-  exclusive complete configurations.
+- variant modules such as `tmux-common`/`tmux-macbook-pro`,
+  `ghostty-common`/`ghostty-terra`, and the `pi-settings-*` modules are
+  mutually exclusive complete configurations.
 
 Modules remain in one flat directory because Stow does not permit slashes in
 package names. The prefixes preserve logical grouping while allowing an entire
@@ -52,6 +53,12 @@ The script invokes Stow once for the complete package list, using `modules/` as
 the Stow directory and `$HOME` as the target. It passes `--dotfiles` for visible
 source names and `--no-folding` so runtime or machine-local files can coexist in
 target directories without being written back into the repository.
+
+After a successful apply, the selected modules are recorded under
+`~/.local/state/dotfiles-profiles/`. A later apply includes a delete action for
+modules present in the recorded state but absent from the current profile, so a
+profile remains a complete specification rather than accumulating stale links.
+`DOTFILES_PROFILE_STATE_ROOT` overrides this state location.
 
 ## Differences inside shared files
 
@@ -84,11 +91,14 @@ documentation, and package-manager inputs such as `bootstrap/macos/Brewfile`.
 ## Migrating an existing checkout
 
 Existing links created by older manual or ad-hoc Stow commands are not owned by
-these modules. Use the rollback-aware helper instead of removing them manually:
+these modules. Keep the legacy checkout intact and run migration from the new
+branch in a separate permanent checkout; switching the legacy checkout first
+would make its links broken before the helper can record them. Use the
+rollback-aware helper instead of removing them manually:
 
 ```bash
-./scripts/migrate-profile-layout --verbose --dry-run migrate macbook-pro
-./scripts/migrate-profile-layout migrate macbook-pro
+DOTFILES_LEGACY_ROOT="$HOME/dotfiles" ./scripts/migrate-profile-layout --verbose --dry-run migrate terra
+DOTFILES_LEGACY_ROOT="$HOME/dotfiles" ./scripts/migrate-profile-layout migrate terra
 ```
 
 Before changing anything, the helper deploys the profile into a temporary home

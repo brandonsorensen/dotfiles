@@ -36,6 +36,8 @@ else
 fi
 
 export PATH="$HOME/.local/bin:/usr/local/sbin:$PATH"
+export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+export PATH="$HOME/.npm-global/bin:$PATH"
 
 # You may need to manually set your language environment
 if { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
@@ -90,3 +92,9 @@ zle -N run_fzf_widget
 bindkey '^F' run_fzf_widget
 export MODULAR_HOME="$HOME/.modular"
 export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
+
+if [[ "$OSTYPE" == linux* && -r /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]]; then
+  source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+fi
+
+[[ ! -f "$HOME/.ghcup/env" ]] || source "$HOME/.ghcup/env"

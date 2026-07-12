@@ -6,17 +6,21 @@ usage() {
 	cat <<'EOF'
 Usage: scripts/stow-profile [--dry-run] [--delete] PROFILE
 
-Stow every module listed in profiles/PROFILE into $HOME.
+Reconcile every module listed in profiles/PROFILE into $HOME.
 
 Options:
   -n, --dry-run  Print the changes without applying them
-  -D, --delete   Unstow the profile instead of restowing it
+  -D, --delete   Unstow the applied profile instead of reconciling it
   -h, --help     Show this help
+
+Environment:
+  DOTFILES_PROFILE_STATE_ROOT  Applied-profile state directory
+                               (default: $HOME/.local/state/dotfiles-profiles)
 EOF
 }
 
 dry_run=false
-operation="--restow"
+mode="reconcile"
 profile=""
 
 while (($# > 0)); do
@@ -25,7 +29,7 @@ while (($# > 0)); do
 		dry_run=true
 		;;
 	-D | --delete)
-		operation="--delete"
+		mode="delete"
 		;;
 	-h | --help)
 		usage
@@ -47,43 +51,126 @@ while (($# > 0)); do
 	shift
 done
 
-if [[ -z "$profile" || "$profile" == */* || "$profile" == "." || "$profile" == ".." ]]; then
+valid_name() {
+	case "$1" in
+	"" | "." | ".." | -* | */*) return 1 ;;
+	esac
+}
+
+if ! valid_name "$profile"; then
 	printf 'A valid profile name is required.\n' >&2
 	usage >&2
 	exit 2
 fi
 
-repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 modules_dir="$repo_root/modules"
 profile_file="$repo_root/profiles/$profile"
+state_root=${DOTFILES_PROFILE_STATE_ROOT:-"$HOME/.local/state/dotfiles-profiles"}
+state_file="$state_root/$profile.modules"
 
 if [[ ! -f "$profile_file" ]]; then
 	printf 'Unknown profile: %s\n' "$profile" >&2
 	exit 1
 fi
 
-packages=()
-while IFS= read -r package || [[ -n "$package" ]]; do
-	case "$package" in
-	"" | \#*) continue ;;
-	esac
-	if [[ "$package" == */* || ! -d "$modules_dir/$package" ]]; then
-		printf 'Invalid module in %s: %s\n' "$profile_file" "$package" >&2
-		exit 1
-	fi
-	packages+=("$package")
-done <"$profile_file"
+contains() {
+	local needle=$1
+	shift
+	local item
+	for item in "$@"; do
+		[[ "$item" == "$needle" ]] && return 0
+	done
+	return 1
+}
 
+read_packages() {
+	local source_file=$1
+	local allow_comments=$2
+	local package
+	local -a loaded=()
+
+	while IFS= read -r package || [[ -n "$package" ]]; do
+		if [[ "$allow_comments" == true ]]; then
+			case "$package" in
+			"" | \#*) continue ;;
+			esac
+		fi
+		if ! valid_name "$package"; then
+			printf 'Invalid module in %s: %s\n' "$source_file" "$package" >&2
+			return 1
+		fi
+		if contains "$package" "${loaded[@]}"; then
+			printf 'Duplicate module in %s: %s\n' "$source_file" "$package" >&2
+			return 1
+		fi
+		loaded+=("$package")
+	done <"$source_file"
+
+	READ_PACKAGES=("${loaded[@]}")
+}
+
+read_packages "$profile_file" true
+packages=("${READ_PACKAGES[@]}")
 if ((${#packages[@]} == 0)); then
 	printf 'Profile contains no modules: %s\n' "$profile_file" >&2
 	exit 1
 fi
 
-args=("$operation" --dotfiles --no-folding --dir="$modules_dir" --target="$HOME")
+applied_packages=()
+if [[ -f "$state_file" ]]; then
+	read_packages "$state_file" false
+	applied_packages=("${READ_PACKAGES[@]}")
+fi
+
+for package in "${packages[@]}" "${applied_packages[@]}"; do
+	if [[ ! -d "$modules_dir/$package" ]]; then
+		printf 'Module is unavailable: %s\n' "$package" >&2
+		printf 'Restore it before reconciling or deleting profile %s.\n' "$profile" >&2
+		exit 1
+	fi
+done
+
+removed_packages=()
+for package in "${applied_packages[@]}"; do
+	if ! contains "$package" "${packages[@]}"; then
+		removed_packages+=("$package")
+	fi
+done
+
+stow_args=(--dotfiles --no-folding --dir="$modules_dir" --target="$HOME")
 if [[ "$dry_run" == true ]]; then
-	args+=(--simulate --verbose=2)
+	stow_args+=(--simulate --verbose=2)
 fi
 
 printf 'Profile: %s\n' "$profile"
+if [[ "$mode" == "delete" ]]; then
+	delete_packages=("${applied_packages[@]}")
+	for package in "${packages[@]}"; do
+		if ! contains "$package" "${delete_packages[@]}"; then
+			delete_packages+=("$package")
+		fi
+	done
+	printf 'Deleting modules: %s\n' "${delete_packages[*]}"
+	stow "${stow_args[@]}" --delete "${delete_packages[@]}"
+	if [[ "$dry_run" == false ]]; then
+		rm -f -- "$state_file"
+	fi
+	exit 0
+fi
+
 printf 'Modules: %s\n' "${packages[*]}"
-stow "${args[@]}" "${packages[@]}"
+command=(stow "${stow_args[@]}")
+if ((${#removed_packages[@]} > 0)); then
+	printf 'Removing stale modules: %s\n' "${removed_packages[*]}"
+	command+=(--delete "${removed_packages[@]}")
+fi
+command+=(--restow "${packages[@]}")
+"${command[@]}"
+
+if [[ "$dry_run" == false ]]; then
+	mkdir -p -- "$state_root"
+	state_pending="$state_file.pending.$$"
+	printf '%s\n' "${packages[@]}" >"$state_pending"
+	mv -- "$state_pending" "$state_file"
+fi

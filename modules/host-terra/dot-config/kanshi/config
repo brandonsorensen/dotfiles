@@ -1,0 +1,9 @@
+# 5K display at 2x HiDPI scale
+profile home {
+    output DP-3 mode 5120x2880@165Hz position 0,0 scale 2
+}
+
+# 1x scale for gaming — exposes native 5120x2880 to the compositor
+profile gaming {
+    output DP-3 mode 5120x2880@165Hz position 0,0 scale 1
+}

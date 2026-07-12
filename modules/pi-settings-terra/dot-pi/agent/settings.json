@@ -1,0 +1,13 @@
+{
+  "lastChangelogVersion": "0.80.6",
+  "theme": "light",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "high",
+  "packages": [
+    "npm:pi-diet-ripgrep",
+    "npm:@mjakl/pi-kagi-api",
+    "npm:pi-lens"
+  ],
+  "hideThinkingBlock": false
+}

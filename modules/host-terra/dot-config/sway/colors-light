@@ -1,0 +1,5 @@
+# Rose Pine Dawn color scheme
+client.focused          #d7827e #fffaf3 #575279 #d7827e #d7827e
+client.unfocused        #9893a5 #faf4ed #797593 #9893a5 #9893a5
+client.focused_inactive #9893a5 #fffaf3 #575279 #9893a5 #9893a5
+client.urgent           #b4637a #b4637a #fffaf3 #b4637a #b4637a

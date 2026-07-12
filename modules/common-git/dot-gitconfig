@@ -6,7 +6,7 @@
 	askpass = git-gui--askpass
 	autocrlf = input
 	editor = nvim
-	pager = delta --features "$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
+	pager = delta --features "$(if command -v darkman >/dev/null 2>&1 && [ \"$(darkman get)\" = dark ]; then echo dark-mode; elif command -v defaults >/dev/null 2>&1 && defaults read -globalDomain AppleInterfaceStyle >/dev/null 2>&1; then echo dark-mode; else echo light-mode; fi)"
 	excludesfile = $HOME/.gitignore_global
 [filter "lfs"]
 	process = git-lfs filter-process

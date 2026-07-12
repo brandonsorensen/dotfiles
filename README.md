@@ -4,8 +4,9 @@ Multi-platform configuration managed as composable GNU Stow modules. Shared,
 platform-specific, and host-specific settings coexist on one branch; profiles
 select the modules deployed to each machine.
 
-This branch is a complete proof of concept for `macbook-pro`. The existing
-machine branches remain unchanged while the layout is evaluated.
+This branch contains complete profiles for `macbook-pro` and the Linux/Wayland
+workstation `terra`. Existing machine branches remain unchanged while the
+layout is evaluated.
 
 ## Structure
 
@@ -29,14 +30,18 @@ and migration details.
 GNU Stow 2.4 or newer is recommended:
 
 ```bash
-./scripts/stow-profile --dry-run macbook-pro
-./scripts/stow-profile macbook-pro
+./scripts/stow-profile --dry-run terra
+./scripts/stow-profile terra
 ```
+
+Replace `terra` with `macbook-pro` on the Mac. The script records the applied
+module list under `~/.local/state/dotfiles-profiles/`. On the next run it
+unstows modules removed from the profile before restowing the selected set.
 
 Remove links owned by the profile with:
 
 ```bash
-./scripts/stow-profile --delete macbook-pro
+./scripts/stow-profile --delete terra
 ```
 
 The profile is applied in one Stow invocation so conflicts abort the complete
@@ -48,9 +53,13 @@ operation. Preview before replacing links from an older layout; do not use
 Use the migration helper when testing the modules against the real home
 directory:
 
+Run migration from the new branch in a permanent checkout while the legacy
+checkout still exists. Do not switch the legacy checkout first: doing so makes
+its home-directory links broken before they can be recorded.
+
 ```bash
-./scripts/migrate-profile-layout --verbose --dry-run migrate macbook-pro
-./scripts/migrate-profile-layout migrate macbook-pro
+DOTFILES_LEGACY_ROOT="$HOME/dotfiles" ./scripts/migrate-profile-layout --verbose --dry-run migrate terra
+DOTFILES_LEGACY_ROOT="$HOME/dotfiles" ./scripts/migrate-profile-layout migrate terra
 ```
 
 It records legacy links, backs up conflicting regular files, and then applies
@@ -58,9 +67,9 @@ the profile. Rollback state is stored outside the repository under
 `~/.local/state/dotfiles-layout/`.
 
 ```bash
-./scripts/migrate-profile-layout status macbook-pro
-./scripts/migrate-profile-layout --dry-run rollback macbook-pro
-./scripts/migrate-profile-layout rollback macbook-pro
+./scripts/migrate-profile-layout status terra
+./scripts/migrate-profile-layout --dry-run rollback terra
+./scripts/migrate-profile-layout rollback terra
 ```
 
 Rollback removes only links into this repository and restores the exact old
@@ -69,9 +78,46 @@ directories, broken links, or deployed paths replaced during the test. Once the
 new layout is accepted, explicitly discard the old backups with:
 
 ```bash
-./scripts/migrate-profile-layout --dry-run finalize macbook-pro
-./scripts/migrate-profile-layout finalize macbook-pro
+./scripts/migrate-profile-layout --dry-run finalize terra
+./scripts/migrate-profile-layout finalize terra
 ```
+
+## terra profile
+
+`profiles/terra` combines the shared configuration with Linux/Wayland services,
+darkman hooks, Waybar, Toshy, and Terra-specific Sway, kanshi, and Ghostty
+configuration. Root-owned configuration and package lists remain bootstrap
+assets:
+
+```bash
+sudo ln -sf "$PWD/bootstrap/linux/greetd/config.toml" /etc/greetd/config.toml
+sudo pacman -S --needed - < bootstrap/linux/terra/packages.txt
+```
+
+On the existing Terra installation, `~/.tmux` is a legacy directory symlink and
+its ignored `plugins/` directory is runtime state. After migration, copy that
+state into the new real directory before testing tmux:
+
+```bash
+mkdir -p ~/.tmux/plugins
+cp -a "$HOME/dotfiles/common/.tmux/plugins/." ~/.tmux/plugins/
+```
+
+Remove `~/.tmux/plugins` before using the rollback helper; otherwise its
+local-state check will intentionally stop rollback.
+
+Initialize the current color mode, reload user units, and preserve their
+existing enablement:
+
+```bash
+"$HOME/.local/share/$(darkman get)-mode.d/colors.sh"
+systemctl --user daemon-reload
+systemctl --user restart waybar kanshi
+```
+
+The darkman hooks select Sway colors and restart Waybar with the matching
+stylesheet. `gtklock-launch` is deployed to `~/.local/bin` so Sway does not
+depend on the checkout location.
 
 ## macbook-pro profile
 
@@ -93,6 +139,7 @@ Files that are not linked into `$HOME` live under `bootstrap/`. For example:
 
 ```bash
 brew bundle --file bootstrap/macos/Brewfile
+sudo pacman -S --needed - < bootstrap/linux/terra/packages.txt
 ```
 
 ## Applying configuration changes

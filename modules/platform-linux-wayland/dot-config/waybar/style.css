@@ -1,0 +1,130 @@
+* {
+    font-family: "Inter", "SF Pro Display", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+window#waybar {
+    background-color: rgba(250, 244, 237, 0.92);
+    color: #575279;
+}
+
+/* ── Left ───────────────────────────────────────────────── */
+
+#workspaces {
+    padding: 0 6px;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    color: #9893a5;
+    background: transparent;
+    box-shadow: none;
+}
+
+#workspaces button.focused {
+    color: #575279;
+}
+
+#workspaces button.urgent {
+    color: #b4637a;
+}
+
+#workspaces button:hover {
+    background: rgba(87, 82, 121, 0.08);
+}
+
+#mode {
+    padding: 0 10px;
+    color: #797593;
+    font-style: italic;
+}
+
+/* ── Center ─────────────────────────────────────────────── */
+
+#mpris {
+    padding: 0 12px;
+    color: #797593;
+}
+
+/* ── Right ──────────────────────────────────────────────── */
+
+#network,
+#cpu,
+#memory,
+#wireplumber,
+#clock,
+#custom-power {
+    padding: 0 10px;
+    color: #575279;
+}
+
+#network {
+    /* Fixed width prevents layout shift as bandwidth numbers change width */
+    min-width: 140px;
+}
+
+#clock {
+    color: #575279;
+}
+
+#custom-power {
+    padding: 0 12px;
+    color: #797593;
+    font-size: 18px;
+}
+
+#custom-power:hover {
+    color: #575279;
+}
+
+menu {
+    font-size: 14px;
+    padding: 4px 0;
+    background-color: #1a1a1a;
+    color: #d4d4d4;
+    border: 1px solid #333333;
+}
+
+menuitem {
+    padding: 6px 16px;
+    color: #d4d4d4;
+    background-color: transparent;
+}
+
+menuitem label {
+    color: #d4d4d4;
+}
+
+menuitem:hover {
+    background-color: #2e2e2e;
+}
+
+menuitem:hover label {
+    color: #ffffff;
+}
+
+/* Clock calendar tooltip */
+tooltip {
+    background: rgba(250, 244, 237, 0.98);
+    border: 1px solid rgba(87, 82, 121, 0.15);
+}
+
+tooltip label {
+    font-size: 20px;
+    padding: 14px;
+    color: #575279;
+}
+
+/* Subtle separator between right-side modules */
+#mpris,
+#network,
+#cpu,
+#memory,
+#wireplumber {
+    border-right: 2px solid rgba(87, 82, 121, 0.15);
+}

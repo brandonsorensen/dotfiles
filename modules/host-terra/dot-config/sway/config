@@ -1,0 +1,145 @@
+xwayland force
+
+### Variables
+set $mod Mod1
+set $term ghostty
+set $menu wofi --show drun
+# gtklock-launch wraps gtklock to expand $HOME in the CSS stylesheet,
+# since GTK CSS url() does not support environment variable substitution.
+set $lock $HOME/.local/bin/gtklock-launch
+
+### Input
+input "type:keyboard" {
+    xkb_layout us
+    repeat_delay 300
+    repeat_rate 50
+}
+input "type:pointer" {
+    accel_profile flat
+	pointer_accel -0.3
+}
+
+### Startup Apps
+# "current" is a symlink: ln -sf ~/Pictures/wallpapers/<name> ~/Pictures/wallpapers/current
+output * bg $HOME/Pictures/wallpapers/current fill
+# Export Wayland environment to systemd so user services (waybar, kanshi) can connect to the display.
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE && systemctl --user start sway-session.target
+exec mako
+exec wl-paste --type text --watch cliphist store
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# Waybar and kanshi are managed as systemd user services (via sway-session.target),
+# not exec'd here. See README.md for setup instructions.
+# Restart kanshi on every reload so HiDPI scaling is reapplied after sway reload.
+exec_always systemctl --user restart kanshi
+exec swayidle -w \
+    timeout 300 $lock \
+    timeout 315 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    timeout 7200 'systemctl suspend' \
+    before-sleep $lock
+
+### Key Bindings
+
+# Applications
+bindsym $mod+Return      exec $term
+bindsym $mod+Space       exec $menu
+bindsym $mod+Shift+q     kill
+
+# Clipboard manager
+bindsym $mod+Shift+v     exec cliphist list | wofi --dmenu | cliphist decode | wl-copy
+
+# Screenshots
+bindsym Print            exec grim ~/Pictures/screenshot-$(date +%F_%T).png
+bindsym $mod+Print       exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%F_%T).png
+
+# Screen lock
+bindsym $mod+Escape      exec $lock
+
+# HDR toggle (for gaming — off by default, requires WLR_RENDERER=vulkan)
+bindsym $mod+Shift+g     output DP-3 hdr toggle
+
+# Sway control
+bindsym $mod+Shift+r     reload
+bindsym $mod+Shift+e     exec swaymsg exit
+
+# Layout
+bindsym $mod+Shift+f     fullscreen toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+e           layout toggle split
+bindsym $mod+v           splitv
+bindsym $mod+b           splith
+bindsym $mod+r           layout stacking
+bindsym $mod+Shift+i     layout tabbed
+
+# Focus (vim-style)
+bindsym $mod+h           focus left
+bindsym $mod+j           focus down
+bindsym $mod+k           focus up
+bindsym $mod+l           focus right
+
+# Move windows
+bindsym $mod+Shift+h     move left
+bindsym $mod+Shift+j     move down
+bindsym $mod+Shift+k     move up
+bindsym $mod+Shift+l     move right
+
+# Workspaces
+bindsym $mod+1  workspace number 1
+bindsym $mod+2  workspace number 2
+bindsym $mod+3  workspace number 3
+bindsym $mod+4  workspace number 4
+bindsym $mod+5  workspace number 5
+bindsym $mod+6  workspace number 6
+bindsym $mod+7  workspace number 7
+bindsym $mod+8  workspace number 8
+bindsym $mod+9  workspace number 9
+
+bindsym $mod+Shift+1  move container to workspace number 1
+bindsym $mod+Shift+2  move container to workspace number 2
+bindsym $mod+Shift+3  move container to workspace number 3
+bindsym $mod+Shift+4  move container to workspace number 4
+bindsym $mod+Shift+5  move container to workspace number 5
+bindsym $mod+Shift+6  move container to workspace number 6
+bindsym $mod+Shift+7  move container to workspace number 7
+bindsym $mod+Shift+8  move container to workspace number 8
+bindsym $mod+Shift+9  move container to workspace number 9
+
+# Resize mode
+bindsym $mod+Shift+d     mode "resize"
+mode "resize" {
+    bindsym h resize shrink width 10px
+    bindsym j resize grow height 10px
+    bindsym k resize shrink height 10px
+    bindsym l resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+### Media & Volume Keys
+# Keychron K8: media keys require the hid_apple kernel module with fnmode=1.
+# One-time setup (persisted via modprobe.d — see README.md):
+#   sudo modprobe hid_apple
+#   echo 'options hid_apple fnmode=1' | sudo tee /etc/modprobe.d/hid_apple.conf
+#   sudo mkinitcpio -P
+# Alternatively: hold fn+X+L for 4s to toggle hardware fn mode.
+bindsym XF86AudioPlay        exec playerctl play-pause
+bindsym XF86AudioNext        exec playerctl next
+bindsym XF86AudioPrev        exec playerctl previous
+bindsym XF86AudioMute        exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+
+### 1Password
+bindsym Ctrl+Shift+space exec 1password --quick-access
+bindsym Ctrl+Shift+l     exec 1password --lock
+bindsym Ctrl+backslash   exec 1password --fill
+
+### Appearance
+# Color scheme is managed by darkman (dark/light mode switching).
+# The colorscheme file is a symlink maintained by dark/light mode scripts.
+# See ~/.config/sway/colors-dark and colors-light for the palettes.
+# client.focused <border> <background> <text> <indicator> <child_border>
+include $HOME/.config/sway/colorscheme
+
+default_border pixel 3
+gaps inner 3

@@ -8,7 +8,21 @@ alias cr='cargo run'
 
 alias tcc='tmux -CC'
 
-alias cpwd='pwd|pbcopy'
+if command -v wl-copy >/dev/null 2>&1; then
+    alias pbcopy='wl-copy'
+    alias pbpaste='wl-paste'
+fi
+
+cpwd() {
+    if command -v pbcopy >/dev/null 2>&1; then
+        pwd | pbcopy
+    elif command -v wl-copy >/dev/null 2>&1; then
+        pwd | wl-copy
+    else
+        printf 'No clipboard command is available.\n' >&2
+        return 1
+    fi
+}
 
 alias gs='git switch'
 alias co='git checkout'
@@ -23,8 +37,21 @@ alias jr='just run'
 
 alias le='eza'
 
-alias darkmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to true'"
-alias lightmode="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to false'"
+darkmode() {
+    if command -v darkman >/dev/null 2>&1; then
+        command darkman set dark
+    else
+        osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to true'
+    fi
+}
+
+lightmode() {
+    if command -v darkman >/dev/null 2>&1; then
+        command darkman set light
+    else
+        osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to false'
+    fi
+}
 
 unalias hn 2>/dev/null
 hn() {
@@ -50,3 +77,10 @@ hn() {
         hackernews_tui "$@"
     fi
 }
+
+# Prevent suspend for a given number of seconds (default: one hour).
+if command -v systemd-inhibit >/dev/null 2>&1; then
+    caffeinate() {
+        systemd-inhibit --what=sleep --who="caffeinate" --why="manual hold" sleep "${1:-3600}"
+    }
+fi

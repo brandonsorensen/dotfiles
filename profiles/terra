@@ -3,16 +3,16 @@ common-shell
 common-bat
 common-git
 common-pi
-pi-settings-common
+pi-settings-terra
 common-ssh
 common-terminal
-ghostty-common
 common-tmux-data
 common-vim
 common-nvim
 common-hn-tui
 
-# Platform and host modules
-platform-macos
-tmux-macbook-pro
-host-macbook-pro
+# Platform, application variant, and host modules
+platform-linux-wayland
+ghostty-terra
+tmux-common
+host-terra

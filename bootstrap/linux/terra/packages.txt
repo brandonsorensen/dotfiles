@@ -1,0 +1,86 @@
+# Arch Linux package list for terra
+# Install with: pacman -S --needed - < packages.txt
+# AUR packages (marked with #aur) require yay or similar
+
+# --- Wayland / Sway desktop ---
+sway
+swaybg
+swayidle
+sway-contrib
+sway-systemd        #aur
+waybar
+kanshi
+wofi
+mako
+gtklock
+grim
+slurp
+wl-clipboard
+cliphist
+darkman
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+
+# --- Login manager ---
+greetd
+greetd-tuigreet
+
+# --- Terminal / shell ---
+ghostty
+zsh
+zsh-theme-powerlevel10k-git     #aur
+tmux
+
+# --- Editor ---
+neovim
+
+# --- Audio ---
+pipewire
+pipewire-audio
+pipewire-pulse
+wireplumber
+pavucontrol
+playerctl
+
+# --- CLI utilities ---
+bat
+dust
+fd
+fzf
+git
+git-delta
+github-cli
+htop
+hyperfine
+jq
+just
+lazygit
+lsof
+ripgrep
+tree
+wget
+
+# --- Development ---
+pyenv
+uv
+
+# --- Container / Kubernetes ---
+docker
+docker-buildx
+docker-compose
+helm
+k9s
+kubectl
+lazydocker      #aur
+minikube
+
+# --- Network ---
+openssh
+tailscale
+
+# --- Peripherals ---
+solaar
+
+# --- Input / debugging ---
+evtest
+wev
