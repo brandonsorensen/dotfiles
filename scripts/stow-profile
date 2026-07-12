@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+usage() {
+	cat <<'EOF'
+Usage: scripts/stow-profile [--dry-run] [--delete] PROFILE
+
+Stow every module listed in profiles/PROFILE into $HOME.
+
+Options:
+  -n, --dry-run  Print the changes without applying them
+  -D, --delete   Unstow the profile instead of restowing it
+  -h, --help     Show this help
+EOF
+}
+
+dry_run=false
+operation="--restow"
+profile=""
+
+while (($# > 0)); do
+	case "$1" in
+	-n | --dry-run)
+		dry_run=true
+		;;
+	-D | --delete)
+		operation="--delete"
+		;;
+	-h | --help)
+		usage
+		exit 0
+		;;
+	-*)
+		printf 'Unknown option: %s\n' "$1" >&2
+		usage >&2
+		exit 2
+		;;
+	*)
+		if [[ -n "$profile" ]]; then
+			printf 'Only one profile may be selected.\n' >&2
+			exit 2
+		fi
+		profile="$1"
+		;;
+	esac
+	shift
+done
+
+if [[ -z "$profile" || "$profile" == */* || "$profile" == "." || "$profile" == ".." ]]; then
+	printf 'A valid profile name is required.\n' >&2
+	usage >&2
+	exit 2
+fi
+
+repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+modules_dir="$repo_root/modules"
+profile_file="$repo_root/profiles/$profile"
+
+if [[ ! -f "$profile_file" ]]; then
+	printf 'Unknown profile: %s\n' "$profile" >&2
+	exit 1
+fi
+
+packages=()
+while IFS= read -r package || [[ -n "$package" ]]; do
+	case "$package" in
+	"" | \#*) continue ;;
+	esac
+	if [[ "$package" == */* || ! -d "$modules_dir/$package" ]]; then
+		printf 'Invalid module in %s: %s\n' "$profile_file" "$package" >&2
+		exit 1
+	fi
+	packages+=("$package")
+done <"$profile_file"
+
+if ((${#packages[@]} == 0)); then
+	printf 'Profile contains no modules: %s\n' "$profile_file" >&2
+	exit 1
+fi
+
+args=("$operation" --dotfiles --no-folding --dir="$modules_dir" --target="$HOME")
+if [[ "$dry_run" == true ]]; then
+	args+=(--simulate --verbose=2)
+fi
+
+printf 'Profile: %s\n' "$profile"
+printf 'Modules: %s\n' "${packages[*]}"
+stow "${args[@]}" "${packages[@]}"

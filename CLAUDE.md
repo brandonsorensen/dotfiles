@@ -1,35 +1,66 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to coding agents working in this repository.
 
 ## Repository structure
 
-This is a multi-platform dotfiles repository. Configs live in `common/` (shared) and `mac/` (macOS-specific). Deployment is via manual symlinks — no GNU Stow.
+This is a multi-platform dotfiles repository deployed with GNU Stow. Canonical
+configuration lives directly in flat packages under `modules/`; do not create
+secondary copies elsewhere.
 
-- `common/` — nvim, tmux, shell, git, and Linux/Wayland configs (sway, waybar, kanshi, gtklock, systemd)
-- `mac/` — Brewfile, iTerm2 profiles
-- `scripts/` — utility scripts
+- `modules/common-*` — configuration shared by profiles
+- `modules/platform-*` — operating-system configuration
+- `modules/host-*` — individual machine overrides
+- `modules/<application>-<variant>` — mutually exclusive complete variants
+- `profiles/` — explicit package lists consumed by `scripts/stow-profile`
+- `bootstrap/` — inputs that are consumed rather than linked into `$HOME`
+- `docs/modules.md` — package composition and migration details
 
-**Branches:** `master` is the common base. Machine-specific branches (e.g. `terra`) extend it for a particular OS and hardware. See `README.md` for the branch strategy and sync workflow.
+Use visible `dot-` names for paths that become dotfiles. The deployment script
+always passes Stow's `--dotfiles` and `--no-folding` options.
 
-## Applying config changes
+The `refactor/stow-machine-profiles` branch is a proof of concept. Existing
+machine branches must remain unchanged until their profiles have been migrated
+and verified.
 
-Most configs take effect immediately or with a lightweight reload — no build step:
+## Deployment safety
 
-| Config | How to apply |
-|--------|-------------|
-| nvim plugins | `:Lazy sync` inside nvim |
-| tmux | `prefix + I` to install plugins, or `tmux source ~/.tmux.conf` |
-| shell | `source ~/.zshrc` |
+Never run `scripts/stow-profile` against the user's real home directory without
+explicit approval. Test profiles with a temporary `HOME` first. For an approved
+real-home trial, use `scripts/migrate-profile-layout` so existing links and files
+have explicit rollback state. Do not use Stow's `--adopt` option.
+
+Preview either a clean deployment or a protected migration with:
+
+```bash
+./scripts/stow-profile --dry-run macbook-pro
+./scripts/migrate-profile-layout --dry-run migrate macbook-pro
+```
+
+## Applying configuration changes
+
+Most configuration takes effect immediately or with a lightweight reload:
+
+| Configuration | Apply |
+| --- | --- |
+| Neovim plugins | Run `:Lazy sync` |
+| tmux | Run `tmux source ~/.tmux.conf` or restart tmux |
+| shell | Run `source ~/.zshrc` |
 
 ## Neovim architecture
 
-Config entry point: `common/nvim/init.lua` → loads `lua/config/` (keymaps, options, autocmds) and `lua/plugins/` via lazy.nvim.
+The entry point is `modules/common-nvim/dot-config/nvim/init.lua`. It loads
+`lua/config/`, then plugins from `lua/plugins/` via lazy.nvim. Optional machine
+data comes from `~/.config/dotfiles/nvim.lua`.
 
-Plugins are split into single-concern files under `lua/plugins/`. Per-filetype overrides live in `after/ftplugin/`. LSP servers are configured in `lua/plugins/lsp/init.lua`: rust_analyzer, lua_ls, bashls, basedpyright, ruff, terraformls.
+Plugins are split into single-concern files under `lua/plugins/`. Per-filetype
+overrides live in `after/ftplugin/`. LSP servers are enabled in `init.lua` unless
+machine data sets `enable_lsps = false`.
 
-Leader key is `<Space>`. Navigation is vim-style throughout.
+Leader is `<Space>`. Navigation is Vim-style throughout.
 
 ## Nord theme
 
-Nord color palette is used consistently across tmux (nord-tmux plugin) and shell prompt (Powerlevel10k). Machine branches extend this to their UI (e.g. sway borders, waybar on Linux). Keep new UI additions consistent with Nord.
+Nord colors are used consistently across tmux and the shell prompt. Keep new UI
+configuration consistent with Nord unless a profile explicitly selects another
+variant.

@@ -1,4 +1,5 @@
-Include /Users/brandon/.colima/ssh_config
+# Platform and host modules can add overrides without changing this shared file.
+Include ~/.ssh/config.d/*
 
 Host mini
 	HostName 100.95.216.14

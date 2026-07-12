@@ -1,0 +1,529 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+usage() {
+	cat <<'EOF'
+Usage: scripts/migrate-profile-layout [--dry-run] [--verbose] COMMAND PROFILE
+
+Safely switch between legacy dotfile links and a modules-based profile.
+
+Commands:
+  migrate   Back up conflicting targets and apply the new profile
+  rollback  Remove the new profile and restore the backed-up targets
+  finalize  Accept the migration and delete its rollback state
+  status    Report whether a migrated profile has rollback state
+
+Options:
+  -n, --dry-run  Validate and describe the operation without changing $HOME
+  -v, --verbose  List the exact existing paths affected by the operation
+  -h, --help     Show this help
+
+Environment:
+  DOTFILES_LEGACY_ROOT          Allowed source for existing links
+                                (default: $HOME/dotfiles)
+  DOTFILES_MIGRATION_STATE_ROOT Rollback-state directory
+                                (default: $HOME/.local/state/dotfiles-layout)
+EOF
+}
+
+dry_run=false
+verbose=false
+command_name=""
+profile=""
+
+while (($# > 0)); do
+	case "$1" in
+	-n | --dry-run)
+		dry_run=true
+		;;
+	-v | --verbose)
+		verbose=true
+		;;
+	-h | --help)
+		usage
+		exit 0
+		;;
+	-*)
+		printf 'Unknown option: %s\n' "$1" >&2
+		usage >&2
+		exit 2
+		;;
+	*)
+		if [[ -z "$command_name" ]]; then
+			command_name="$1"
+		elif [[ -z "$profile" ]]; then
+			profile="$1"
+		else
+			printf 'Unexpected argument: %s\n' "$1" >&2
+			exit 2
+		fi
+		;;
+	esac
+	shift
+done
+
+case "$command_name" in
+migrate | rollback | finalize | status) ;;
+*)
+	printf 'A command of migrate, rollback, finalize, or status is required.\n' >&2
+	usage >&2
+	exit 2
+	;;
+esac
+
+if [[ -z "$profile" || "$profile" == */* || "$profile" == "." || "$profile" == ".." ]]; then
+	printf 'A valid profile name is required.\n' >&2
+	exit 2
+fi
+
+repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
+stow_profile="$repo_root/scripts/stow-profile"
+legacy_root=${DOTFILES_LEGACY_ROOT:-"$HOME/dotfiles"}
+if [[ -d "$legacy_root" ]]; then
+	legacy_root=$(cd -- "$legacy_root" && pwd -P)
+fi
+state_root=${DOTFILES_MIGRATION_STATE_ROOT:-"$HOME/.local/state/dotfiles-layout"}
+state_dir="$state_root/$profile"
+
+is_within() {
+	local path=$1
+	local root=$2
+	[[ "$path" == "$root" || "$path" == "$root"/* ]]
+}
+
+resolve_link() {
+	perl -MCwd=abs_path -e '
+		my $path = abs_path($ARGV[0]);
+		exit 1 unless defined $path;
+		print $path;
+	' "$1"
+}
+
+validate_relative_path() {
+	case "$1" in
+	"" | /* | ../* | */../* | */..)
+		printf 'Unsafe path in migration state: %s\n' "$1" >&2
+		return 1
+		;;
+	esac
+}
+
+inventory_profile() {
+	local inventory_home
+	local link
+	local relative
+
+	inventory_home=$(mktemp -d)
+	if ! HOME="$inventory_home" "$stow_profile" "$profile" >/dev/null; then
+		rm -rf -- "$inventory_home"
+		return 1
+	fi
+
+	deployed_paths=()
+	while IFS= read -r -d '' link; do
+		relative=${link#"$inventory_home"/}
+		validate_relative_path "$relative"
+		deployed_paths+=("$relative")
+	done < <(find "$inventory_home" -type l -print0)
+	rm -rf -- "$inventory_home"
+
+	if ((${#deployed_paths[@]} == 0)); then
+		printf 'Profile deployed no links: %s\n' "$profile" >&2
+		return 1
+	fi
+}
+
+load_deployed_paths() {
+	local relative
+	deployed_paths=()
+	while IFS= read -r relative || [[ -n "$relative" ]]; do
+		validate_relative_path "$relative"
+		deployed_paths+=("$relative")
+	done <"$state_dir/deployed"
+}
+
+add_plan_entry() {
+	local kind=$1
+	local relative=$2
+	local index
+
+	for ((index = 0; index < ${#plan_paths[@]}; index += 1)); do
+		if [[ "${plan_paths[index]}" == "$relative" ]]; then
+			if [[ "${plan_kinds[index]}" != "$kind" ]]; then
+				printf 'Conflicting migration plan for %s\n' "$relative" >&2
+				return 1
+			fi
+			return 0
+		fi
+	done
+	plan_kinds+=("$kind")
+	plan_paths+=("$relative")
+}
+
+preflight_migration() {
+	local relative
+	local target
+	local resolved
+	local prefix
+	local component
+	local index
+	local found
+	local link_count=0
+	local file_count=0
+	local missing_count=0
+	local -a components
+
+	plan_kinds=()
+	plan_paths=()
+	for relative in "${deployed_paths[@]}"; do
+		IFS='/' read -r -a components <<<"$relative"
+		prefix=""
+		found=false
+		for ((index = 0; index < ${#components[@]}; index += 1)); do
+			component=${components[index]}
+			if [[ -z "$prefix" ]]; then
+				prefix="$component"
+			else
+				prefix="$prefix/$component"
+			fi
+			target="$HOME/$prefix"
+
+			if [[ -L "$target" ]]; then
+				if ! resolved=$(resolve_link "$target"); then
+					printf 'Refusing to replace broken link: %s -> %s\n' "$target" "$(readlink "$target")" >&2
+					return 1
+				fi
+				if ! is_within "$resolved" "$legacy_root" && ! is_within "$resolved" "$repo_root/modules"; then
+					printf 'Refusing to replace link outside the managed repositories: %s -> %s\n' "$target" "$resolved" >&2
+					return 1
+				fi
+				add_plan_entry link "$prefix"
+				found=true
+				break
+			fi
+
+			if ((index < ${#components[@]} - 1)); then
+				if [[ ! -e "$target" ]]; then
+					((missing_count += 1))
+					found=true
+					break
+				elif [[ ! -d "$target" ]]; then
+					printf 'Refusing to traverse non-directory target: %s\n' "$target" >&2
+					return 1
+				fi
+			elif [[ -f "$target" ]]; then
+				add_plan_entry file "$prefix"
+				found=true
+			elif [[ -e "$target" ]]; then
+				printf 'Refusing to replace non-file target: %s\n' "$target" >&2
+				return 1
+			fi
+		done
+		if [[ "$found" == false ]]; then
+			((missing_count += 1))
+		fi
+	done
+
+	for ((index = 0; index < ${#plan_paths[@]}; index += 1)); do
+		case "${plan_kinds[index]}" in
+		link) ((link_count += 1)) ;;
+		file) ((file_count += 1)) ;;
+		esac
+	done
+
+	printf 'Profile paths: %d; legacy links: %d; files to back up: %d; new paths: %d\n' \
+		"${#deployed_paths[@]}" "$link_count" "$file_count" "$missing_count"
+	if [[ "$verbose" == true ]]; then
+		for ((index = 0; index < ${#plan_paths[@]}; index += 1)); do
+			relative=${plan_paths[index]}
+			target="$HOME/$relative"
+			case "${plan_kinds[index]}" in
+			link) printf '  link   ~/%s -> %s\n' "$relative" "$(readlink "$target")" ;;
+			file) printf '  backup ~/%s\n' "$relative" ;;
+			esac
+		done
+	fi
+}
+
+record_and_remove_previous() {
+	local pending_dir=$1
+	local relative
+	local target
+	local raw_link
+	local backup
+	local index
+
+	: >"$pending_dir/manifest"
+	for ((index = 0; index < ${#plan_paths[@]}; index += 1)); do
+		relative=${plan_paths[index]}
+		target="$HOME/$relative"
+		case "${plan_kinds[index]}" in
+		link)
+			raw_link=$(readlink "$target")
+			printf 'link\t%s\t%s\n' "$relative" "$raw_link" >>"$pending_dir/manifest"
+			rm -- "$target"
+			;;
+		file)
+			backup="$pending_dir/backup/$relative"
+			mkdir -p -- "$(dirname -- "$backup")"
+			printf 'file\t%s\t\n' "$relative" >>"$pending_dir/manifest"
+			mv -- "$target" "$backup"
+			;;
+		esac
+	done
+}
+
+restore_previous() {
+	local source_dir=$1
+	local kind
+	local relative
+	local payload
+	local target
+	local backup
+	local empty_dir
+
+	while IFS=$'\t' read -r kind relative payload || [[ -n "$kind" ]]; do
+		validate_relative_path "$relative"
+		target="$HOME/$relative"
+		mkdir -p -- "$(dirname -- "$target")"
+		case "$kind" in
+		link)
+			if [[ -L "$target" ]]; then
+				rm -- "$target"
+			elif [[ -d "$target" ]]; then
+				while IFS= read -r -d '' empty_dir; do
+					rmdir -- "$empty_dir" 2>/dev/null || true
+				done < <(find "$target" -depth -type d -print0)
+				if [[ -d "$target" ]]; then
+					printf 'Cannot restore a link over a non-empty directory: %s\n' "$target" >&2
+					return 1
+				fi
+			elif [[ -e "$target" ]]; then
+				printf 'Cannot restore a link over an existing target: %s\n' "$target" >&2
+				return 1
+			fi
+			ln -s -- "$payload" "$target"
+			;;
+		file)
+			backup="$source_dir/backup/$relative"
+			if [[ -f "$backup" ]]; then
+				if [[ -L "$target" ]]; then
+					rm -- "$target"
+				elif [[ -e "$target" ]]; then
+					printf 'Cannot restore a file over an existing target: %s\n' "$target" >&2
+					return 1
+				fi
+				mv -- "$backup" "$target"
+			elif [[ ! -f "$target" ]]; then
+				printf 'Missing migration backup: %s\n' "$backup" >&2
+				return 1
+			fi
+			;;
+		*)
+			printf 'Unknown migration record type: %s\n' "$kind" >&2
+			return 1
+			;;
+		esac
+	done <"$source_dir/manifest"
+}
+
+preflight_rollback() {
+	local relative
+	local target
+	local resolved
+	local kind
+	local payload
+	local backup
+	local entry
+
+	while IFS=$'\t' read -r kind relative payload || [[ -n "$kind" ]]; do
+		validate_relative_path "$relative"
+		case "$kind" in
+		link)
+			[[ -n "$payload" ]] || {
+				printf 'Invalid empty link in rollback state: %s\n' "$relative" >&2
+				return 1
+			}
+			target="$HOME/$relative"
+			if [[ -d "$target" && ! -L "$target" ]]; then
+				while IFS= read -r -d '' entry; do
+					if [[ ! -L "$entry" ]] || ! resolved=$(resolve_link "$entry") || ! is_within "$resolved" "$repo_root/modules"; then
+						printf 'A migrated directory contains local state; refusing rollback: %s\n' "$entry" >&2
+						return 1
+					fi
+				done < <(find "$target" ! -type d -print0)
+			elif [[ -e "$target" && ! -L "$target" ]]; then
+				printf 'A previous link path was replaced during the test: %s\n' "$target" >&2
+				return 1
+			fi
+			;;
+		file)
+			backup="$state_dir/backup/$relative"
+			[[ -f "$backup" ]] || {
+				printf 'Missing migration backup: %s\n' "$backup" >&2
+				return 1
+			}
+			;;
+		*)
+			printf 'Unknown migration record type: %s\n' "$kind" >&2
+			return 1
+			;;
+		esac
+	done <"$state_dir/manifest"
+
+	for relative in "${deployed_paths[@]}"; do
+		target="$HOME/$relative"
+		if [[ -L "$target" ]]; then
+			if ! resolved=$(resolve_link "$target") || ! is_within "$resolved" "$repo_root/modules"; then
+				printf 'Refusing to remove an unexpected link: %s\n' "$target" >&2
+				return 1
+			fi
+		elif [[ -e "$target" ]]; then
+			printf 'A deployed link was replaced during the test; refusing rollback: %s\n' "$target" >&2
+			return 1
+		fi
+	done
+}
+
+preflight_finalize() {
+	local relative
+	local target
+	local resolved
+
+	for relative in "${deployed_paths[@]}"; do
+		target="$HOME/$relative"
+		if [[ ! -L "$target" ]]; then
+			printf 'A deployed link is missing or was replaced; refusing finalize: %s\n' "$target" >&2
+			return 1
+		fi
+		if ! resolved=$(resolve_link "$target") || ! is_within "$resolved" "$repo_root/modules"; then
+			printf 'A deployed path is not linked to this repository; refusing finalize: %s\n' "$target" >&2
+			return 1
+		fi
+	done
+}
+
+remove_deployed_links() {
+	local relative
+	local target
+	local resolved
+
+	if ! HOME="$HOME" "$stow_profile" --delete "$profile" >/dev/null; then
+		printf 'Stow could not fully delete the profile; checking recorded links individually.\n' >&2
+	fi
+
+	for relative in "${deployed_paths[@]}"; do
+		target="$HOME/$relative"
+		if [[ -L "$target" ]] && resolved=$(resolve_link "$target") && is_within "$resolved" "$repo_root/modules"; then
+			rm -- "$target"
+		fi
+	done
+}
+
+if [[ "$command_name" == "status" ]]; then
+	if [[ -d "$state_dir" ]]; then
+		printf 'Profile %s is migrated; rollback state is stored at %s\n' "$profile" "$state_dir"
+	else
+		printf 'Profile %s has no active migration.\n' "$profile"
+	fi
+	exit 0
+fi
+
+if [[ "$command_name" == "migrate" ]]; then
+	if [[ -e "$state_dir" ]]; then
+		printf 'Rollback state already exists: %s\n' "$state_dir" >&2
+		exit 1
+	fi
+
+	inventory_profile
+	preflight_migration
+	if [[ "$dry_run" == true ]]; then
+		printf 'Dry run complete; no home-directory paths were changed.\n'
+		exit 0
+	fi
+
+	mkdir -p -- "$state_root"
+	pending_dir="$state_dir.pending.$$"
+	if [[ -e "$pending_dir" ]]; then
+		printf 'Pending migration state already exists: %s\n' "$pending_dir" >&2
+		exit 1
+	fi
+	mkdir -p -- "$pending_dir"
+	printf '%s\n' "$repo_root" >"$pending_dir/repo-root"
+	printf '%s\n' "$profile" >"$pending_dir/profile"
+	printf '%s\n' "${deployed_paths[@]}" >"$pending_dir/deployed"
+
+	# ShellCheck cannot see that this function is invoked by the trap below.
+	# shellcheck disable=SC2317
+	cleanup_failed_migration() {
+		local status=$?
+		trap - ERR INT TERM
+		if ((status == 0)); then
+			status=1
+		fi
+		printf 'Migration failed; restoring the previous layout.\n' >&2
+		HOME="$HOME" "$stow_profile" --delete "$profile" >/dev/null 2>&1 || true
+		if restore_previous "$pending_dir"; then
+			rm -rf -- "$pending_dir"
+		else
+			printf 'Automatic restoration failed; recovery state remains at %s\n' "$pending_dir" >&2
+		fi
+		exit "$status"
+	}
+
+	trap cleanup_failed_migration ERR INT TERM
+	record_and_remove_previous "$pending_dir"
+	HOME="$HOME" "$stow_profile" "$profile"
+	mv -- "$pending_dir" "$state_dir"
+	trap - ERR INT TERM
+	printf 'Migration complete. Roll back with:\n  %s rollback %s\n' "$0" "$profile"
+	exit 0
+fi
+
+if [[ ! -d "$state_dir" || ! -f "$state_dir/manifest" || ! -f "$state_dir/deployed" || ! -f "$state_dir/profile" ]]; then
+	printf 'No rollback state exists for profile: %s\n' "$profile" >&2
+	exit 1
+fi
+
+if [[ "$(cat "$state_dir/profile")" != "$profile" ]]; then
+	printf 'Rollback state contains a different profile.\n' >&2
+	exit 1
+fi
+
+stored_repo_root=$(cat "$state_dir/repo-root")
+if [[ "$stored_repo_root" != "$repo_root" ]]; then
+	printf 'This rollback belongs to a different repository: %s\n' "$stored_repo_root" >&2
+	exit 1
+fi
+
+load_deployed_paths
+if [[ "$command_name" == "finalize" ]]; then
+	preflight_finalize
+	if [[ "$verbose" == true ]]; then
+		printf '  discard rollback state: %s\n' "$state_dir"
+	fi
+	if [[ "$dry_run" == true ]]; then
+		printf 'Finalize is safe; rollback state was retained.\n'
+		exit 0
+	fi
+	rm -rf -- "$state_dir"
+	printf 'Migration finalized; rollback state was deleted.\n'
+	exit 0
+fi
+
+preflight_rollback
+if [[ "$verbose" == true ]]; then
+	while IFS=$'\t' read -r kind relative payload || [[ -n "$kind" ]]; do
+		printf '  restore ~/%s (%s)\n' "$relative" "$kind"
+	done <"$state_dir/manifest"
+fi
+if [[ "$dry_run" == true ]]; then
+	printf 'Rollback is safe; no home-directory paths were changed.\n'
+	exit 0
+fi
+
+remove_deployed_links
+restore_previous "$state_dir"
+rm -rf -- "$state_dir"
+printf 'Rollback complete; the previous links and files were restored.\n'

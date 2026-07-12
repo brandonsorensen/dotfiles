@@ -1,6 +1,7 @@
-/common/.tmux/plugins/
-/common/.vim/plugged/
-/common/.ssh/id_rsa*
-/common/.ssh/*.pub
-/common/.vim/.netrwhist
-/common/.terminfo/
+/modules/common-tmux-data/dot-tmux/plugins/
+/modules/common-vim/dot-vim/plugged/
+/modules/common-vim/dot-vim/.netrwhist
+/modules/common-ssh/dot-ssh/id_*
+/modules/common-ssh/dot-ssh/*.pub
+/modules/common-ssh/dot-ssh/known_hosts*
+/modules/common-terminal/dot-terminfo/[0-9A-Za-z][0-9A-Za-z]/

@@ -1,67 +1,106 @@
 # dotfiles
 
+Multi-platform configuration managed as composable GNU Stow modules. Shared,
+platform-specific, and host-specific settings coexist on one branch; profiles
+select the modules deployed to each machine.
+
+This branch is a complete proof of concept for `macbook-pro`. The existing
+machine branches remain unchanged while the layout is evaluated.
+
 ## Structure
 
+```text
+modules/      # canonical Stow packages that mirror paths beneath $HOME
+profiles/     # explicit module lists for each machine
+bootstrap/    # package-manager inputs and machine bootstrap assets
+scripts/      # deployment and utility scripts
+docs/         # architecture and migration documentation
 ```
-common/   # shared config (nvim, tmux, shell, git, pi)
-mac/      # macOS-specific config (Brewfile, iTerm2)
-scripts/  # utility scripts
-```
 
-Configs are symlinked from `~/.config/` (or `$HOME`) into the appropriate subdirectory here. Machine-specific branches contain their own setup instructions.
+Deployable configuration has one canonical location under `modules/`. GNU
+Stow's `--dotfiles` mode maps visible names such as `dot-zshrc` and `dot-config`
+to `.zshrc` and `.config` in the target.
 
-## Pi global config
+See [`docs/modules.md`](docs/modules.md) for package composition, host overrides,
+and migration details.
 
-Global pi config lives in `common/.pi/agent/` and is intended to be symlinked as `~/.pi/agent`:
+## Preview and apply
+
+GNU Stow 2.4 or newer is recommended:
 
 ```bash
-mkdir -p ~/.pi
-mv ~/.pi/agent ~/.pi/agent.backup 2>/dev/null || true
-ln -s "$PWD/common/.pi/agent" ~/.pi/agent
+./scripts/stow-profile --dry-run macbook-pro
+./scripts/stow-profile macbook-pro
 ```
 
-Runtime state such as auth, trust decisions, sessions, and installed pi packages is ignored by git inside that directory.
-
-## Branch strategy
-
-`master` is the common base for all machines. Machine-specific branches (e.g. `terra`) extend it for a particular OS and hardware — some machines run macOS, others Linux.
-
-### Keeping branches in sync
-
-The goal is to keep platform-agnostic changes on `master` so they flow to all machines, and keep machine-specific changes isolated to their branch.
-
-**Adding a common change:**
-
-Commit directly to `master`, then merge into each machine branch:
+Remove links owned by the profile with:
 
 ```bash
-git checkout master
-# make changes, commit
-git checkout terra
-git merge master
+./scripts/stow-profile --delete macbook-pro
 ```
 
-**Pulling a machine-specific commit up to master:**
+The profile is applied in one Stow invocation so conflicts abort the complete
+operation. Preview before replacing links from an older layout; do not use
+`--adopt` during migration.
 
-If a commit on a machine branch turns out to be platform-agnostic, cherry-pick it onto `master` first, then merge master back down:
+## Test with rollback protection
+
+Use the migration helper when testing the modules against the real home
+directory:
 
 ```bash
-git checkout master
-git cherry-pick <commit>
-git checkout terra
-git merge master
+./scripts/migrate-profile-layout --verbose --dry-run migrate macbook-pro
+./scripts/migrate-profile-layout migrate macbook-pro
 ```
 
-When cherry-picking a range, go oldest-first and resolve conflicts by preferring master's version of any file that has diverged, then adding the new content from the cherry-picked commit.
+It records legacy links, backs up conflicting regular files, and then applies
+the profile. Rollback state is stored outside the repository under
+`~/.local/state/dotfiles-layout/`.
 
-**Periodic reconciliation:**
-
-To find commits on a machine branch not yet on master:
 ```bash
-git log --oneline master..<branch>
+./scripts/migrate-profile-layout status macbook-pro
+./scripts/migrate-profile-layout --dry-run rollback macbook-pro
+./scripts/migrate-profile-layout rollback macbook-pro
 ```
 
-To find commits on master not yet in a machine branch:
+Rollback removes only links into this repository and restores the exact old
+link targets and file contents. The helper refuses unexpected links,
+directories, broken links, or deployed paths replaced during the test. Once the
+new layout is accepted, explicitly discard the old backups with:
+
 ```bash
-git log --oneline <branch>..master
+./scripts/migrate-profile-layout --dry-run finalize macbook-pro
+./scripts/migrate-profile-layout finalize macbook-pro
 ```
+
+## macbook-pro profile
+
+`profiles/macbook-pro` composes shared modules with:
+
+- macOS application configuration;
+- macbook-specific SSH host settings;
+- the macbook tmux variant;
+- Neovim machine data;
+- shared shell, Git, SSH, Vim, Neovim, terminal, tmux data, and pi settings.
+
+The effective result has been checked against the existing `macbook-pro` branch.
+The only omitted tree differences are a repository-only `.gitignore` under pi's
+source directory and removal of a blank line in a Neovim options file.
+
+## Bootstrap assets
+
+Files that are not linked into `$HOME` live under `bootstrap/`. For example:
+
+```bash
+brew bundle --file bootstrap/macos/Brewfile
+```
+
+## Applying configuration changes
+
+Most configuration takes effect immediately or with a lightweight reload:
+
+| Configuration | Apply |
+| --- | --- |
+| Neovim plugins | Run `:Lazy sync` |
+| tmux | Run `tmux source ~/.tmux.conf` or restart tmux |
+| shell | Run `source ~/.zshrc` |

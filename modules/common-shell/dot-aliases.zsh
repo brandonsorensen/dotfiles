@@ -32,6 +32,12 @@ hn() {
 
     if command -v darkman >/dev/null 2>&1; then
         theme_config="$HOME/.config/hn-tui-$(darkman get).toml"
+    elif command -v defaults >/dev/null 2>&1; then
+        if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
+            theme_config="$HOME/.config/hn-tui-dark.toml"
+        else
+            theme_config="$HOME/.config/hn-tui-light.toml"
+        fi
     fi
 
     if [[ -z "$theme_config" || ! -f "$theme_config" ]]; then
