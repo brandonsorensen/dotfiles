@@ -1,8 +1,8 @@
 # dotfiles
 
-Multi-platform configuration managed as composable GNU Stow modules. Shared,
-platform-specific, and host-specific settings coexist on one branch; profiles
-select the modules deployed to each machine.
+Multi-platform configuration managed as composable GNU Stow modules.
+Independently selectable components plus platform and host overlays coexist on
+one branch; profiles select the modules deployed to each machine.
 
 This branch contains complete profiles for `macbook-pro` and the Linux/Wayland
 workstation `terra`. Existing machine branches remain unchanged while the
@@ -22,8 +22,8 @@ Deployable configuration has one canonical location under `modules/`. GNU
 Stow's `--dotfiles` mode maps visible names such as `dot-zshrc` and `dot-config`
 to `.zshrc` and `.config` in the target.
 
-See [`docs/modules.md`](docs/modules.md) for package composition, host overrides,
-and migration details.
+See [`docs/modules.md`](docs/modules.md) for the component/platform/host model,
+overlay composition, and migration details.
 
 ## Preview and apply
 
@@ -84,9 +84,8 @@ new layout is accepted, explicitly discard the old backups with:
 
 ## terra profile
 
-`profiles/terra` combines the shared configuration with Linux/Wayland services,
-darkman hooks, Waybar, Toshy, and Terra-specific Sway, kanshi, and Ghostty
-configuration. Root-owned configuration and package lists remain bootstrap
+`profiles/terra` combines reusable components with the Linux/Wayland platform
+overlay and Terra's display, graphics, location, and Sway host overrides. Root-owned configuration and package lists remain bootstrap
 assets:
 
 ```bash

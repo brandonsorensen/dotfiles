@@ -1,14 +1,16 @@
 {
-  "defaultProvider": "openai",
-  "defaultModel": "gpt-5.5",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "high",
   "showCacheMissNotices": true,
   "enabledModels": [
+    "openai-codex/gpt-*",
     "openai/gpt-*",
     "anthropic/claude-*",
+    "openrouter/deepseek/*",
     "ollama/gpt-oss:20b"
   ],
-  "theme": "light/dark",
+  "theme": "light",
   "quietStartup": true,
   "externalEditor": "nvim",
   "defaultProjectTrust": "ask",
@@ -39,9 +41,9 @@
     "blockImages": false
   },
   "packages": [
-    "npm:@ollama/pi-web-search",
-    "npm:pi-lens",
     "npm:pi-diet-ripgrep",
+    "npm:@mjakl/pi-kagi-api",
+    "npm:pi-lens",
     "npm:pi-vim"
   ],
   "warnings": {

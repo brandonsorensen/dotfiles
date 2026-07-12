@@ -1,6 +1,0 @@
-# Ghostty config — https://ghostty.org/docs/config
-
-theme = "light:One Half Light,dark:Nord"
-font-family = MesloLGS NF
-font-size = 13
-app-notifications = no-clipboard-copy

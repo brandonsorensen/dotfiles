@@ -1,18 +1,16 @@
-# Shared modules
-common-shell
-common-bat
-common-git
-common-pi
-pi-settings-common
-common-ssh
-common-terminal
-ghostty-common
-common-tmux-data
-common-vim
-common-nvim
-common-hn-tui
+# Independently selectable components
+component-shell
+component-bat
+component-git
+component-pi
+component-ssh
+component-terminfo
+component-ghostty
+component-tmux
+component-vim
+component-nvim
+component-hn-tui
 
-# Platform and host modules
+# Environment overlays
 platform-macos
-tmux-macbook-pro
 host-macbook-pro

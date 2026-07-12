@@ -8,10 +8,9 @@ This is a multi-platform dotfiles repository deployed with GNU Stow. Canonical
 configuration lives directly in flat packages under `modules/`; do not create
 secondary copies elsewhere.
 
-- `modules/common-*` — configuration shared by profiles
-- `modules/platform-*` — operating-system configuration
-- `modules/host-*` — individual machine overrides
-- `modules/<application>-<variant>` — mutually exclusive complete variants
+- `modules/component-*` — independently selectable functional capabilities
+- `modules/platform-*` — operating-system or session-environment overlays
+- `modules/host-*` — irreducibly machine-specific overrides
 - `profiles/` — explicit package lists consumed by `scripts/stow-profile`
 - `bootstrap/` — inputs that are consumed rather than linked into `$HOME`
 - `docs/modules.md` — package composition and migration details
@@ -57,13 +56,13 @@ Most configuration takes effect immediately or with a lightweight reload:
 
 ## Vim fallback
 
-`modules/common-vim/dot-vimrc` is a portable Vim 8 server fallback. Keep it
+`modules/component-vim/dot-vimrc` is a portable Vim 8 server fallback. Keep it
 plugin-free and independent of external executables; Neovim is the primary
 editor.
 
 ## Neovim architecture
 
-The entry point is `modules/common-nvim/dot-config/nvim/init.lua`. It loads
+The entry point is `modules/component-nvim/dot-config/nvim/init.lua`. It loads
 `lua/config/`, enables the shared LSP servers, then loads plugins from
 `lua/plugins/` via lazy.nvim.
 
@@ -76,5 +75,18 @@ Leader is `<Space>`. Navigation is Vim-style throughout.
 ## Nord theme
 
 Nord colors are used consistently across tmux and the shell prompt. Keep new UI
-configuration consistent with Nord unless a profile explicitly selects another
-variant.
+configuration consistent with Nord unless a platform or host overlay explicitly
+selects another variant.
+
+## Module design
+
+A component name describes stable functionality, not which current profiles
+happen to select it. Do not use `common-*`: sharedness is an accidental property
+that can change as profiles are added. Keep components independently selectable
+so profiles retain fine-grained composition.
+
+Put broadly reusable behavior in `component-*`, OS/session requirements in
+`platform-*`, and only hardware-, location-, or source-host-specific values in
+`host-*`. Prefer an application's native include mechanism over duplicate
+complete configurations. The primary component config should load optional
+platform and host fragments when the application supports it.

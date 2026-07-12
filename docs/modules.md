@@ -7,9 +7,9 @@ Each immediate child of `modules/` is a Stow package and mirrors paths beneath
 Stow's `--dotfiles` mode translates every `dot-` prefix in a package path:
 
 ```text
-modules/common-shell/dot-zshrc                 -> ~/.zshrc
-modules/common-nvim/dot-config/nvim/init.lua   -> ~/.config/nvim/init.lua
-modules/common-ssh/dot-ssh/config              -> ~/.ssh/config
+modules/component-shell/dot-zshrc                 -> ~/.zshrc
+modules/component-nvim/dot-config/nvim/init.lua   -> ~/.config/nvim/init.lua
+modules/component-ssh/dot-ssh/config              -> ~/.ssh/config
 ```
 
 There are no manifest symlinks or secondary canonical copies. Editing a file in
@@ -17,22 +17,33 @@ There are no manifest symlinks or secondary canonical copies. Editing a file in
 
 ## Module roles
 
-Module names describe their scope and purpose:
+Modules describe one of three independent axes:
 
-- `common-*` contains configuration shared by all profiles;
-- `platform-*` contains operating-system configuration;
-- `host-*` contains settings for one machine;
-- variant modules such as `tmux-common`/`tmux-macbook-pro`,
-  `ghostty-common`/`ghostty-terra`, and the `pi-settings-*` modules are
-  mutually exclusive complete configurations.
+- `component-*` provides an independently selectable functional capability;
+- `platform-*` overlays requirements of an operating system or session type;
+- `host-*` overlays values that are irreducibly specific to one machine.
+
+A component name describes stable functionality, not which profiles currently
+select it. The name `common-*` is deliberately avoided because sharedness is an
+accidental property that changes as profiles are added. Keeping shell, Git,
+editors, terminal applications, and other capabilities in separate component
+packages preserves fine-grained profile composition.
+
+Platform modules contain settings that should apply to another machine on the
+same platform. Host modules are reserved for hardware, display topology,
+location, or source-host-specific connection behavior. For example, Terra's
+Wayland services and general Sway configuration are platform settings, while
+its DP-3 mode, Vulkan renderer, and darkman coordinates remain host settings.
+The MacBook Pro host module currently contains only SSH connection overrides;
+its iTerm, yabai, skhd, Colima, and 1Password agent configuration is macOS-wide.
 
 Modules remain in one flat directory because Stow does not permit slashes in
 package names. The prefixes preserve logical grouping while allowing an entire
 profile to be applied in one transaction.
 
-`common-vim` contains only a portable Vim 8 configuration for editing on
+`component-vim` contains only a portable Vim 8 configuration for editing on
 servers. It uses no downloaded plugins or external executables. Neovim remains
-the full-featured development editor in `common-nvim`.
+the full-featured development editor in `component-nvim`.
 
 ## Profiles
 
@@ -66,21 +77,30 @@ Stow combines packages when they own distinct destination paths, but two
 selected packages cannot own the same file. Shared configuration should expose
 an include or data boundary when possible.
 
-The shared SSH configuration loads `~/.ssh/config.d/*` before its defaults.
+The component SSH configuration loads `~/.ssh/config.d/*` before its defaults.
 OpenSSH expands the wildcard lexically and uses the first value found for most
 settings, so numeric prefixes encode precedence:
 
 1. `host-macbook-pro/dot-ssh/config.d/10-host.conf`
 2. `platform-macos/dot-ssh/config.d/20-platform.conf`
-3. defaults in `common-ssh/dot-ssh/config`
+3. defaults in `component-ssh/dot-ssh/config`
 
 Only encode a platform or host difference when the machine has an actual
-requirement. Historical branch drift is not a profile requirement; shared
-Neovim LSP enablement and Nord startup priority therefore remain global.
+requirement. Historical branch drift is not a profile requirement; Neovim LSP
+enablement and Pi's provider, model, packages, and behavior are component-wide.
 
-When an application cannot compose configuration cleanly, profiles choose one
-complete variant. For example, `macbook-pro` selects `tmux-macbook-pro` instead
-of `tmux-common`.
+Prefer native include mechanisms when only part of an application differs.
+`component-ghostty` loads optional `platform.conf` and `host.conf` files, while
+`component-tmux` loads optional tmux overlays before TPM initialization. Sway's
+Linux platform config similarly includes `~/.config/sway/host.d/*`. This keeps
+one reusable primary configuration without sacrificing narrowly scoped
+overrides.
+
+Pi settings are user-level component configuration rather than platform state.
+The canonical settings use OpenAI Codex with `gpt-5.6-sol`, retain `pi-vim`,
+Kagi search, pi-lens, and diet-ripgrep, and expose OpenAI Codex, OpenAI,
+Anthropic, OpenRouter DeepSeek, and local Ollama models in the cycle list.
+Runtime metadata such as `lastChangelogVersion` is not tracked.
 
 ## Non-Stow files
 

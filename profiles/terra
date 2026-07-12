@@ -1,18 +1,16 @@
-# Shared modules
-common-shell
-common-bat
-common-git
-common-pi
-pi-settings-terra
-common-ssh
-common-terminal
-common-tmux-data
-common-vim
-common-nvim
-common-hn-tui
+# Independently selectable components
+component-shell
+component-bat
+component-git
+component-pi
+component-ssh
+component-terminfo
+component-ghostty
+component-tmux
+component-vim
+component-nvim
+component-hn-tui
 
-# Platform, application variant, and host modules
+# Environment overlays
 platform-linux-wayland
-ghostty-terra
-tmux-common
 host-terra

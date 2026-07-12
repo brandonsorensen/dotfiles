@@ -1,0 +1,9 @@
+# Ghostty config — https://ghostty.org/docs/config
+
+# Settings shared across platforms.
+theme = "light:One Half Light,dark:Nord"
+app-notifications = no-clipboard-copy
+
+# Optional overlays are loaded afterward and may override shared values.
+config-file = ?platform.conf
+config-file = ?host.conf
