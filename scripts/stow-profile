@@ -100,7 +100,7 @@ read_packages() {
 			printf 'Invalid module in %s: %s\n' "$source_file" "$package" >&2
 			return 1
 		fi
-		if contains "$package" "${loaded[@]}"; then
+		if ((${#loaded[@]} > 0)) && contains "$package" "${loaded[@]}"; then
 			printf 'Duplicate module in %s: %s\n' "$source_file" "$package" >&2
 			return 1
 		fi
@@ -123,7 +123,7 @@ if [[ -f "$state_file" ]]; then
 	applied_packages=("${READ_PACKAGES[@]}")
 fi
 
-for package in "${packages[@]}" "${applied_packages[@]}"; do
+for package in "${packages[@]}"; do
 	if [[ ! -d "$modules_dir/$package" ]]; then
 		printf 'Module is unavailable: %s\n' "$package" >&2
 		printf 'Restore it before reconciling or deleting profile %s.\n' "$profile" >&2
@@ -131,12 +131,24 @@ for package in "${packages[@]}" "${applied_packages[@]}"; do
 	fi
 done
 
+if ((${#applied_packages[@]} > 0)); then
+	for package in "${applied_packages[@]}"; do
+		if [[ ! -d "$modules_dir/$package" ]]; then
+			printf 'Module is unavailable: %s\n' "$package" >&2
+			printf 'Restore it before reconciling or deleting profile %s.\n' "$profile" >&2
+			exit 1
+		fi
+	done
+fi
+
 removed_packages=()
-for package in "${applied_packages[@]}"; do
-	if ! contains "$package" "${packages[@]}"; then
-		removed_packages+=("$package")
-	fi
-done
+if ((${#applied_packages[@]} > 0)); then
+	for package in "${applied_packages[@]}"; do
+		if ! contains "$package" "${packages[@]}"; then
+			removed_packages+=("$package")
+		fi
+	done
+fi
 
 stow_args=(--dotfiles --no-folding --dir="$modules_dir" --target="$HOME")
 if [[ "$dry_run" == true ]]; then
@@ -145,7 +157,10 @@ fi
 
 printf 'Profile: %s\n' "$profile"
 if [[ "$mode" == "delete" ]]; then
-	delete_packages=("${applied_packages[@]}")
+	delete_packages=()
+	if ((${#applied_packages[@]} > 0)); then
+		delete_packages=("${applied_packages[@]}")
+	fi
 	for package in "${packages[@]}"; do
 		if ! contains "$package" "${delete_packages[@]}"; then
 			delete_packages+=("$package")
