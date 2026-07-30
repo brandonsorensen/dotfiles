@@ -10,7 +10,7 @@
     "openrouter/deepseek/*",
     "ollama/gpt-oss:20b"
   ],
-  "theme": "light",
+  "theme": "light/dark",
   "quietStartup": true,
   "externalEditor": "nvim",
   "defaultProjectTrust": "ask",
@@ -44,9 +44,16 @@
     "npm:pi-diet-ripgrep",
     "npm:@mjakl/pi-kagi-api",
     "npm:pi-lens",
-    "npm:pi-vim"
+    "npm:pi-vim",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:@plannotator/pi-extension",
+    "npm:pi-web-access",
+    "npm:@tmustier/pi-usage-extension",
+    "npm:pi-notify",
+    "npm:@noice-tech/pi-terminal-bell"
   ],
   "warnings": {
     "anthropicExtraUsage": true
-  }
+  },
+  "lastChangelogVersion": "0.83.0"
 }
